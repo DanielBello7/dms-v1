@@ -1,0 +1,21 @@
+{
+  "moduleFileExtensions": [
+    "js",
+    "json",
+    "ts"
+  ],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "moduleNameMapper": {
+    "^@app/constants(|/.*)$": "<rootDir>/../libs/constants/src/$1",
+    "^@app/logger(|/.*)$": "<rootDir>/../libs/logger/src/$1",
+    "^@app/mutations(|/.*)$": "<rootDir>/../libs/mutations/src/$1",
+    "^@app/security(|/.*)$": "<rootDir>/../libs/security/src/$1",
+    "^@app/util(|/.*)$": "<rootDir>/../libs/util/src/$1",
+    "^@app/winston(|/.*)$": "<rootDir>/../libs/winston/src/$1"
+  }
+}

@@ -1,7 +1,16 @@
 {
-  "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ]
+	"eslint.workingDirectories": [
+		{
+			"mode": "auto"
+		}
+	],
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "always",
+		"source.fixAll.ts": "always",
+		"source.addMissingImports.ts": "always",
+		"source.removeUnusedImports": "never",
+		"source.sortImports": "never",
+		"source.sortMembers": "never",
+		"source.organizeImports": "never"
+	}
 }
