@@ -3,6 +3,7 @@ import { UserEntity } from '../entities/user.entity';
 import {
   IsEmail,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   IsTimeZone,
@@ -31,4 +32,7 @@ export class CreateUserDto implements BaseOmit<UserEntity> {
   @IsNotEmpty()
   @IsUUID()
   ref_id: string;
+  @IsNotEmpty()
+  @IsNumber()
+  index: number;
 }

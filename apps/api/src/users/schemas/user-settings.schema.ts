@@ -10,5 +10,4 @@ export class UserSettingsSchema extends CommonBase implements UserSettingsEntity
   @Column({ type: 'varchar', nullable: true }) refresh_token: string | undefined;
   @Column({ type: 'timestamp', nullable: true }) last_login_date: Date | undefined;
   @Column({ type: 'boolean' }) dark_mode: boolean;
-  @Column({ type: "uuid" }) ref_id: string;
 }

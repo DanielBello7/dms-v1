@@ -20,7 +20,7 @@ import { UsersService } from '@/users/users.service';
 import { v4 as uuid } from 'uuid';
 import { JoinConversationDto } from './dto/join-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
-import { LeaveConversationDto } from './dto/leave-conversation.dto';
+import { ExitConversationDto } from './dto/leave-conversation.dto';
 import { CreateMessageDto } from './dto/messages/create-message.dto';
 
 @Injectable()
@@ -55,6 +55,7 @@ export class ConversationsService {
           ref_id: uuid(),
           read_by: [{ id: user.id, read_at: new Date() }],
           media: [],
+          index: 0,
         },
         session,
       );
@@ -92,14 +93,15 @@ export class ConversationsService {
           members: ids,
           ongoing_participants: ids,
           ref_id: ref,
+          index: 0,
         },
         session,
       );
     });
   };
 
-  leave_conversation_by_ref = async (body: LeaveConversationDto) => {
-    const errors = isValidDto(body, LeaveConversationDto);
+  exit_conversation_by_ref = async (body: ExitConversationDto) => {
+    const errors = isValidDto(body, ExitConversationDto);
     if (errors.length > 0) throw new BadRequestException(errors);
 
     return this.mutations.execute(async (session) => {

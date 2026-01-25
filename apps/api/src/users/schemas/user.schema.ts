@@ -10,5 +10,4 @@ export class UserSchema extends CommonBase implements UserEntity {
   @Column({ type: 'varchar', nullable: true }) password: string | undefined;
   @Column({ type: 'varchar', nullable: true }) avatar: string | undefined;
   @Column({ type: 'timestamptz' }) timezone: string;
-  @Column({ type: 'uuid' }) ref_id: string;
 }

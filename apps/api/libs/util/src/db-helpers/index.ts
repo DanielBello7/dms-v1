@@ -5,4 +5,6 @@ export * from './find.helper';
 export * from './update-by-id.helper';
 export * from './remove.helper';
 export * from './find-by-id-lock.helper';
-export * from './find-paginated.helper';
+export * from './paginate-by-page.helper';
+export * from './paginate-by-index.helper';
+export * from './paginate-by-date.helper';

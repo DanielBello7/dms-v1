@@ -10,5 +10,6 @@ export class MessageEntity implements IMessage {
   text: string;
   created_by: string;
   ref_id: string;
+  index: number;
   read_by: { id: string; read_at: Date }[];
 }

@@ -2,6 +2,7 @@ import { ICommon } from '@repo/types';
 import {
   BeforeInsert,
   BeforeUpdate,
+  Column,
   CreateDateColumn,
   DeleteDateColumn,
   PrimaryGeneratedColumn,
@@ -10,6 +11,8 @@ import {
 
 export abstract class CommonBase implements ICommon {
   @PrimaryGeneratedColumn('uuid') id: string;
+  @Column({ type: 'uuid', unique: true }) ref_id: string;
+  @Column({ type: 'int', generated: 'increment', unique: true }) index: number;
   @CreateDateColumn({ type: 'timestamp' }) created_at: Date;
   @UpdateDateColumn({ type: 'timestamp' }) updated_at: Date;
   @DeleteDateColumn({ type: 'timestamp', nullable: true }) deleted_at:

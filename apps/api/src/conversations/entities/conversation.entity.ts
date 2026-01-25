@@ -9,4 +9,5 @@ export class ConversationEntity implements IConversation {
   members: string[];
   ref_id: string;
   created_by: string;
+  index: number;
 }

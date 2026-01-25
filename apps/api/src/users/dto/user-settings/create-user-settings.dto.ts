@@ -4,6 +4,7 @@ import {
   IsBoolean,
   IsDate,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   IsUUID,
@@ -28,4 +29,7 @@ export class CreateUserSettingsDto implements BaseOmit<UserSettingsEntity> {
   @IsNotEmpty()
   @IsUUID()
   ref_id: string;
+  @IsNotEmpty()
+  @IsNumber()
+  index: number;
 }

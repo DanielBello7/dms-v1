@@ -1,5 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
-import { IPaginated } from '@repo/types';
+import { IPagePaginated } from '@repo/types';
 import { isArray, isObject } from 'class-validator';
 import {
   EntityManager,
@@ -22,11 +22,11 @@ type Pagination = {
   pagination: Partial<PaginateQueryParams>;
 };
 
-const safeNumber = (v: any, fallback: number) => {
+export const safeNumber = (v: any, fallback: number) => {
   return Number.isFinite(Number(v)) ? Number(v) : fallback;
 };
 
-export async function find_paginate<
+export async function paginate_by_page_helper<
   T extends ObjectLiteral & { created_at: Date },
 >(
   query: Partial<T & Pagination>,
@@ -34,7 +34,7 @@ export async function find_paginate<
   options: Pick<FindManyOptions<T>, 'relations'> = {},
   session?: EntityManager,
   extend?: (qb: QueryBuilder<T>) => QueryBuilder<T>,
-): Promise<IPaginated<T>> {
+): Promise<IPagePaginated<T>> {
   const db = session ? session.getRepository(db_entity.target) : db_entity;
   const { pagination, ...rest } = query;
 

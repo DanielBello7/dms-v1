@@ -14,10 +14,12 @@ import {
   find_by_id_lock_helper,
   isValidDto,
   remove_helper,
+  update_by_id_helper,
 } from '@app/util';
 import { CreateUserSettingsDto } from './dto/user-settings/create-user-settings.dto';
 import { InsertUserDto } from './dto/insert-user.dto';
 import { v4 as uuid } from 'uuid';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -28,6 +30,37 @@ export class UsersService {
     @InjectRepository(UserSettingsSchema)
     private readonly user_settings: Repository<UserSettingsSchema>,
   ) {}
+
+  get_user_settings_by_user_ref = async (ref: string) => {
+    return this.mutation.execute(async (session) => {
+      const user = await this.find_by_ref_id_lock(ref, session);
+      const response = await this.user_settings.findOne({
+        where: {
+          user_id: user.id,
+        },
+      });
+      if (response) return response;
+      throw new NotFoundException('cannot find user');
+    });
+  };
+
+  modify_user_by_ref = async (ref: string, body: UpdateUserDto) => {
+    return this.mutation.execute(async (session) => {
+      const user = await this.find_by_ref_id_lock(ref, session);
+      const { password, email, timezone, ref_id, ...rest } = body;
+      return this.update_user(user.id, rest, session);
+    });
+  };
+
+  update_user = async (
+    id: string,
+    body: UpdateUserDto,
+    session?: EntityManager,
+  ) => {
+    const errors = isValidDto(body, UpdateUserDto);
+    if (errors.length > 0) throw new BadRequestException(errors);
+    return update_by_id_helper(this.users, id, body, session);
+  };
 
   is_already_registered = async (email: string, session: EntityManager) => {
     const db = session.getRepository(this.users.target);
@@ -48,6 +81,7 @@ export class UsersService {
           ...body,
           avatar: undefined,
           ref_id: user_ref_id,
+          index: 0,
         },
         s,
       );
@@ -60,6 +94,7 @@ export class UsersService {
           user_id: user.id,
           is_onboarded: false,
           ref_id: uuid(),
+          index: 0,
         },
         s,
       );
@@ -86,6 +121,12 @@ export class UsersService {
     return create_helper<UserSchema>(this.users, body, session);
   };
 
+  /**
+   * find user by user id
+   * @param id user id
+   * @param session
+   * @returns
+   */
   find_by_id_lock = async (id: string, session: EntityManager) => {
     return find_by_id_lock_helper(this.users, id, session);
   };

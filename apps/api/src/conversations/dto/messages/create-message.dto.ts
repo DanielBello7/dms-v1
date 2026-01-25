@@ -6,6 +6,7 @@ import {
   IsDate,
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   IsUrl,
@@ -35,6 +36,9 @@ class MediaDto {
 }
 
 export class CreateMessageDto implements BaseOmit<MessageEntity> {
+  @IsNotEmpty()
+  @IsNumber()
+  index: number;
   @IsNotEmpty()
   @IsUUID()
   conversation_id: string;

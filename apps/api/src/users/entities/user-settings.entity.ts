@@ -11,4 +11,5 @@ export class UserSettingsEntity implements IUserSettings {
   dark_mode: boolean;
   is_onboarded: boolean;
   ref_id: string;
+  index: number;
 }

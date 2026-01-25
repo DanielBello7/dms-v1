@@ -1,8 +1,11 @@
 import { BaseOmit } from '@repo/types';
 import { ConversationEntity } from '@/conversations/entities/conversation.entity';
-import { IsArray, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsArray, IsNotEmpty, IsNumber, IsUUID } from 'class-validator';
 
 export class CreateConversationDto implements BaseOmit<ConversationEntity> {
+  @IsNotEmpty()
+  @IsNumber()
+  index: number;
   @IsNotEmpty()
   @IsArray()
   @IsUUID(undefined, { each: true })

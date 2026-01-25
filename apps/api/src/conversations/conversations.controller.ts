@@ -1,34 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
 import { ConversationsService } from './conversations.service';
-import { CreateConversationDto } from './dto/create-conversation.dto';
-import { UpdateConversationDto } from './dto/update-conversation.dto';
+import { CreateMessageDto } from './dto/messages/create-message.dto';
+import { InsertConversationDto } from './dto/insert-conversation.dto';
+import { ExitConversationDto } from './dto/leave-conversation.dto';
+import { JoinConversationDto } from './dto/join-conversation.dto';
 
 @Controller('conversations')
 export class ConversationsController {
-  constructor(private readonly conversationsService: ConversationsService) {}
+  constructor(private readonly conversations: ConversationsService) {}
 
   @Post()
-  create(@Body() createConversationDto: CreateConversationDto) {
-    return this.conversationsService.create(createConversationDto);
+  insert_message(@Body() body: CreateMessageDto) {
+    return this.conversations.insert_message(body);
   }
 
-  @Get()
-  findAll() {
-    return this.conversationsService.findAll();
+  @Post()
+  insert_converersation(@Body() body: InsertConversationDto) {
+    return this.conversations.insert_conversation(body);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.conversationsService.findOne(+id);
+  @Post()
+  exit_conversation(@Body() body: ExitConversationDto) {
+    return this.conversations.exit_conversation_by_ref(body);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateConversationDto: UpdateConversationDto) {
-    return this.conversationsService.update(+id, updateConversationDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.conversationsService.remove(+id);
+  @Post()
+  join_conversation(@Body() body: JoinConversationDto) {
+    return this.conversations.join_conversation_by_ref_id(body);
   }
 }

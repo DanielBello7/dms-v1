@@ -12,4 +12,5 @@ export class UserEntity implements IUser {
   avatar: string | undefined;
   timezone: string;
   ref_id: string;
+  index: number;
 }

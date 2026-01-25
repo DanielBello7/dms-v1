@@ -7,6 +7,7 @@ import * as cookie from 'cookie-parser';
 import helmet from 'helmet';
 import { ExceptionFilter } from '@app/winston/exception.filter';
 import { WinstonService } from '@app/winston';
+import { CONSTANTS } from '@app/constants';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -15,7 +16,7 @@ async function bootstrap() {
   const winston = app.get(WinstonService);
   const { httpAdapter } = app.get(HttpAdapterHost);
   app.enableCors({
-    origin: ['*'],
+    origin: CONSTANTS.ALLOWED_URLS,
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization',
@@ -25,6 +26,6 @@ async function bootstrap() {
   app.use(compression());
   app.use(helmet());
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(process.env.PORT ?? 3000, '0.0.0.0');
+  await app.listen(CONSTANTS.PORT, '0.0.0.0');
 }
 void bootstrap();
