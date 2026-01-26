@@ -1,16 +1,19 @@
-const { run } = require('./cmd');
+import { run } from './cmd';
 
 /**
  * Executes pending database migrations using TypeORM CLI.
  * This function runs all pending migrations in order to update the database
  * schema to match the latest migration files.
  *
- * @param {string} datasource - Path to the TypeORM datasource configuration file
- * @param {Object} envs - Environment variables to pass to the command
- * @returns {Promise<void>} Resolves when all migrations complete successfully
- * @throws {Error} Rejects if any migration fails to execute
+ * @param datasource - Path to the TypeORM datasource configuration file
+ * @param envs - Environment variables to pass to the command
+ * @returns Promise that resolves when all migrations complete successfully
+ * @throws Error if any migration fails to execute
  */
-const run_migration = async (datasource, envs) => {
+export const run_migration = async (
+  datasource: string,
+  envs: Record<string, string> = {},
+): Promise<void> => {
   await run(
     'npx',
     [
@@ -27,5 +30,3 @@ const run_migration = async (datasource, envs) => {
     envs,
   );
 };
-
-module.exports = { run_migration };

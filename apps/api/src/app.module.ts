@@ -13,8 +13,6 @@ import { MessageSchema } from './conversations/schemas/message.schema';
 import * as fs from 'fs';
 import { WinstonModule } from '@app/winston';
 
-console.log(CONSTANTS);
-
 @Module({
   imports: [
     UsersModule,

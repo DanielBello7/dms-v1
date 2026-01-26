@@ -18,45 +18,19 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@app/constants": [
-        "libs/constants/src"
-      ],
-      "@app/constants/*": [
-        "libs/constants/src/*"
-      ],
-      "@app/logger": [
-        "libs/logs/src"
-      ],
-      "@app/logs/*": [
-        "libs/logs/src/*"
-      ],
-      "@app/mutations": [
-        "libs/mutations/src"
-      ],
-      "@app/mutations/*": [
-        "libs/mutations/src/*"
-      ],
-      "@app/security": [
-        "libs/security/src"
-      ],
-      "@app/security/*": [
-        "libs/security/src/*"
-      ],
-      "@app/util": [
-        "libs/util/src"
-      ],
-      "@app/util/*": [
-        "libs/util/src/*"
-      ],
-      "@app/winston": [
-        "libs/winston/src"
-      ],
-      "@app/winston/*": [
-        "libs/winston/src/*"
-      ]
+      "@/*": ["./src/*"],
+      "@app/constants": ["libs/constants/src"],
+      "@app/constants/*": ["libs/constants/src/*"],
+      "@app/logger": ["libs/logs/src"],
+      "@app/logs/*": ["libs/logs/src/*"],
+      "@app/mutations": ["libs/mutations/src"],
+      "@app/mutations/*": ["libs/mutations/src/*"],
+      "@app/security": ["libs/security/src"],
+      "@app/security/*": ["libs/security/src/*"],
+      "@app/util": ["libs/util/src"],
+      "@app/util/*": ["libs/util/src/*"],
+      "@app/winston": ["libs/winston/src"],
+      "@app/winston/*": ["libs/winston/src/*"]
     }
   }
 }
