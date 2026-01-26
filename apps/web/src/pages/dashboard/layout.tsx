@@ -1,9 +1,10 @@
+import { Dashboard } from "@/components/dashboard";
 import { Outlet } from "react-router";
 
 export const DashboardLayoutPage = () => {
 	return (
-		<div>
+		<Dashboard>
 			<Outlet />
-		</div>
+		</Dashboard>
 	);
 };

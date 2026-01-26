@@ -1,4 +1,4 @@
-import { Protect } from "@/features";
+import { Protect } from "@/components/security";
 import { Route } from "react-router";
 import {
 	ConversationsPage,

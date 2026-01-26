@@ -5,14 +5,14 @@
 
 @font-face {
 	font-family: "grotesque";
-	src: url("./assets/font/grotesque/BricolageGrotesque.ttf") format("truetype");
+	src: url("./assets/fonts/grotesque/BricolageGrotesque.ttf") format("truetype");
 	font-weight: 100 900;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: "figtree";
-	src: url("./assets/font/figtree/Figtree.ttf") format("truetype");
+	src: url("./assets/fonts/figtree/Figtree.ttf") format("truetype");
 	font-weight: 100 900;
 	font-style: normal;
 }

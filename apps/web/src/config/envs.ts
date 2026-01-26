@@ -1,5 +1,5 @@
 export type CONSTANTS = {
-	NODE_ENV: string;
+	NODE_ENV: "development" | "production";
 	APP_ADDRESS: string;
 	API_ADDRESS: string;
 	SECRET: string;
