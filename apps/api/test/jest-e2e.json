@@ -11,6 +11,7 @@
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "moduleNameMapper": {
+    "^@app/brevo(|/.*)$": "<rootDir>/../libs/brevo/src/$1",
     "^@app/constants(|/.*)$": "<rootDir>/../libs/constants/src/$1",
     "^@app/logger(|/.*)$": "<rootDir>/../libs/logger/src/$1",
     "^@app/mutations(|/.*)$": "<rootDir>/../libs/mutations/src/$1",

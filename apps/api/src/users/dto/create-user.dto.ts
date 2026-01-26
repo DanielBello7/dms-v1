@@ -1,7 +1,10 @@
-import { BaseOmit } from '@repo/types';
+import { AccountType, BaseOmit } from '@repo/types';
 import { UserEntity } from '../entities/user.entity';
 import {
+  IsBoolean,
   IsEmail,
+  IsEnum,
+  IsNotEmpty,
   IsNotEmpty,
   IsNumber,
   IsOptional,
@@ -41,4 +44,10 @@ export class CreateUserDto implements BaseOmit<UserEntity> {
   @IsNotEmpty()
   @IsString()
   username: string;
+  @IsNotEmpty()
+  @IsEnum(AccountType)
+  type: AccountType;
+  @IsNotEmpty()
+  @IsBoolean()
+  is_email_verified: boolean;
 }

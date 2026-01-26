@@ -7,6 +7,15 @@
     "webpack": true
   },
   "projects": {
+    "brevo": {
+      "type": "library",
+      "root": "libs/brevo",
+      "entryFile": "index",
+      "sourceRoot": "libs/brevo/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/brevo/tsconfig.lib.json"
+      }
+    },
     "constants": {
       "type": "library",
       "root": "libs/constants",

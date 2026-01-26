@@ -1,4 +1,4 @@
-import { IUser } from '@repo/types';
+import { AccountType, IUser } from '@repo/types';
 
 export class UserEntity implements IUser {
   id: string;
@@ -15,4 +15,6 @@ export class UserEntity implements IUser {
   index: number;
   display_name: string;
   username: string;
+  type: AccountType;
+  is_email_verified: boolean;
 }

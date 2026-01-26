@@ -2,6 +2,7 @@ import { ICommon } from "./common";
 
 export enum OTP_PURPOSE_ENUM {
 	LOGIN = "LOGIN",
+	RECOVERY = "RECOVERY",
 }
 
 export type IOTP = ICommon & {

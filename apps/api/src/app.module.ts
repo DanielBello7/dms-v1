@@ -12,11 +12,23 @@ import { UserSettingsSchema } from './users/schemas/user-settings.schema';
 import { MessageSchema } from './conversations/schemas/message.schema';
 import * as fs from 'fs';
 import { WinstonModule } from '@app/winston';
+import { AuthModule } from './auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
+import { LocalStrategy } from './auth/strategies/local.strategy';
+import { JwtStrategy } from './auth/strategies/jwt.strategy';
+import { BrevoModule } from '@app/brevo';
 
 @Module({
   imports: [
     UsersModule,
     ConversationsModule,
+    JwtModule.register({
+      global: true,
+      secret: CONSTANTS.JWT_SECRET,
+      signOptions: {
+        expiresIn: CONSTANTS.JWT_EXPIRES_IN as any,
+      },
+    }),
     ConfigModule.forRoot({
       envFilePath: '.env.development',
       isGlobal: true,
@@ -50,9 +62,15 @@ import { WinstonModule } from '@app/winston';
           }
         : undefined,
     }),
+    BrevoModule.register({
+      apiKy: CONSTANTS.EMAIL_API_KEY,
+      email: CONSTANTS.APP_EMAIL,
+      ename: CONSTANTS.APP_EMAIL_NAME,
+    }),
     WinstonModule.register({ dir: CONSTANTS.LOG_PATH }),
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, LocalStrategy, JwtStrategy],
 })
 export class AppModule {}

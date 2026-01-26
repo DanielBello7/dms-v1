@@ -11,6 +11,6 @@ export class SignupService {
   ) {}
 
   signup_user = async (body: InsertUserDto) => {
-    return this.users.insert_user(body);
+    return this.users.insert_other_user(body);
   };
 }

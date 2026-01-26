@@ -8,3 +8,4 @@ export * from './find-by-id-lock.helper';
 export * from './paginate-by-page.helper';
 export * from './paginate-by-index.helper';
 export * from './paginate-by-date.helper';
+export * from './delete.helper';

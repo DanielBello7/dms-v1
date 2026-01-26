@@ -20,6 +20,9 @@ import { CreateUserSettingsDto } from './dto/user-settings/create-user-settings.
 import { InsertUserDto } from './dto/insert-user.dto';
 import { v4 as uuid } from 'uuid';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { InsertAdminDto } from './dto/insert-admin.dto';
+import { AccountType } from '@repo/types';
+import { UpdateUserSettingsDto } from './dto/user-settings/update-user-settings.dto';
 
 @Injectable()
 export class UsersService {
@@ -31,17 +34,24 @@ export class UsersService {
     private readonly user_settings: Repository<UserSettingsSchema>,
   ) {}
 
-  get_user_settings_by_user_ref = async (ref: string) => {
-    return this.mutation.execute(async (session) => {
-      const user = await this.find_by_ref_id_lock(ref, session);
-      const response = await this.user_settings.findOne({
+  get_user_settings_by_user_ref = async (
+    ref: string,
+    session?: EntityManager,
+  ) => {
+    const perform = async (em: EntityManager) => {
+      const db = em.getRepository(this.user_settings.target);
+      const user = await this.find_by_ref_id_lock(ref, em);
+      const response = await db.findOne({
         where: {
           user_id: user.id,
         },
       });
       if (response) return response;
       throw new NotFoundException('cannot find user');
-    });
+    };
+
+    if (session) return perform(session);
+    return this.mutation.execute(perform);
   };
 
   modify_user_by_ref = async (ref: string, body: UpdateUserDto) => {
@@ -85,7 +95,36 @@ export class UsersService {
     return void 0;
   };
 
-  insert_user = async (body: InsertUserDto, session?: EntityManager) => {
+  insert_admin = async (body: InsertAdminDto, session?: EntityManager) => {
+    return this.insert_user(
+      {
+        ...body,
+        type: AccountType.Admins,
+      },
+      session,
+    );
+  };
+
+  insert_other_user = async (body: InsertUserDto, session?: EntityManager) => {
+    if (body.type === AccountType.Admins) {
+      throw new BadRequestException('type cannot be admin');
+    }
+    return this.insert_user(body, session);
+  };
+
+  find_user_by_email = async (email: string, session?: EntityManager) => {
+    const db = session ? session.getRepository(this.users.target) : this.users;
+    const response = await db.findOne({
+      where: { email },
+    });
+    if (response) return response;
+    throw new NotFoundException('email not registered');
+  };
+
+  private insert_user = async (
+    body: InsertUserDto,
+    session?: EntityManager,
+  ) => {
     const errors = isValidDto(body, InsertUserDto);
     if (errors.length > 0) throw new BadRequestException(errors);
 
@@ -99,6 +138,7 @@ export class UsersService {
           ref_id: user_ref_id,
           index: 0,
           display_name: body.firstname + body.surname,
+          is_email_verified: false,
         },
         s,
       );
@@ -160,6 +200,14 @@ export class UsersService {
     throw new NotFoundException('user not found');
   };
 
+  find_by_ref = async (ref: string) => {
+    const response = await this.users.findOne({
+      where: { ref_id: ref },
+    });
+    if (response) return response;
+    throw new NotFoundException('user not found');
+  };
+
   find_by_ids_lock = async (ids: string[], session: EntityManager) => {
     const db = session.getRepository(this.users.target);
     return db.find({
@@ -191,5 +239,26 @@ export class UsersService {
       await remove_helper(this.user_settings, response.id, session);
       return remove_helper(this.users, id, session);
     });
+  };
+
+  update_user_settings_by_user_id = async (
+    id: string,
+    body: UpdateUserSettingsDto,
+    session?: EntityManager,
+  ) => {
+    const errors = isValidDto(body, UpdateUserSettingsDto);
+    if (errors.length > 0) throw new BadRequestException(errors);
+    const user_settings = await this.user_settings.findOne({
+      where: {
+        user_id: id,
+      },
+    });
+    if (!user_settings) throw new NotFoundException('user not registerd');
+    return update_by_id_helper(
+      this.user_settings,
+      user_settings.id,
+      body,
+      session,
+    );
   };
 }

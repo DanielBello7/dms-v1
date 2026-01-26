@@ -1,5 +1,10 @@
 import { ICommon } from "./common";
 
+export enum AccountType {
+	Client = "Client",
+	Admins = "Admins",
+}
+
 export type IUser = ICommon & {
 	firstname: string;
 	surname: string;
@@ -9,6 +14,8 @@ export type IUser = ICommon & {
 	timezone: string;
 	username: string;
 	display_name: string;
+	type: AccountType;
+	is_email_verified: boolean;
 };
 
 export type IUserSettings = ICommon & {
