@@ -9,7 +9,7 @@ import { JoinConversationDto } from './dto/join-conversation.dto';
 export class ConversationsController {
   constructor(private readonly conversations: ConversationsService) {}
 
-  @Post()
+  @Post('message')
   insert_message(@Body() body: CreateMessageDto) {
     return this.conversations.insert_message(body);
   }
@@ -19,12 +19,12 @@ export class ConversationsController {
     return this.conversations.insert_conversation(body);
   }
 
-  @Post()
+  @Post('exit')
   exit_conversation(@Body() body: ExitConversationDto) {
     return this.conversations.exit_conversation_by_ref(body);
   }
 
-  @Post()
+  @Post('join')
   join_conversation(@Body() body: JoinConversationDto) {
     return this.conversations.join_conversation_by_ref_id(body);
   }
