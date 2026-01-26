@@ -1,3 +1,5 @@
+import { Home } from "@/features/home";
+
 export const HomePage = () => {
-	return <div>Home</div>;
+	return <Home />;
 };

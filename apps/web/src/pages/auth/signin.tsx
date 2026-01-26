@@ -1,3 +1,5 @@
+import { SignIn } from "@/features/signin";
+
 export const SigninPage = () => {
-	return <div>Sign in</div>;
+	return <SignIn />;
 };

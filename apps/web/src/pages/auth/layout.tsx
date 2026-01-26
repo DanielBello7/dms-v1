@@ -2,7 +2,7 @@ import { Outlet } from "react-router";
 
 export const AuthLayoutPage = () => {
 	return (
-		<div>
+		<div className="w-full h-svh grid lg:grid-cols-2 overflow-hidden">
 			<Outlet />
 		</div>
 	);

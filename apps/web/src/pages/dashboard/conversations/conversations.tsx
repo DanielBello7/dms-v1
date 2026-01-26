@@ -1,3 +1,5 @@
+import { ConversationList } from "@/features/conversations";
+
 export const ConversationsPage = () => {
-	return <div>Conversations</div>;
+	return <ConversationList />;
 };
