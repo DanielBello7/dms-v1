@@ -7,6 +7,8 @@ export type IUser = ICommon & {
 	password: string | undefined;
 	avatar: string | undefined;
 	timezone: string;
+	username: string;
+	display_name: string;
 };
 
 export type IUserSettings = ICommon & {

@@ -13,4 +13,6 @@ export class UserEntity implements IUser {
   timezone: string;
   ref_id: string;
   index: number;
+  display_name: string;
+  username: string;
 }

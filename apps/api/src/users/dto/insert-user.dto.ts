@@ -5,4 +5,5 @@ export class InsertUserDto extends OmitType(CreateUserDto, [
   'avatar',
   'ref_id',
   'index',
+  'display_name',
 ]) {}

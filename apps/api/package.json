@@ -17,7 +17,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "actions": "node ./scripts/run.js"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -40,6 +42,7 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.28",
+    "typeorm-extension": "^3.7.3",
     "uuid": "^13.0.0",
     "winston": "^3.19.0"
   },

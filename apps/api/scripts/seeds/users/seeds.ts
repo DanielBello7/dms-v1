@@ -1,0 +1,55 @@
+import { IUser } from '@repo/types';
+import { v4 as uuid } from 'uuid';
+
+const now = new Date();
+
+export const data: IUser[] = [
+  {
+    id: uuid(),
+    ref_id: uuid(),
+    index: 0,
+    created_at: now,
+    updated_at: now,
+    deleted_at: undefined,
+    firstname: 'Goke',
+    surname: 'Bello',
+    email: 'gokebello@gmail.com',
+    username: 'gokebello',
+    password: undefined,
+    avatar: undefined,
+    timezone: 'America/New_York',
+    display_name: 'Goke Bello',
+  },
+  {
+    id: uuid(),
+    ref_id: uuid(),
+    index: 0,
+    created_at: now,
+    updated_at: now,
+    deleted_at: undefined,
+    firstname: 'Alice',
+    surname: 'Johnson',
+    email: 'alice.johnson@example.com',
+    username: 'alicej',
+    password: undefined,
+    avatar: undefined,
+    timezone: 'America/Los_Angeles',
+    display_name: 'Alice Johnson',
+  },
+  {
+    id: uuid(),
+    ref_id: uuid(),
+    index: 0,
+    created_at: now,
+    updated_at: now,
+    deleted_at: undefined,
+    firstname: 'Bob',
+    surname: 'Smith',
+    email: 'bob.smith@example.com',
+    username: 'bobsmith',
+    password: undefined,
+    avatar: undefined,
+    timezone: 'Europe/London',
+    display_name: 'Bob Smith',
+  },
+];

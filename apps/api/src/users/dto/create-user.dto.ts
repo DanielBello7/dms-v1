@@ -35,4 +35,10 @@ export class CreateUserDto implements BaseOmit<UserEntity> {
   @IsNotEmpty()
   @IsNumber()
   index: number;
+  @IsNotEmpty()
+  @IsString()
+  display_name: string;
+  @IsNotEmpty()
+  @IsString()
+  username: string;
 }

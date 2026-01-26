@@ -48,6 +48,9 @@ export class UsersService {
     return this.mutation.execute(async (session) => {
       const user = await this.find_by_ref_id_lock(ref, session);
       const { password, email, timezone, ref_id, ...rest } = body;
+      if (rest.firstname || rest.surname) {
+        rest.display_name = `${rest.firstname ?? user.firstname} ${rest.surname ?? user.surname}`;
+      }
       return this.update_user(user.id, rest, session);
     });
   };
@@ -62,10 +65,23 @@ export class UsersService {
     return update_by_id_helper(this.users, id, body, session);
   };
 
-  is_already_registered = async (email: string, session: EntityManager) => {
+  is_already_registered = async (
+    email: string,
+    username: string,
+    session: EntityManager,
+  ) => {
     const db = session.getRepository(this.users.target);
-    const response = await db.findOne({ where: { email } });
-    if (response) throw new BadRequestException('email already registered');
+    const response = await db
+      .createQueryBuilder('user')
+      .where('user.email = :email', { email })
+      .orWhere('user.username ILIKE :username', { username })
+      .getOne();
+    if (response) {
+      if (response.email === email) {
+        throw new BadRequestException('email already registered');
+      }
+      throw new BadRequestException('username already registered');
+    }
     return void 0;
   };
 
@@ -75,13 +91,14 @@ export class UsersService {
 
     const action = async (s: EntityManager) => {
       const user_ref_id = uuid();
-      await this.is_already_registered(body.email, s);
+      await this.is_already_registered(body.email, body.username, s);
       const user = await this.create_user(
         {
           ...body,
           avatar: undefined,
           ref_id: user_ref_id,
           index: 0,
+          display_name: body.firstname + body.surname,
         },
         s,
       );
