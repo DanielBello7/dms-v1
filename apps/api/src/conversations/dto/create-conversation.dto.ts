@@ -1,6 +1,14 @@
 import { BaseOmit } from '@repo/types';
 import { ConversationEntity } from '@/conversations/entities/conversation.entity';
-import { IsArray, IsNotEmpty, IsNumber, IsUUID } from 'class-validator';
+import {
+  ArrayMaxSize,
+  IsArray,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsUUID,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateConversationDto implements BaseOmit<ConversationEntity> {
   @IsNotEmpty()
@@ -8,6 +16,7 @@ export class CreateConversationDto implements BaseOmit<ConversationEntity> {
   index: number;
   @IsNotEmpty()
   @IsArray()
+  @ArrayMaxSize(10)
   @IsUUID(undefined, { each: true })
   ongoing_participants: string[];
   @IsNotEmpty()
@@ -20,4 +29,7 @@ export class CreateConversationDto implements BaseOmit<ConversationEntity> {
   @IsNotEmpty()
   @IsUUID()
   created_by: string;
+  @IsOptional()
+  @IsUUID()
+  last_message_id: string | undefined;
 }

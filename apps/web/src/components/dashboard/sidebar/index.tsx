@@ -31,7 +31,7 @@ export const AppSidebar = () => {
 	];
 
 	return (
-		<Sidebar variant="sidebar" collapsible="icon" className="h-full">
+		<Sidebar variant="sidebar" collapsible="icon" className="h-full!">
 			<SidebarContent>
 				<Fragment>
 					<SidebarHeader className="h-12 border-b border-gray-200 flex flex-col justify-center p-3">

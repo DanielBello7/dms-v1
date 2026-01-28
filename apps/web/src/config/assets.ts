@@ -1,5 +1,29 @@
 import logo from "@/assets/react.svg";
 
+import avatar_00 from "@/assets/imgs/avatars/Sample-0.svg";
+import avatar_01 from "@/assets/imgs/avatars/Sample-1.svg";
+import avatar_02 from "@/assets/imgs/avatars/Sample-2.svg";
+import avatar_03 from "@/assets/imgs/avatars/Sample-3.svg";
+import avatar_04 from "@/assets/imgs/avatars/Sample-4.svg";
+import avatar_05 from "@/assets/imgs/avatars/Sample-5.svg";
+import avatar_06 from "@/assets/imgs/avatars/Sample-6.svg";
+import avatar_07 from "@/assets/imgs/avatars/Sample-7.svg";
+import avatar_08 from "@/assets/imgs/avatars/Sample-8.svg";
+import avatar_09 from "@/assets/imgs/avatars/Sample-9.svg";
+
+import placeholder from "@/assets/imgs/temp-02.png";
+
 export const assets = {
 	logo,
+	placeholder,
+	avatar_00,
+	avatar_01,
+	avatar_02,
+	avatar_03,
+	avatar_04,
+	avatar_05,
+	avatar_06,
+	avatar_07,
+	avatar_08,
+	avatar_09,
 };

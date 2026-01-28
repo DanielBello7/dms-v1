@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ObjectLiteral, Repository } from 'typeorm';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { ConversationsService } from './conversations.service';
 import { ConversationSchema } from './schemas/conversation.schema';
@@ -13,6 +13,7 @@ import { JoinConversationDto } from './dto/join-conversation.dto';
 import { ExitConversationDto } from './dto/leave-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
 import { CreateMessageDto } from './dto/messages/create-message.dto';
+import { ConversationQueryDto, SORT_TYPE } from './dto/conversation-query.dto';
 import { EntityManager } from 'typeorm';
 
 describe('ConversationsService', () => {
@@ -37,6 +38,7 @@ describe('ConversationsService', () => {
     created_by: 'user-id-1',
     members: ['user-id-1', 'user-id-2'],
     ongoing_participants: ['user-id-1', 'user-id-2'],
+    last_message_id: undefined,
   };
 
   const mockMessage: Partial<MessageSchema> = {
@@ -79,6 +81,8 @@ describe('ConversationsService', () => {
     usersService = {
       find_by_ref_id_lock: jest.fn(),
       find_by_ref_ids_lock: jest.fn(),
+      find_by_ref: jest.fn(),
+      find_by_ids: jest.fn(),
     } as any;
 
     const module: TestingModule = await Test.createTestingModule({
@@ -113,7 +117,7 @@ describe('ConversationsService', () => {
     entityManager.getRepository = jest.fn((target) => {
       if (target === ConversationSchema) return conversationsRepository;
       if (target === MessageSchema) return messagesRepository;
-      return null;
+      return {} as Repository<any>;
     });
 
     mutationsService.getRepo = jest.fn((repo) => repo);
@@ -131,6 +135,7 @@ describe('ConversationsService', () => {
       read_by: [],
       media: [],
       ref_id: '',
+      index: 0,
     };
 
     it('should insert message successfully', async () => {
@@ -190,6 +195,7 @@ describe('ConversationsService', () => {
       text: 'Test message',
       read_by: [{ id: 'user-id-1', read_at: new Date() }],
       media: [],
+      index: 0,
       ref_id: 'msg-ref-1',
     };
 
@@ -504,6 +510,8 @@ describe('ConversationsService', () => {
       members: ['user-id-1', 'user-id-2'],
       ongoing_participants: ['user-id-1', 'user-id-2'],
       ref_id: 'conv-ref-1',
+      index: 0,
+      last_message_id: undefined,
     };
 
     it('should create conversation successfully', async () => {
@@ -623,6 +631,126 @@ describe('ConversationsService', () => {
         updateConversationDto,
       );
       expect(result).toEqual(updatedConversation);
+    });
+  });
+
+  describe('get_user_conversations', () => {
+    const conversationQueryDto: ConversationQueryDto = {
+      ref: 'user-ref-1',
+      page: 1,
+      pick: 9,
+      sort: SORT_TYPE.DESC,
+    };
+
+    it('should get user conversations successfully', async () => {
+      const mockUser = {
+        id: 'user-id-1',
+        ref_id: 'user-ref-1',
+        email: 'user@example.com',
+      };
+      const conversations = [
+        { ...mockConversation, id: 'conv-id-1' },
+        { ...mockConversation, id: 'conv-id-2' },
+      ];
+      const participants = [
+        { ...mockUser, id: 'user-id-1' },
+        { ...mockUser, id: 'user-id-2' },
+      ];
+
+      usersService.find_by_ref = jest.fn().mockResolvedValue(mockUser);
+      conversationsRepository.findAndCount = jest
+        .fn()
+        .mockResolvedValue([conversations, 2]);
+      usersService.find_by_ids = jest.fn().mockResolvedValue(participants);
+
+      const result = await service.get_user_conversations(conversationQueryDto);
+
+      expect(usersService.find_by_ref).toHaveBeenCalledWith(
+        conversationQueryDto.ref,
+      );
+      expect(conversationsRepository.findAndCount).toHaveBeenCalled();
+      expect(result).toHaveProperty('docs');
+      expect(result).toHaveProperty('total_docs', 2);
+      expect(result).toHaveProperty('page', 1);
+      expect(result.docs[0]).toHaveProperty('Participants');
+    });
+
+    it('should handle pagination correctly', async () => {
+      const mockUser = {
+        id: 'user-id-1',
+        ref_id: 'user-ref-1',
+      };
+      const conversations = [{ ...mockConversation }];
+
+      usersService.find_by_ref = jest.fn().mockResolvedValue(mockUser);
+      conversationsRepository.findAndCount = jest
+        .fn()
+        .mockResolvedValue([conversations, 20]);
+      usersService.find_by_ids = jest.fn().mockResolvedValue([]);
+
+      const result = await service.get_user_conversations({
+        ...conversationQueryDto,
+        page: 2,
+        pick: 10,
+      });
+
+      expect(result.page).toBe(2);
+      expect(result.pick).toBe(10);
+      expect(result.total_pages).toBe(2);
+      expect(result.has_next_page).toBe(true);
+      expect(result.has_prev_page).toBe(true);
+    });
+
+    it('should throw BadRequestException if skip exceeds limit', async () => {
+      const mockUser = {
+        id: 'user-id-1',
+        ref_id: 'user-ref-1',
+      };
+
+      usersService.find_by_ref = jest.fn().mockResolvedValue(mockUser);
+
+      await expect(
+        service.get_user_conversations({
+          ...conversationQueryDto,
+          page: 10001,
+          pick: 10,
+        }),
+      ).rejects.toThrow(BadRequestException);
+      await expect(
+        service.get_user_conversations({
+          ...conversationQueryDto,
+          page: 10001,
+          pick: 10,
+        }),
+      ).rejects.toThrow('unable to populate');
+    });
+
+    it('should throw BadRequestException for invalid DTO', async () => {
+      const invalidDto = { ref: '' } as ConversationQueryDto;
+
+      await expect(service.get_user_conversations(invalidDto)).rejects.toThrow(
+        BadRequestException,
+      );
+    });
+
+    it('should use default values for page and pick', async () => {
+      const mockUser = {
+        id: 'user-id-1',
+        ref_id: 'user-ref-1',
+      };
+
+      usersService.find_by_ref = jest.fn().mockResolvedValue(mockUser);
+      conversationsRepository.findAndCount = jest
+        .fn()
+        .mockResolvedValue([[], 0]);
+      usersService.find_by_ids = jest.fn().mockResolvedValue([]);
+
+      const result = await service.get_user_conversations({
+        ref: 'user-ref-1',
+      });
+
+      expect(result.page).toBe(1);
+      expect(result.pick).toBe(9);
     });
   });
 });

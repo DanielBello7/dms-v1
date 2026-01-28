@@ -17,6 +17,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { LocalStrategy } from './auth/strategies/local.strategy';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { BrevoModule } from '@app/brevo';
+import { OtpSchema } from './auth/schemas/otp.schema';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { BrevoModule } from '@app/brevo';
         ConversationSchema,
         MessageSchema,
         UserSchema,
+        OtpSchema,
         UserSettingsSchema,
       ],
       migrations: [],

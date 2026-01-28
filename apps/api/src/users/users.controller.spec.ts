@@ -245,4 +245,56 @@ describe('UsersController', () => {
       expect(result).toEqual(multiUpdatedUser);
     });
   });
+
+  describe('get_user_settings', () => {
+    const userId = 'user-ref-1';
+    const mockUserSettings = {
+      id: 'settings-id-1',
+      user_id: 'user-id-1',
+      dark_mode: false,
+      is_onboarded: true,
+      refresh_token: undefined,
+      last_login_date: undefined,
+    };
+
+    it('should get user settings successfully', async () => {
+      usersService.get_user_settings_by_user_ref = jest
+        .fn()
+        .mockResolvedValue(mockUserSettings);
+
+      const result = await controller.get_user_settings(userId);
+
+      expect(usersService.get_user_settings_by_user_ref).toHaveBeenCalledWith(
+        userId,
+      );
+      expect(usersService.get_user_settings_by_user_ref).toHaveBeenCalledTimes(
+        1,
+      );
+      expect(result).toEqual(mockUserSettings);
+    });
+
+    it('should throw NotFoundException if user settings not found', async () => {
+      usersService.get_user_settings_by_user_ref = jest
+        .fn()
+        .mockRejectedValue(new NotFoundException('cannot find user'));
+
+      await expect(controller.get_user_settings(userId)).rejects.toThrow(
+        NotFoundException,
+      );
+      await expect(controller.get_user_settings(userId)).rejects.toThrow(
+        'cannot find user',
+      );
+    });
+
+    it('should propagate errors from service', async () => {
+      const error = new Error('Database connection failed');
+      usersService.get_user_settings_by_user_ref = jest
+        .fn()
+        .mockRejectedValue(error);
+
+      await expect(controller.get_user_settings(userId)).rejects.toThrow(
+        'Database connection failed',
+      );
+    });
+  });
 });

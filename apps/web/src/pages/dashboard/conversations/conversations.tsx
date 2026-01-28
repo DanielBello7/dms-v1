@@ -1,5 +1,10 @@
-import { ConversationList } from "@/features/conversations";
+import { ConversationLayout } from "@/features/conversations";
+import { Outlet } from "react-router";
 
 export const ConversationsPage = () => {
-	return <ConversationList />;
+	return (
+		<ConversationLayout>
+			<Outlet />
+		</ConversationLayout>
+	);
 };

@@ -4,7 +4,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 type AuthData = {
 	jwt: string | null;
 	refresh: string | null;
-	expires: string | null;
+	expires: Date | null;
 	user: unknown | null;
 };
 
@@ -15,7 +15,7 @@ type State = {
 };
 
 const initial: AuthData = {
-	expires: new Date().toISOString(),
+	expires: new Date(),
 	jwt: null,
 	refresh: null,
 	user: null,

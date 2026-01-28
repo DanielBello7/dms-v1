@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 type UserData = {
 	user: IUser;
-	eettings: IUserSettings;
+	settings: IUserSettings;
 };
 
 type State = {
@@ -16,7 +16,7 @@ type State = {
 
 const initial: UserData = {
 	user: {} as IUser,
-	eettings: {} as IUserSettings,
+	settings: {} as IUserSettings,
 };
 
 export const useUser = create<State>()((set, get) => ({
@@ -49,7 +49,7 @@ export const useUser = create<State>()((set, get) => ({
 		set({
 			data: {
 				...get().data,
-				eettings: { ...current.eettings, ...updates },
+				settings: { ...current.settings, ...updates },
 			},
 		});
 	},

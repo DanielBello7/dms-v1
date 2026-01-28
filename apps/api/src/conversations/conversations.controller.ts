@@ -1,9 +1,10 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query } from '@nestjs/common';
 import { ConversationsService } from './conversations.service';
 import { CreateMessageDto } from './dto/messages/create-message.dto';
 import { InsertConversationDto } from './dto/insert-conversation.dto';
 import { ExitConversationDto } from './dto/leave-conversation.dto';
 import { JoinConversationDto } from './dto/join-conversation.dto';
+import { ConversationQueryDto } from './dto/conversation-query.dto';
 
 @Controller('conversations')
 export class ConversationsController {
@@ -27,5 +28,10 @@ export class ConversationsController {
   @Post('join')
   join_conversation(@Body() body: JoinConversationDto) {
     return this.conversations.join_conversation_by_ref_id(body);
+  }
+
+  @Get('users')
+  get_user_conversations(@Query() query: ConversationQueryDto) {
+    return this.conversations.get_user_conversations(query);
   }
 }

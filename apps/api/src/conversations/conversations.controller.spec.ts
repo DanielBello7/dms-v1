@@ -6,6 +6,7 @@ import { CreateMessageDto } from './dto/messages/create-message.dto';
 import { InsertConversationDto } from './dto/insert-conversation.dto';
 import { ExitConversationDto } from './dto/leave-conversation.dto';
 import { JoinConversationDto } from './dto/join-conversation.dto';
+import { SORT_TYPE } from './dto/conversation-query.dto';
 
 describe('ConversationsController', () => {
   let controller: ConversationsController;
@@ -27,6 +28,7 @@ describe('ConversationsController', () => {
     created_by: 'user-id-1',
     members: ['user-id-1', 'user-id-2'],
     ongoing_participants: ['user-id-1', 'user-id-2'],
+    last_message_id: undefined,
   };
 
   beforeEach(async () => {
@@ -35,6 +37,7 @@ describe('ConversationsController', () => {
       insert_conversation: jest.fn(),
       exit_conversation_by_ref: jest.fn(),
       join_conversation_by_ref_id: jest.fn(),
+      get_user_conversations: jest.fn(),
     };
 
     const module: TestingModule = await Test.createTestingModule({
@@ -366,6 +369,69 @@ describe('ConversationsController', () => {
       await expect(
         controller.join_conversation(joinConversationDto),
       ).rejects.toThrow('Transaction failed');
+    });
+  });
+
+  describe('get_user_conversations', () => {
+    const conversationQueryDto = {
+      ref: 'user-ref-1',
+      page: 1,
+      pick: 9,
+      sort: SORT_TYPE.DESC,
+    };
+
+    const mockPaginatedResponse = {
+      docs: [
+        {
+          ...mockConversation,
+          Participants: [
+            {
+              id: 'user-id-1',
+              ref_id: 'user-ref-1',
+              email: 'user1@example.com',
+            },
+            {
+              id: 'user-id-2',
+              ref_id: 'user-ref-2',
+              email: 'user2@example.com',
+            },
+          ],
+        },
+      ],
+      total_docs: 1,
+      page: 1,
+      pick: 9,
+      total_pages: 1,
+      has_next_page: false,
+      has_prev_page: false,
+      next_page: null,
+      prev_page: null,
+      paging_counter: 1,
+    };
+
+    it('should get user conversations successfully', async () => {
+      conversationsService.get_user_conversations = jest
+        .fn()
+        .mockResolvedValue(mockPaginatedResponse);
+
+      const result =
+        await controller.get_user_conversations(conversationQueryDto);
+
+      expect(conversationsService.get_user_conversations).toHaveBeenCalledWith(
+        conversationQueryDto,
+      );
+      expect(result).toEqual(mockPaginatedResponse);
+    });
+
+    it('should propagate errors from service', async () => {
+      const error = new Error('Failed to fetch conversations');
+      conversationsService.get_user_conversations = jest
+        .fn()
+        .mockRejectedValue(error);
+
+      await expect(
+        controller.get_user_conversations(conversationQueryDto),
+      ).rejects.toThrow('Failed to fetch conversations');
     });
   });
 });

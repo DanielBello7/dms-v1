@@ -25,7 +25,12 @@ async function bootstrap() {
   app.useGlobalFilters(new ExceptionFilter(winston, httpAdapter));
   app.use(compression());
   app.use(helmet());
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    }),
+  );
   await app.listen(CONSTANTS.PORT, '0.0.0.0');
 }
 void bootstrap();

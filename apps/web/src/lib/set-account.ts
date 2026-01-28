@@ -1,13 +1,14 @@
 import { useUser } from "@/stores";
-// import { api } from "./api";
+import { api } from "./api";
 
 const user = useUser.getState();
 
 export const set_account = async () => {
-	console.log(user);
-	// const session = await api.auth.whoami();
-	// const organization = await api.company.find_using_account_id(session._id);
-	// return account.set_data({
-	// 	company: organization,
-	// });
+	const sessions = await api.auth.whoami();
+	const response = await api.users.get_user_by_ref(sessions.ref_id);
+	const settings = await api.users.get_user_settings(sessions.ref_id);
+	return user.set_data({
+		user: response,
+		settings: settings,
+	});
 };

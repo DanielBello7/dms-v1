@@ -10,4 +10,5 @@ export class ConversationEntity implements IConversation {
   ref_id: string;
   created_by: string;
   index: number;
+  last_message_id: string | undefined;
 }

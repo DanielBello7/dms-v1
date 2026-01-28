@@ -1,10 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { GalleryVerticalEnd, RefreshCwIcon } from "lucide-react";
+import { GalleryVerticalEnd } from "lucide-react";
 import {
 	Field,
 	FieldDescription,
 	FieldLabel,
 	FieldGroup,
+	Spinner,
 } from "@/components/ui";
 import {
 	InputOTP,
@@ -12,11 +13,14 @@ import {
 	InputOTPSeparator,
 	InputOTPSlot,
 } from "@/components/ui";
+import { useLogic } from "./use-logic";
+import { Resend } from "./resend";
 
 export const OtpForm = () => {
+	const logic = useLogic();
 	return (
 		<div className="flex flex-col gap-6">
-			<form>
+			<form onSubmit={logic.form.handleSubmit(logic.submit)}>
 				<FieldGroup>
 					<div className="flex flex-col items-center gap-2 text-center">
 						<a
@@ -37,13 +41,16 @@ export const OtpForm = () => {
 							<FieldLabel htmlFor="otp-verification">
 								Verification code
 							</FieldLabel>
-							<Button variant="outline" size="xs">
-								<RefreshCwIcon />
-								Resend Code
-							</Button>
+							<Resend />
 						</div>
 						<div className="w-full items-center flex justify-center">
-							<InputOTP maxLength={6} id="otp-verification" required>
+							<InputOTP
+								maxLength={6}
+								id="otp-verification"
+								required
+								onChange={(e) => {
+									logic.form.setValue("value", e);
+								}}>
 								<InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl">
 									<InputOTPSlot index={0} />
 									<InputOTPSlot index={1} />
@@ -59,7 +66,9 @@ export const OtpForm = () => {
 						</div>
 					</Field>
 					<Field>
-						<Button type="submit">Login</Button>
+						<Button type="submit" disabled={logic.handler.isLoading}>
+							{logic.handler.isLoading ? <Spinner /> : "Login"}
+						</Button>
 					</Field>
 					<FieldDescription className="text-center">
 						<a href="#">I no longer have access to this email address.</a>

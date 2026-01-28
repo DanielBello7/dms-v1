@@ -13,7 +13,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UsersController {
   constructor(private readonly users: UsersService) {}
 
-  @Patch('id')
+  @Patch(':id')
   update_user(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() body: UpdateUserDto,
@@ -21,8 +21,18 @@ export class UsersController {
     return this.users.modify_user_by_ref(id, body);
   }
 
-  @Get('id/settings')
-  get_user_settings(@Param('id', ParseUUIDPipe) id: string) {
-    return this.users.get_user_settings_by_user_ref(id);
+  @Get('email/:email')
+  get_user_by_email(@Param('email') email: string) {
+    return this.users.find_user_by_email(email);
+  }
+
+  @Get(':ref')
+  get_user_by_ref(@Param('ref') ref: string) {
+    return this.users.find_by_ref(ref);
+  }
+
+  @Get(':ref/settings')
+  get_user_settings(@Param('ref', ParseUUIDPipe) ref: string) {
+    return this.users.get_user_settings_by_user_ref(ref);
   }
 }

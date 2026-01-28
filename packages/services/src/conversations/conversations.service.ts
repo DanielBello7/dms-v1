@@ -1,15 +1,47 @@
-import { ApiService } from '@/utils';
-import { AxiosInstance } from 'axios';
-import { IConversation, IMessage, BaseOmit } from '@repo/types';
+import { ApiService } from "@/utils";
+import { AxiosInstance } from "axios";
+import {
+	type IConversation,
+	type IMessage,
+	type IPagePaginated,
+	type IUser,
+	BaseOmit,
+} from "@repo/types";
+
+export type IConversationPopulated = IConversation & {
+	Participants: IUser[];
+	LastMsg?: IMessage & {
+		CreatedBy: IUser;
+	};
+};
+
+export type IMessagePopulated = IMessage & {
+	CreatedBy: IUser;
+};
+
+export enum SORT_TYPE {
+	DESC = "DESC",
+	ASC = "ASC",
+}
+
+export type ConversationQueryDto = {
+	ref: string;
+	page?: number;
+	pick?: number;
+	sort?: SORT_TYPE;
+};
 
 export type InsertConversationDto = Omit<
 	BaseOmit<IConversation>,
-	'ref_id' | 'ongoing_participants' | 'index'
+	"ref_id" | "ongoing_participants" | "index"
 >;
 
-export type JoinConversationDto = Pick<BaseOmit<IConversation>, 'members' | 'ref_id'>;
+export type JoinConversationDto = Pick<
+	BaseOmit<IConversation>,
+	"members" | "ref_id"
+>;
 
-export type ExitConversationDto = Pick<BaseOmit<IConversation>, 'ref_id'> & {
+export type ExitConversationDto = Pick<BaseOmit<IConversation>, "ref_id"> & {
 	user_ref: string;
 };
 
@@ -17,16 +49,18 @@ export type CreateMessageDto = BaseOmit<IMessage>;
 
 export class ConversationsService extends ApiService {
 	constructor(baseURL?: string | AxiosInstance) {
-		super(baseURL ? baseURL : '');
+		super(baseURL ? baseURL : "");
 	}
 
 	/**
 	 * Inserts a new message into a conversation
 	 * @param data - Message data including conversation_id, created_by, text, etc.
-	 * @returns Created message data
+	 * @returns Created message data with populated CreatedBy relation
 	 */
-	insert_message = async (data: CreateMessageDto): Promise<IMessage> => {
-		return (await this.post('conversations/message', data)).data;
+	insert_message = async (
+		data: CreateMessageDto
+	): Promise<IMessagePopulated> => {
+		return (await this.post("conversations/message", data)).data;
 	};
 
 	/**
@@ -35,9 +69,9 @@ export class ConversationsService extends ApiService {
 	 * @returns Created conversation data
 	 */
 	insert_conversation = async (
-		data: InsertConversationDto,
+		data: InsertConversationDto
 	): Promise<IConversation> => {
-		return (await this.post('conversations', data)).data;
+		return (await this.post("conversations", data)).data;
 	};
 
 	/**
@@ -46,9 +80,9 @@ export class ConversationsService extends ApiService {
 	 * @returns Updated conversation data
 	 */
 	exit_conversation = async (
-		data: ExitConversationDto,
+		data: ExitConversationDto
 	): Promise<IConversation> => {
-		return (await this.post('conversations/exit', data)).data;
+		return (await this.post("conversations/exit", data)).data;
 	};
 
 	/**
@@ -57,8 +91,19 @@ export class ConversationsService extends ApiService {
 	 * @returns Updated conversation data
 	 */
 	join_conversation = async (
-		data: JoinConversationDto,
+		data: JoinConversationDto
 	): Promise<IConversation> => {
-		return (await this.post('conversations/join', data)).data;
+		return (await this.post("conversations/join", data)).data;
+	};
+
+	/**
+	 * Gets paginated conversations for a user by their ref_id
+	 * @param query - Query params: ref (user ref_id), page?, pick?, sort?
+	 * @returns Paginated list of conversations with populated Participants
+	 */
+	get_user_conversations = async (
+		query: ConversationQueryDto
+	): Promise<IPagePaginated<IConversationPopulated>> => {
+		return (await this.get("conversations/users", { params: query })).data;
 	};
 }

@@ -10,6 +10,7 @@ export type IConversation = ICommon & {
 	ongoing_participants: string[];
 	members: string[];
 	created_by: string;
+	last_message_id: string | undefined;
 };
 
 export type IMessage = ICommon & {

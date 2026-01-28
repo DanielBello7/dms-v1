@@ -1,7 +1,8 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, OneToMany, Relation } from 'typeorm';
 import { UserEntity } from '@/users/entities/user.entity';
 import { CommonBase } from '@app/util';
 import { AccountType } from '@repo/types';
+import { MessageSchema } from '@/conversations/schemas/message.schema';
 
 @Entity('users')
 export class UserSchema extends CommonBase implements UserEntity {
@@ -15,4 +16,7 @@ export class UserSchema extends CommonBase implements UserEntity {
   @Column({ type: 'varchar' }) display_name: string;
   @Column({ type: 'enum', enum: AccountType }) type: AccountType;
   @Column({ type: 'boolean', default: false }) is_email_verified: boolean;
+
+  @OneToMany(() => MessageSchema, (doc) => doc.CreatedBy)
+  Messages: Relation<MessageSchema[]>;
 }

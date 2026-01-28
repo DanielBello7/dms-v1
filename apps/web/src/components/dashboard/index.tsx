@@ -10,10 +10,10 @@ export const Dashboard = (props: Props) => {
 	const { children } = props;
 
 	return (
-		<div className="w-full h-svh overflow-hidden p-2 flex">
-			<div className="flex grow font-grotesque overflow-hidden rounded-sm">
-				<div className="relative size-full overflow-hidden">
-					<SidebarProvider className="w-full h-full! overflow-hidden bg-white">
+		<div className="w-full h-svh overflow-hidden flex">
+			<div className="flex grow font-grotesque overflow-hidden rounded-sm items-center justify-center bg-black/5">
+				<div className="relative flex border border-gray-400/60 w-300 h-200 overflow-hidden">
+					<SidebarProvider className="flex grow overflow-hidden bg-white">
 						<AppSidebar />
 						<main className="size-full overflow-hidden flex flex-col">
 							<Header />

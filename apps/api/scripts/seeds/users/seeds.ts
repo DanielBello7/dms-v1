@@ -1,4 +1,4 @@
-import { IUser } from '@repo/types';
+import { AccountType, IUser } from '@repo/types';
 import { v4 as uuid } from 'uuid';
 
 const now = new Date();
@@ -19,6 +19,8 @@ export const data: IUser[] = [
     avatar: undefined,
     timezone: 'America/New_York',
     display_name: 'Goke Bello',
+    is_email_verified: false,
+    type: AccountType.Client,
   },
   {
     id: uuid(),
@@ -35,6 +37,8 @@ export const data: IUser[] = [
     avatar: undefined,
     timezone: 'America/Los_Angeles',
     display_name: 'Alice Johnson',
+    is_email_verified: false,
+    type: AccountType.Client,
   },
   {
     id: uuid(),
@@ -51,5 +55,7 @@ export const data: IUser[] = [
     avatar: undefined,
     timezone: 'Europe/London',
     display_name: 'Bob Smith',
+    is_email_verified: false,
+    type: AccountType.Client,
   },
 ];

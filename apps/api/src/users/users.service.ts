@@ -11,6 +11,7 @@ import { MutationsService } from '@app/mutations';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
   create_helper,
+  find_by_id_helper,
   find_by_id_lock_helper,
   isValidDto,
   remove_helper,
@@ -205,7 +206,11 @@ export class UsersService {
       where: { ref_id: ref },
     });
     if (response) return response;
-    throw new NotFoundException('user not found');
+    throw new NotFoundException('user s not found');
+  };
+
+  find_user_by_id = async (id: string, session?: EntityManager) => {
+    return find_by_id_helper(this.users, id, {}, session);
   };
 
   find_by_ids_lock = async (ids: string[], session: EntityManager) => {
@@ -215,6 +220,14 @@ export class UsersService {
         id: In(ids),
       },
       lock: { mode: 'pessimistic_write' },
+    });
+  };
+
+  find_by_ids = async (ids: string[]) => {
+    return this.users.find({
+      where: {
+        id: In(ids),
+      },
     });
   };
 

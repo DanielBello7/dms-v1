@@ -23,7 +23,7 @@ import {
   isValidDto,
 } from '@app/util';
 import { InsertOtp } from './dto/otp/insert-otp.dto';
-import generator from 'otp-generator';
+import * as OTPs from 'otp-generator';
 import { v4 as uuid } from 'uuid';
 import { OTP_PURPOSE_ENUM } from '@repo/types';
 import { SigninEmailDto } from './dto/signin-email.dto';
@@ -43,16 +43,19 @@ export class AuthService {
   ) {}
 
   insert_otp = async (body: InsertOtp, session?: EntityManager) => {
-    const otp = generator.generate(6, {
+    const otp = OTPs.generate(6, {
       digits: true,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+      upperCaseAlphabets: false,
     });
     return this.create_otp(
       {
         ...body,
         expires_at: datefns.addHours(new Date(), 2),
         index: 0,
-        ref_id: uuid(),
         value: otp,
+        ref_id: uuid(),
       },
       session,
     );
@@ -106,6 +109,7 @@ export class AuthService {
             await this.delete_otp_by_id(o.id, session);
           }
         }
+        await this.mail.sendotp(main.value, body.email, user.display_name);
         return {
           type: 'OTP',
           display_name: user.display_name,
@@ -155,6 +159,7 @@ export class AuthService {
         throw new BadRequestException('invalid credentials');
       }
 
+      await this.delete_otp_by_id(otp.id, session);
       return this.sign_in_validated_account(
         {
           email: user.email,
@@ -254,8 +259,8 @@ export class AuthService {
     });
   };
 
-  whoami = async (ref: string) => {
-    return this.users.find_by_ref(ref);
+  whoami = async (id: string) => {
+    return this.users.find_user_by_id(id);
   };
 
   sign_out = async (ref: string) => {

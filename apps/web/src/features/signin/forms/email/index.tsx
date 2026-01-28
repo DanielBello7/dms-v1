@@ -6,12 +6,15 @@ import {
 	FieldDescription,
 	FieldGroup,
 	FieldLabel,
+	Spinner,
 } from "@/components/ui";
+import { useLogic } from "./use-logic";
 
 export const EmailForm = () => {
+	const logic = useLogic();
 	return (
 		<div className="flex flex-col gap-6">
-			<form>
+			<form onSubmit={logic.form.handleSubmit(logic.submit)}>
 				<FieldGroup>
 					<div className="flex flex-col items-center gap-2 text-center">
 						<a
@@ -34,10 +37,16 @@ export const EmailForm = () => {
 							type="email"
 							placeholder="m@example.com"
 							required
+							{...logic.form.register("email")}
 						/>
 					</Field>
 					<Field>
-						<Button type="submit">Login</Button>
+						<Button
+							type="submit"
+							className="cursor-pointer"
+							disabled={logic.handler.isLoading}>
+							{logic.handler.isLoading ? <Spinner /> : "Login"}
+						</Button>
 					</Field>
 				</FieldGroup>
 			</form>

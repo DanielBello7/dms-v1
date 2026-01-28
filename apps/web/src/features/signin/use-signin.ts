@@ -8,6 +8,8 @@ export enum SIGN_IN_SCREEN {
 
 type SigninData = {
 	screen: SIGN_IN_SCREEN;
+	email: string;
+	display_name: string;
 };
 
 type State = {
@@ -17,7 +19,9 @@ type State = {
 };
 
 const initial: SigninData = {
-	screen: SIGN_IN_SCREEN.OTP,
+	screen: SIGN_IN_SCREEN.EMAIL,
+	email: "",
+	display_name: "",
 };
 
 export const useSignin = create<State>()((set, get) => ({

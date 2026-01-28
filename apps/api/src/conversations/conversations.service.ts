@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager, Raw, Repository } from 'typeorm';
 import { ConversationSchema } from './schemas/conversation.schema';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MessageSchema } from './schemas/message.schema';
@@ -22,6 +22,18 @@ import { JoinConversationDto } from './dto/join-conversation.dto';
 import { UpdateConversationDto } from './dto/update-conversation.dto';
 import { ExitConversationDto } from './dto/leave-conversation.dto';
 import { CreateMessageDto } from './dto/messages/create-message.dto';
+import { ConversationQueryDto, SORT_TYPE } from './dto/conversation-query.dto';
+import { IConversation, IPagePaginated, IUser, IMessage } from '@repo/types';
+
+const conv_relations = ['LastMsg', 'LastMsg.CreatedBy'];
+const msgs_relations = ['CreatedBy'];
+
+type IConversationPopulated = IConversation & {
+  Participants: IUser[];
+  LastMsg?: IMessage & {
+    CreatedBy: IUser;
+  };
+};
 
 @Injectable()
 export class ConversationsService {
@@ -33,6 +45,63 @@ export class ConversationsService {
     @InjectRepository(MessageSchema)
     private readonly messages: Repository<MessageSchema>,
   ) {}
+
+  get_user_conversations = async (body: ConversationQueryDto) => {
+    const errors = isValidDto(body, ConversationQueryDto);
+    if (errors.length > 0) throw new BadRequestException(errors);
+
+    const user = await this.users.find_by_ref(body.ref);
+
+    const page = body.page ?? 1;
+    const pick = body.pick ?? 9;
+    const skip = (page - 1) * pick;
+    const sort = (body.sort = SORT_TYPE.DESC);
+
+    if (skip > 100_000) throw new BadRequestException('unable to populate');
+
+    const [response, count] = await this.conversations.findAndCount({
+      where: {
+        ongoing_participants: Raw((alias) => `:ref = ANY(${alias})`, {
+          ref: user.id,
+        }),
+      },
+      relations: conv_relations,
+      skip,
+      take: pick,
+      order: { created_at: sort },
+    });
+
+    const total_pages = Math.ceil(count / pick);
+
+    const populated = await Promise.all(
+      response.map(async (i) => {
+        const users = await this.users.find_by_ids(i.ongoing_participants);
+        return {
+          ...i,
+          Participants: users,
+          LastMsg: i.LastMsg
+            ? {
+                ...i.LastMsg,
+                CreatedBy: i.LastMsg.CreatedBy,
+              }
+            : undefined,
+        };
+      }),
+    );
+
+    return {
+      docs: populated,
+      has_next_page: total_pages > page,
+      has_prev_page: page > 1,
+      next_page: total_pages > page ? page + 1 : null,
+      page,
+      paging_counter: skip + 1,
+      pick,
+      prev_page: page > 1 ? page - 1 : null,
+      total_docs: count,
+      total_pages,
+    } satisfies IPagePaginated<IConversationPopulated>;
+  };
 
   insert_message = async (body: CreateMessageDto) => {
     const errors = isValidDto(body, CreateMessageDto);
@@ -59,7 +128,26 @@ export class ConversationsService {
         },
         session,
       );
-      return new_message;
+
+      // Update conversation's last_message_id
+      await this.update_conversation(
+        conversaion.id,
+        { last_message_id: new_message.id },
+        session,
+      );
+
+      // Fetch message with CreatedBy relation populated
+      const db = session.getRepository(this.messages.target);
+      const populatedMessage = await db.findOne({
+        where: { id: new_message.id },
+        relations: msgs_relations,
+      });
+
+      if (!populatedMessage) {
+        throw new NotFoundException('Failed to retrieve created message');
+      }
+
+      return populatedMessage;
     });
   };
 
@@ -94,6 +182,7 @@ export class ConversationsService {
           ongoing_participants: ids,
           ref_id: ref,
           index: 0,
+          last_message_id: undefined,
         },
         session,
       );
@@ -136,6 +225,9 @@ export class ConversationsService {
 
     return this.mutations.execute(async (session) => {
       const conversation = await this.find_by_ref_lock(body.ref_id, session);
+      if (conversation.ongoing_participants.length > 9) {
+        throw new BadRequestException('max conversation members reached');
+      }
 
       const members_to_add = await this.users.find_by_ref_ids_lock(
         body.members,

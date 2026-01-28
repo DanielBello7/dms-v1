@@ -6,7 +6,7 @@ import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
  */
 export abstract class ApiService {
 	protected baseURL: string;
-	public axiosInstance: AxiosInstance;
+	public axios_instance: AxiosInstance;
 
 	/**
 	 * Creates an instance of APIService
@@ -15,13 +15,13 @@ export abstract class ApiService {
 	constructor(baseURL: string | AxiosInstance) {
 		if (typeof baseURL === "string") {
 			this.baseURL = baseURL;
-			this.axiosInstance = axios.create({
+			this.axios_instance = axios.create({
 				baseURL,
 				withCredentials: true,
 			});
 		} else {
 			this.baseURL = baseURL.defaults.baseURL || "";
-			this.axiosInstance = baseURL;
+			this.axios_instance = baseURL;
 		}
 	}
 
@@ -33,7 +33,7 @@ export abstract class ApiService {
 	 * @returns {Promise} Axios response promise
 	 */
 	get(url: string, params = {}, config: AxiosRequestConfig = {}) {
-		return this.axiosInstance.get(url, {
+		return this.axios_instance.get(url, {
 			...params,
 			...config,
 		});
@@ -47,7 +47,7 @@ export abstract class ApiService {
 	 * @returns {Promise} Axios response promise
 	 */
 	post(url: string, data = {}, config: AxiosRequestConfig = {}) {
-		return this.axiosInstance.post(url, data, config);
+		return this.axios_instance.post(url, data, config);
 	}
 
 	/**
@@ -58,7 +58,7 @@ export abstract class ApiService {
 	 * @returns {Promise} Axios response promise
 	 */
 	put(url: string, data = {}, config: AxiosRequestConfig = {}) {
-		return this.axiosInstance.put(url, data, config);
+		return this.axios_instance.put(url, data, config);
 	}
 
 	/**
@@ -69,7 +69,7 @@ export abstract class ApiService {
 	 * @returns {Promise} Axios response promise
 	 */
 	patch(url: string, data = {}, config: AxiosRequestConfig = {}) {
-		return this.axiosInstance.patch(url, data, config);
+		return this.axios_instance.patch(url, data, config);
 	}
 
 	/**
@@ -80,7 +80,7 @@ export abstract class ApiService {
 	 * @returns {Promise} Axios response promise
 	 */
 	delete(url: string, data?: any, config: AxiosRequestConfig = {}) {
-		return this.axiosInstance.delete(url, { data, ...config });
+		return this.axios_instance.delete(url, { data, ...config });
 	}
 
 	/**
@@ -89,6 +89,6 @@ export abstract class ApiService {
 	 * @returns {Promise} Axios response promise
 	 */
 	request(config = {}) {
-		return this.axiosInstance(config);
+		return this.axios_instance(config);
 	}
 }

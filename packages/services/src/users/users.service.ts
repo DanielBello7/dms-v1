@@ -1,12 +1,12 @@
-import { ApiService } from '@/utils';
-import { AxiosInstance } from 'axios';
-import { IUser, IUserSettings, BaseOmit } from '@repo/types';
+import { ApiService } from "@/utils";
+import { AxiosInstance } from "axios";
+import { IUser, IUserSettings, BaseOmit } from "@repo/types";
 
 export type UpdateUserDto = Partial<BaseOmit<IUser>>;
 
 export class UsersService extends ApiService {
 	constructor(baseURL?: string | AxiosInstance) {
-		super(baseURL ? baseURL : '');
+		super(baseURL ? baseURL : "");
 	}
 
 	/**
@@ -24,7 +24,25 @@ export class UsersService extends ApiService {
 	 * @param id - User reference ID (UUID)
 	 * @returns User settings data
 	 */
-	get_user_settings = async (id: string): Promise<IUserSettings> => {
-		return (await this.get(`users/${id}/settings`)).data;
+	get_user_settings = async (ref: string): Promise<IUserSettings> => {
+		return (await this.get(`users/${ref}/settings`)).data;
+	};
+
+	/**
+	 * Gets a user by their email address
+	 * @param email - User email address
+	 * @returns User data
+	 */
+	get_user_by_email = async (email: string): Promise<IUser> => {
+		return (await this.get(`users/email/${email}`)).data;
+	};
+
+	/**
+	 * Gets a user by their reference ID
+	 * @param ref - User reference ID (UUID)
+	 * @returns User data
+	 */
+	get_user_by_ref = async (ref: string): Promise<IUser> => {
+		return (await this.get(`users/${ref}`)).data;
 	};
 }

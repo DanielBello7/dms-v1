@@ -1,9 +1,13 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
 import { DataSource } from 'typeorm';
+import { IMailModuleType } from '@app/util';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly dataSource: DataSource) {}
+  constructor(
+    private readonly dataSource: DataSource,
+    private readonly mail: IMailModuleType,
+  ) {}
 
   check_db = async () => {
     try {
@@ -16,7 +20,14 @@ export class AppService {
 
   check_email = async () => {
     try {
-      return 200;
+      // Send a test email to verify email service health
+      await this.mail.sendmail({
+        to: [{ email: 'gokebello@gmail.com' }],
+        subject: 'Health Check - Email Service Test',
+        textContent:
+          'This is a health check email from the API service. If you receive this, the email service is working correctly.',
+      });
+      return true;
     } catch {
       return false;
     }
