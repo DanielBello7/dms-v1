@@ -2,7 +2,7 @@ import { type IConversationPopulated, SORT_TYPE } from "@repo/services";
 import { api } from "@/lib";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
-import { useMessages } from "@/stores";
+import { useConversations, useMessages } from "@/stores";
 import { useParams } from "react-router";
 import { useAsyncHandler } from "@/hooks";
 import { wait } from "@repo/helpers";
@@ -13,12 +13,14 @@ export const useLogic = (body: IConversationPopulated) => {
 	const { data, insert_messages_tail, insert_messages_head } = useMessages(
 		(state) => state
 	);
+	const { update_conversations } = useConversations((state) => state);
 	const { id } = useParams<{ id: string }>();
 	const handler = useAsyncHandler();
 
 	const query = useQuery({
 		queryKey: ["messages", body.ref_id],
 		queryFn: async () => {
+			await wait(2000, envs.NODE_ENV);
 			return api.conversations.get_conversation_messages(body.ref_id, {
 				sort: SORT_TYPE.DESC,
 				pick: 3,
@@ -74,9 +76,19 @@ export const useLogic = (body: IConversationPopulated) => {
 					isSent: true,
 				}))
 			);
+			update_conversations([body.id], {
+				LastMsg: reversed[reversed.length - 1],
+			});
 			scroll_to_end();
 		}
-	}, [query.data, insert_messages_tail, setHasMore, data.messages.length]);
+	}, [
+		query.data,
+		insert_messages_tail,
+		setHasMore,
+		data.messages.length,
+		update_conversations,
+		body.id,
+	]);
 
 	return {
 		...query,

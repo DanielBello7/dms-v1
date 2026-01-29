@@ -14,6 +14,7 @@ import {
   find_by_id_lock_helper,
   isValidDto,
   paginate_by_date,
+  remove_helper,
   update_by_id_helper,
 } from '@app/util';
 import { InsertConversationDto } from './dto/insert-conversation.dto';
@@ -197,7 +198,7 @@ export class ConversationsService {
       const conversation = await this.find_by_ref_lock(body.ref_id, session);
       const user = await this.users.find_by_ref_id_lock(body.user_ref, session);
       const updates = conversation.ongoing_participants.filter(
-        (i) => i === user.id,
+        (i) => i !== user.id,
       );
       return this.update_conversation(
         conversation.id,
@@ -306,5 +307,10 @@ export class ConversationsService {
       },
       this.messages,
     );
+  };
+
+  delete_conversation = async (ref: string, session?: EntityManager) => {
+    const conversation = await this.find_by_ref_id(ref);
+    return remove_helper(this.conversations, conversation.id, session);
   };
 }

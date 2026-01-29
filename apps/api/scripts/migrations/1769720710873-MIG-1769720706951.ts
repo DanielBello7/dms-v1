@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class MIG17696950964231769695100615 implements MigrationInterface {
-    name = 'MIG17696950964231769695100615'
+export class MIG17697207069511769720710873 implements MigrationInterface {
+    name = 'MIG17697207069511769720710873'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "messages" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "ref_id" uuid NOT NULL, "index" SERIAL NOT NULL, "created_at" TIMESTAMP NOT NULL DEFAULT now(), "updated_at" TIMESTAMP NOT NULL DEFAULT now(), "deleted_at" TIMESTAMP, "media" jsonb NOT NULL, "conversation_id" uuid NOT NULL, "text" character varying NOT NULL, "created_by" uuid NOT NULL, "read_by" jsonb NOT NULL, CONSTRAINT "UQ_8ee54d64a867c8ad0a7535f0ee9" UNIQUE ("ref_id"), CONSTRAINT "UQ_27c24b206210e731ef6ab9d6701" UNIQUE ("index"), CONSTRAINT "PK_18325f38ae6de43878487eff986" PRIMARY KEY ("id"))`);

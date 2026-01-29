@@ -138,4 +138,13 @@ export class ConversationsService extends ApiService {
 		return (await this.get(`conversations/${ref}/messages`, { params: query }))
 			.data;
 	};
+
+	/**
+	 * Deletes (soft-deletes) a conversation by ref_id
+	 * @param ref - Conversation ref_id (UUID)
+	 * @returns The removed conversation entity
+	 */
+	delete_conversation = async (ref: string): Promise<IConversation> => {
+		return (await this.delete(`conversations/${ref}`)).data;
+	};
 }

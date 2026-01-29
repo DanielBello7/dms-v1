@@ -6,6 +6,7 @@ import {
   Query,
   Param,
   ParseUUIDPipe,
+  Delete,
 } from '@nestjs/common';
 import { ConversationsService } from './conversations.service';
 import { CreateMessageDto } from './dto/messages/create-message.dto';
@@ -56,5 +57,10 @@ export class ConversationsController {
     @Param('ref', ParseUUIDPipe) ref: string,
   ) {
     return this.conversations.get_conversation_messages(ref, query);
+  }
+
+  @Delete(':ref')
+  delete_conversation(@Param('ref') ref: string) {
+    return this.conversations.delete_conversation(ref);
   }
 }
