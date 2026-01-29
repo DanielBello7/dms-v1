@@ -1,10 +1,10 @@
-import { type IConversation } from "@repo/types";
+import { type IConversationPopulated } from "@repo/services";
 import { combine, deduct } from "@repo/helpers";
 import { create } from "zustand";
 
 type ConversationData = {
-	conversations: IConversation[];
-	active: IConversation | null;
+	conversations: IConversationPopulated[];
+	active: IConversationPopulated | null;
 };
 
 // prettier-ignore
@@ -12,9 +12,9 @@ type State = {
 	data: ConversationData;
 	set_data: (params: Partial<ConversationData>) => void;
 	reset: () => void;
-	insert_conversations: (conversations: IConversation[]) => void;
+	insert_conversations: (conversations: IConversationPopulated[]) => void;
 	remove_conversations: (ids: string[]) => void;
-	update_conversations: (ids: string[], updates: Partial<IConversation>) => void;
+	update_conversations: (ids: string[], updates: Partial<IConversationPopulated>) => void;
 };
 
 const initial: ConversationData = {

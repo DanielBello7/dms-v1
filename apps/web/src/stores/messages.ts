@@ -1,8 +1,8 @@
-import { type IMessage } from "@repo/types";
+import { type IMessagePopulated } from "@repo/services";
 import { combine, deduct } from "@repo/helpers";
 import { create } from "zustand";
 
-export type AppMessage = IMessage & { isSent: boolean };
+export type AppMessage = IMessagePopulated & { isSent: boolean };
 
 type MessageData = {
 	messages: AppMessage[];
@@ -14,7 +14,7 @@ type State = {
 	reset: () => void;
 	insert_messages: (messages: AppMessage[]) => void;
 	remove_messages: (ids: string[]) => void;
-	update_messages: (ids: string[], updates: Partial<IMessage>) => void;
+	update_messages: (ids: string[], updates: Partial<IMessagePopulated>) => void;
 };
 
 const initial: MessageData = {

@@ -5,35 +5,52 @@ import { Fragment } from "react/jsx-runtime";
 import { Convo } from "./convo";
 import { Search } from "./search";
 import { Footer } from "./footer";
+import { Results } from "./results";
 
 export const ConversationList = () => {
 	const logic = useLogic();
+	const reset = () => {
+		logic.setSearch("");
+	};
 	return (
 		<div className="size-full overflow-hidden flex flex-col">
 			<div className="w-full">
-				<Search />
-			</div>
-			<div className="border-t border-b flex grow flex-col">
-				<Render
-					data={logic.conversations}
-					error={logic.query.error}
-					isError={logic.query.isError}
-					isLoading={logic.query.isFetching}
-					empty={<EmptyConversations />}
-					retry={logic.query.refetch}
-					render={(docs) => {
-						return (
-							<Fragment>
-								{docs.map((d, idx) => (
-									<Convo data={d} key={idx} idx={idx} />
-								))}
-							</Fragment>
-						);
-					}}
+				<Search
+					setSearch={logic.setSearch}
+					value={logic.search}
+					hasSearch={logic.has_search}
+					reset={reset}
 				/>
 			</div>
+			<div className="border-t border-b flex grow flex-col">
+				{logic.has_search && <Results data={logic.results} clear={reset} />}
+				{logic.has_search === false && (
+					<Render
+						data={logic.conversations}
+						error={logic.query.error}
+						isError={logic.query.isError}
+						isLoading={logic.query.isFetching}
+						empty={<EmptyConversations />}
+						retry={logic.query.refetch}
+						render={(docs) => {
+							return (
+								<Fragment>
+									{docs.map((d, idx) => (
+										<Convo data={d} key={idx} />
+									))}
+								</Fragment>
+							);
+						}}
+					/>
+				)}
+			</div>
 			<div className="w-full">
-				<Footer />
+				<Footer
+					data={logic.query.data}
+					change={(v: number) => {
+						logic.setParams({ ...logic.params, page: v });
+					}}
+				/>
 			</div>
 		</div>
 	);
