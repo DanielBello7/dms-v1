@@ -29,4 +29,12 @@ export const run_migration = async (
     ],
     envs,
   );
+
+  // don't use, this moves migrations into a "used" folder
+  // await run(
+  //   'mv',
+  //   ['*', '../used'],
+  //   {},
+  //   { cwd: 'scripts/migrations', shell: true },
+  // );
 };

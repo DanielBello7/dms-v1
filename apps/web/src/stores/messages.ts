@@ -14,7 +14,7 @@ type State = {
 	reset: () => void;
 	insert_messages: (messages: AppMessage[]) => void;
 	remove_messages: (ids: string[]) => void;
-	update_messages: (ids: string[], updates: Partial<IMessagePopulated>) => void;
+	update_messages: (ids: string[], updates: Partial<AppMessage>) => void;
 };
 
 const initial: MessageData = {

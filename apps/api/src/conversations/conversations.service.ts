@@ -13,6 +13,7 @@ import {
   create_helper,
   find_by_id_lock_helper,
   isValidDto,
+  paginate_by_date,
   update_by_id_helper,
 } from '@app/util';
 import { InsertConversationDto } from './dto/insert-conversation.dto';
@@ -24,6 +25,7 @@ import { ExitConversationDto } from './dto/leave-conversation.dto';
 import { CreateMessageDto } from './dto/messages/create-message.dto';
 import { ConversationQueryDto, SORT_TYPE } from './dto/conversation-query.dto';
 import { IConversation, IPagePaginated, IUser, IMessage } from '@repo/types';
+import { MessagesQueryDto } from './dto/messages/messages-query.dto';
 
 const conv_relations = ['LastMsg', 'LastMsg.CreatedBy'];
 const msgs_relations = ['CreatedBy'];
@@ -276,5 +278,33 @@ export class ConversationsService {
     const errors = isValidDto(body, UpdateConversationDto);
     if (errors.length > 0) throw new BadRequestException(errors);
     return update_by_id_helper(this.conversations, id, body, session);
+  };
+
+  find_by_ref_id = async (ref: string) => {
+    const response = await this.conversations.findOne({
+      where: { ref_id: ref },
+      relations: conv_relations,
+    });
+    if (response) {
+      const users = await this.users.find_by_ids(response.ongoing_participants);
+      return {
+        ...response,
+        Participants: users,
+      };
+    }
+    throw new NotFoundException('Conversation unavailabe');
+  };
+
+  get_conversation_messages = async (ref: string, body: MessagesQueryDto) => {
+    const errors = isValidDto(body, MessagesQueryDto);
+    if (errors.length > 0) throw new BadRequestException(errors);
+    return paginate_by_date(
+      {
+        date: body.from_date,
+        pick: body.pick,
+        sort: body.sort,
+      },
+      this.messages,
+    );
   };
 }

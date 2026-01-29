@@ -15,13 +15,15 @@ export const useLogic = () => {
 	const user = useUser((state) => state.data.user);
 
 	const query = useQuery({
-		queryKey: ["conversations"],
+		queryKey: ["conversations", params],
 		queryFn: async () => {
 			return api.conversations.get_user_conversations({
 				ref: user.ref_id,
 				...params,
 			});
 		},
+		retry: false,
+		refetchOnWindowFocus: false,
 	});
 
 	const has_search = search.trim().length > 0;

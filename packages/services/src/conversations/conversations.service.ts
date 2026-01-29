@@ -2,6 +2,7 @@ import { ApiService } from "@/utils";
 import { AxiosInstance } from "axios";
 import {
 	type IConversation,
+	type IDatePaginated,
 	type IMessage,
 	type IPagePaginated,
 	type IUser,
@@ -27,6 +28,12 @@ export enum SORT_TYPE {
 export type ConversationQueryDto = {
 	ref: string;
 	page?: number;
+	pick?: number;
+	sort?: SORT_TYPE;
+};
+
+export type MessagesQueryDto = {
+	from_date?: string;
 	pick?: number;
 	sort?: SORT_TYPE;
 };
@@ -105,5 +112,30 @@ export class ConversationsService extends ApiService {
 		query: ConversationQueryDto
 	): Promise<IPagePaginated<IConversationPopulated>> => {
 		return (await this.get("conversations/users", { params: query })).data;
+	};
+
+	/**
+	 * Find paginated conversation by the ref_id
+	 * @param ref - id params: ref (conversation ref_id)
+	 * @returns Single conversation with populated Participants
+	 */
+	find_conversation_by_ref = async (
+		ref: string
+	): Promise<IConversationPopulated> => {
+		return (await this.get(`conversations/${ref}`)).data;
+	};
+
+	/**
+	 * Gets cursor-paginated messages for a conversation by ref_id
+	 * @param ref - Conversation ref_id (UUID)
+	 * @param query - Query params: from_date?, pick?, sort?
+	 * @returns Date-paginated list of messages with populated CreatedBy
+	 */
+	get_conversation_messages = async (
+		ref: string,
+		query: MessagesQueryDto
+	): Promise<IDatePaginated<IMessagePopulated>> => {
+		return (await this.get(`conversations/${ref}/messages`, { params: query }))
+			.data;
 	};
 }
