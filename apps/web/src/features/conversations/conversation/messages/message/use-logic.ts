@@ -1,6 +1,7 @@
+import { envs } from "@/config";
 import { api } from "@/lib";
 import { useMessages, useUser, type AppMessage } from "@/stores";
-import { ensure_error } from "@repo/helpers";
+import { ensure_error, wait } from "@repo/helpers";
 import { useCallback, useEffect, useState } from "react";
 
 const delivered = new Set<string>();
@@ -17,27 +18,32 @@ export const useLogic = (data: AppMessage) => {
 		setError(null);
 	};
 
+	const scroll_to_end = () => {
+		const element = document.getElementById("msgs-box");
+		if (element) element.scrollTo({ top: element.scrollHeight + 300 });
+	};
+
 	const deliver = useCallback(async () => {
 		cleanup();
 		setIsLoading(true);
 
 		try {
+			await wait(3000, envs.NODE_ENV);
 			const results = await api.conversations.insert_message({
 				conversation_id: data.conversation_id,
 				created_by: data.created_by,
-				index: data.index,
 				media: data.media,
 				read_by: data.read_by,
-				ref_id: data.ref_id,
 				text: data.text,
 			});
 			delivered.add(results.id);
 			delivered.delete(data.id);
 			update_messages([data.id], { ...results, isSent: true });
+			scroll_to_end();
 		} catch (error) {
 			setError(ensure_error(error));
 		} finally {
-			cleanup();
+			setIsLoading(false);
 		}
 	}, [update_messages, data]);
 

@@ -50,5 +50,6 @@ export const useLogic = () => {
 		resend,
 		form,
 		submit,
+		data: signin.data,
 	};
 };

@@ -14,13 +14,14 @@ import { ExitConversationDto } from './dto/leave-conversation.dto';
 import { JoinConversationDto } from './dto/join-conversation.dto';
 import { ConversationQueryDto } from './dto/conversation-query.dto';
 import { MessagesQueryDto } from './dto/messages/messages-query.dto';
+import { InsertMessageDto } from './dto/messages/insert-message.dto';
 
 @Controller('conversations')
 export class ConversationsController {
   constructor(private readonly conversations: ConversationsService) {}
 
   @Post('message')
-  insert_message(@Body() body: CreateMessageDto) {
+  insert_message(@Body() body: InsertMessageDto) {
     return this.conversations.insert_message(body);
   }
 

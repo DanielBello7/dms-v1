@@ -1,6 +1,6 @@
+import type { IConversationPopulated } from "@repo/services";
 import { useAsyncHandler } from "@/hooks";
 import { useMessages, useUser, type AppMessage } from "@/stores";
-import type { IConversationPopulated } from "@repo/services";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
@@ -34,7 +34,7 @@ export const useLogic = (body: IConversationPopulated) => {
 				deleted_at: undefined,
 				CreatedBy: user.data.user,
 			};
-			messages.insert_messages([new_message]);
+			messages.insert_messages_tail([new_message]);
 			form.reset();
 		});
 	};

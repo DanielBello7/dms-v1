@@ -5,6 +5,7 @@ import { SORT_TYPE } from '../conversation-query.dto';
 export class MessagesQueryDto {
   @IsOptional()
   @IsDate()
+  @Type(() => Date)
   from_date?: Date;
   @IsOptional()
   @IsNumber()

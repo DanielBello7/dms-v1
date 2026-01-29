@@ -26,6 +26,7 @@ import { CreateMessageDto } from './dto/messages/create-message.dto';
 import { ConversationQueryDto, SORT_TYPE } from './dto/conversation-query.dto';
 import { IConversation, IPagePaginated, IUser, IMessage } from '@repo/types';
 import { MessagesQueryDto } from './dto/messages/messages-query.dto';
+import { InsertMessageDto } from './dto/messages/insert-message.dto';
 
 const conv_relations = ['LastMsg', 'LastMsg.CreatedBy'];
 const msgs_relations = ['CreatedBy'];
@@ -105,19 +106,16 @@ export class ConversationsService {
     } satisfies IPagePaginated<IConversationPopulated>;
   };
 
-  insert_message = async (body: CreateMessageDto) => {
-    const errors = isValidDto(body, CreateMessageDto);
+  insert_message = async (body: InsertMessageDto) => {
+    const errors = isValidDto(body, InsertMessageDto);
     if (errors.length > 0) throw new BadRequestException(errors);
 
     return this.mutations.execute(async (session) => {
-      const conversaion = await this.find_by_ref_lock(
+      const conversaion = await this.find_by_id_lock(
         body.conversation_id,
         session,
       ); // conversation_id -> conversation_ref
-      const user = await this.users.find_by_ref_id_lock(
-        body.created_by,
-        session,
-      );
+      const user = await this.users.find_by_id_lock(body.created_by, session);
       const new_message = await this.create_message(
         {
           conversation_id: conversaion.id,
@@ -298,8 +296,10 @@ export class ConversationsService {
   get_conversation_messages = async (ref: string, body: MessagesQueryDto) => {
     const errors = isValidDto(body, MessagesQueryDto);
     if (errors.length > 0) throw new BadRequestException(errors);
+    const conversation = await this.find_by_ref_id(ref);
     return paginate_by_date(
       {
+        conversation_id: conversation.id,
         date: body.from_date,
         pick: body.pick,
         sort: body.sort,

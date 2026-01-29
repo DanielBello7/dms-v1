@@ -10,9 +10,11 @@
 export function combine<T extends Record<string, any>>(
 	key: keyof T,
 	current: T[],
-	inserts: T[]
+	inserts: T[],
+	position: "INFRONT" | "BEHIND" = "BEHIND"
 ) {
 	const exists = current.map((k) => k[key]);
 	const picked = inserts.filter((a) => !exists.includes(a[key]));
-	return [...current, ...picked];
+	if (position === "BEHIND") return [...current, ...picked];
+	return [...picked, ...current];
 }

@@ -33,7 +33,7 @@ export type ConversationQueryDto = {
 };
 
 export type MessagesQueryDto = {
-	from_date?: string;
+	from_date?: Date;
 	pick?: number;
 	sort?: SORT_TYPE;
 };
@@ -52,7 +52,7 @@ export type ExitConversationDto = Pick<BaseOmit<IConversation>, "ref_id"> & {
 	user_ref: string;
 };
 
-export type CreateMessageDto = BaseOmit<IMessage>;
+export type CreateMessageDto = Omit<BaseOmit<IMessage>, "index" | "ref_id">;
 
 export class ConversationsService extends ApiService {
 	constructor(baseURL?: string | AxiosInstance) {

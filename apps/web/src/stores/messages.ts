@@ -12,7 +12,8 @@ type State = {
 	data: MessageData;
 	set_data: (params: Partial<MessageData>) => void;
 	reset: () => void;
-	insert_messages: (messages: AppMessage[]) => void;
+	insert_messages_head: (messages: AppMessage[]) => void;
+	insert_messages_tail: (messages: AppMessage[]) => void;
 	remove_messages: (ids: string[]) => void;
 	update_messages: (ids: string[], updates: Partial<AppMessage>) => void;
 };
@@ -37,9 +38,19 @@ export const useMessages = create<State>()((set, get) => ({
 			},
 		});
 	},
-	insert_messages(messages) {
+	insert_messages_head(messages) {
 		const current = get().data;
-		const updates = combine("ref_id", current.messages, messages);
+		const updates = combine("ref_id", current.messages, messages, "INFRONT");
+		set({
+			data: {
+				...get().data,
+				messages: updates,
+			},
+		});
+	},
+	insert_messages_tail(messages) {
+		const current = get().data;
+		const updates = combine("ref_id", current.messages, messages, "BEHIND");
 		set({
 			data: {
 				...get().data,

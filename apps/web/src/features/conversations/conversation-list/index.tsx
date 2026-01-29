@@ -35,9 +35,19 @@ export const ConversationList = () => {
 						render={(docs) => {
 							return (
 								<Fragment>
-									{docs.map((d, idx) => (
-										<Convo data={d} key={idx} />
-									))}
+									{docs
+										.sort((a, b) => {
+											const dateA = new Date(
+												a.LastMsg?.created_at ?? 0
+											).getTime();
+											const dateB = new Date(
+												b.LastMsg?.created_at ?? 0
+											).getTime();
+											return dateB - dateA; // newest first
+										})
+										.map((d, idx) => (
+											<Convo data={d} key={idx} />
+										))}
 								</Fragment>
 							);
 						}}

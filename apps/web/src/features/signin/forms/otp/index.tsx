@@ -31,7 +31,11 @@ export const OtpForm = () => {
 							</div>
 							<span className="sr-only">Acme Inc.</span>
 						</a>
-						<h1 className="text-xl font-bold">Welcome to Acme Inc.</h1>
+						<h1 className="text-xl font-bold">Hi {logic.data.display_name}</h1>
+						<p className="text-sm">
+							We sent a 6-digit code to your email{" "}
+							<span className="text-blue-400">({logic.data.email})</span>
+						</p>
 						<FieldDescription>
 							Don&apos;t have an account? <a href="#">Sign up</a>
 						</FieldDescription>
