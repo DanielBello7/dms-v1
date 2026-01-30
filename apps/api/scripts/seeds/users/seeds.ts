@@ -21,6 +21,7 @@ export const data: IUser[] = [
     display_name: 'Goke Bello',
     is_email_verified: false,
     type: AccountType.Client,
+    has_password: false,
   },
   {
     id: uuid(),
@@ -39,6 +40,7 @@ export const data: IUser[] = [
     display_name: 'Alice Johnson',
     is_email_verified: false,
     type: AccountType.Client,
+    has_password: false,
   },
   {
     id: uuid(),
@@ -57,5 +59,6 @@ export const data: IUser[] = [
     display_name: 'Bob Smith',
     is_email_verified: false,
     type: AccountType.Client,
+    has_password: false,
   },
 ];

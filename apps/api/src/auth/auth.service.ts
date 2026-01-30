@@ -183,7 +183,7 @@ export class AuthService {
   ): Promise<ValidUser | null> => {
     const perform = async (em: EntityManager) => {
       const user = await this.users.find_user_by_email(body.username, em);
-      if (user.password) {
+      if (user.password && user.has_password) {
         if (!this.compare(body.password, user.password)) return null;
         return {
           id: user.id,

@@ -17,4 +17,5 @@ export class UserEntity implements IUser {
   username: string;
   type: AccountType;
   is_email_verified: boolean;
+  has_password: boolean;
 }

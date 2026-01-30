@@ -7,6 +7,7 @@ import {
 	UserDetailsPage,
 	ConversationDetailsPage,
 	CreateConversationPage,
+	SecurityPage,
 } from "@/pages";
 
 // prettier-ignore
@@ -22,6 +23,7 @@ export const DashboardRoutes = () => {
           <Route path="conversations/create" element={<CreateConversationPage />} />
 					<Route path="user/:id" element={<UserDetailsPage />} />
 					<Route path="profile" element={<ProfilePage />} />
+					<Route path="security" element={<SecurityPage />} />
 				</Route>
 			</Route>
 		</Route>

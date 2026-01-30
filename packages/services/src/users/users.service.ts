@@ -1,8 +1,23 @@
 import { ApiService } from "@/utils";
 import { AxiosInstance } from "axios";
-import { IUser, IUserSettings, BaseOmit } from "@repo/types";
+import {
+	IUser,
+	IUserSerialized,
+	IUserSettingsSerialized,
+	BaseOmit,
+} from "@repo/types";
 
 export type UpdateUserDto = Partial<BaseOmit<IUser>>;
+
+export type SetPasswordDto = {
+	user_ref: string;
+	new_password: string;
+};
+
+export type UpdatePasswordDto = {
+	old_password: string;
+	new_password: string;
+};
 
 export class UsersService extends ApiService {
 	constructor(baseURL?: string | AxiosInstance) {
@@ -15,7 +30,10 @@ export class UsersService extends ApiService {
 	 * @param data - User data to update
 	 * @returns Updated user data
 	 */
-	update_user = async (id: string, data: UpdateUserDto): Promise<IUser> => {
+	update_user = async (
+		id: string,
+		data: UpdateUserDto
+	): Promise<IUserSerialized> => {
 		return (await this.patch(`users/${id}`, data)).data;
 	};
 
@@ -24,7 +42,7 @@ export class UsersService extends ApiService {
 	 * @param id - User reference ID (UUID)
 	 * @returns User settings data
 	 */
-	get_user_settings = async (ref: string): Promise<IUserSettings> => {
+	get_user_settings = async (ref: string): Promise<IUserSettingsSerialized> => {
 		return (await this.get(`users/${ref}/settings`)).data;
 	};
 
@@ -33,7 +51,7 @@ export class UsersService extends ApiService {
 	 * @param email - User email address
 	 * @returns User data
 	 */
-	get_user_by_email = async (email: string): Promise<IUser> => {
+	get_user_by_email = async (email: string): Promise<IUserSerialized> => {
 		return (await this.get(`users/email/${email}`)).data;
 	};
 
@@ -42,7 +60,29 @@ export class UsersService extends ApiService {
 	 * @param ref - User reference ID (UUID)
 	 * @returns User data
 	 */
-	get_user_by_ref = async (ref: string): Promise<IUser> => {
+	get_user_by_ref = async (ref: string): Promise<IUserSerialized> => {
 		return (await this.get(`users/${ref}`)).data;
+	};
+
+	/**
+	 * Sets password for a user who does not have one (e.g. after OTP signin)
+	 * @param data - user_ref (UUID) and new_password
+	 * @returns Updated user data
+	 */
+	set_password = async (data: SetPasswordDto): Promise<IUserSerialized> => {
+		return (await this.post("users/password", data)).data;
+	};
+
+	/**
+	 * Updates password for a user who already has one
+	 * @param ref - User reference ID (UUID)
+	 * @param data - old_password and new_password
+	 * @returns Updated user data
+	 */
+	update_password = async (
+		ref: string,
+		data: UpdatePasswordDto
+	): Promise<IUserSerialized> => {
+		return (await this.patch(`users/${ref}/password`, data)).data;
 	};
 }

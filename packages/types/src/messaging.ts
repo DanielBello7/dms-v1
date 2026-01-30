@@ -13,6 +13,9 @@ export type IConversation = ICommon & {
 	last_message_id: string | undefined;
 };
 
+/** API response shape: IConversation with @Exclude() fields (id, deleted_at) omitted */
+export type IConversationSerialized = Omit<IConversation, "deleted_at">;
+
 export type IMessage = ICommon & {
 	conversation_id: string;
 	text: string;
@@ -20,3 +23,6 @@ export type IMessage = ICommon & {
 	read_by: { id: string; read_at: Date }[];
 	media: { type: MESSAGE_TYPE_ENUM; url: string; text?: string }[];
 };
+
+/** API response shape: IMessage with @Exclude() fields (id, deleted_at) omitted */
+export type IMessageSerialized = Omit<IMessage, "deleted_at">;

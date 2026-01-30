@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Exclude } from 'class-transformer';
 
 export abstract class CommonBase implements ICommon {
   @PrimaryGeneratedColumn('uuid') id: string;
@@ -15,9 +16,10 @@ export abstract class CommonBase implements ICommon {
   @Column({ type: 'int', generated: 'increment', unique: true }) index: number;
   @CreateDateColumn({ type: 'timestamp' }) created_at: Date;
   @UpdateDateColumn({ type: 'timestamp' }) updated_at: Date;
-  @DeleteDateColumn({ type: 'timestamp', nullable: true }) deleted_at:
-    | Date
-    | undefined;
+
+  @Exclude()
+  @DeleteDateColumn({ type: 'timestamp', nullable: true })
+  deleted_at: Date | undefined;
 
   @BeforeUpdate()
   update() {

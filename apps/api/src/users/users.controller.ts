@@ -5,10 +5,16 @@ import {
   Patch,
   ParseUUIDPipe,
   Get,
+  Post,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { SetPasswordDto } from './dto/set-password.dto';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
 export class UsersController {
   constructor(private readonly users: UsersService) {}
@@ -34,5 +40,18 @@ export class UsersController {
   @Get(':ref/settings')
   get_user_settings(@Param('ref', ParseUUIDPipe) ref: string) {
     return this.users.get_user_settings_by_user_ref(ref);
+  }
+
+  @Post('password')
+  set_password(@Body() body: SetPasswordDto) {
+    return this.users.set_password(body);
+  }
+
+  @Patch(':ref/password')
+  update_password(
+    @Body() body: UpdatePasswordDto,
+    @Param('ref', ParseUUIDPipe) ref: string,
+  ) {
+    return this.users.update_password(ref, body);
   }
 }

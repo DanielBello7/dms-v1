@@ -1,4 +1,4 @@
-import type { IUser } from "@repo/types";
+import type { IUserSerialized } from "@repo/types";
 import { useConversations } from "@/stores";
 import { useParams } from "react-router";
 
@@ -9,7 +9,8 @@ export const useLogic = () => {
 	const current = conversations.data.conversations.find(
 		(i) => i.ref_id === params.id
 	);
-	const members: IUser[] = current === undefined ? [] : current.Participants;
+	const members: IUserSerialized[] =
+		current === undefined ? [] : current.Participants;
 
 	return {
 		members,

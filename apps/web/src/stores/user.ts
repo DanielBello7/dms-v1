@@ -1,22 +1,25 @@
-import { type IUser, type IUserSettings } from "@repo/types";
+import {
+	type IUserSerialized,
+	type IUserSettingsSerialized,
+} from "@repo/types";
 import { create } from "zustand";
 
 type UserData = {
-	user: IUser;
-	settings: IUserSettings;
+	user: IUserSerialized;
+	settings: IUserSettingsSerialized;
 };
 
 type State = {
 	data: UserData;
 	set_data: (params: Partial<UserData>) => void;
 	reset: () => void;
-	update_user: (updates: Partial<IUser>) => void;
-	update_settings: (updates: Partial<IUserSettings>) => void;
+	update_user: (updates: Partial<IUserSerialized>) => void;
+	update_settings: (updates: Partial<IUserSettingsSerialized>) => void;
 };
 
 const initial: UserData = {
-	user: {} as IUser,
-	settings: {} as IUserSettings,
+	user: {} as IUserSerialized,
+	settings: {} as IUserSettingsSerialized,
 };
 
 export const useUser = create<State>()((set, get) => ({

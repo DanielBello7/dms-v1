@@ -32,7 +32,7 @@ export const useLogic = () => {
 		const query = search.trim();
 		if (query.length < 1) return [];
 		return data.conversations.filter((c) =>
-			c.Participants.some((p) => p.display_name.includes(query))
+			c.Participants.some((p) => p.display_name.toLowerCase().includes(query))
 		);
 	}, [search, data.conversations]);
 

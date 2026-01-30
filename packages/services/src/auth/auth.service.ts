@@ -1,20 +1,11 @@
 import { ApiService } from "@/utils";
 import { AxiosInstance } from "axios";
-import type { IUser } from "@repo/types";
+import type { IUserSerialized } from "@repo/types";
 
 export type SigninResponse = {
 	token: string;
 	refresh: string;
-	user: {
-		id: string;
-		ref: string;
-		display_name: string;
-		avatar: string | undefined;
-		email: string;
-		type: string;
-		created_at: Date;
-		is_email_verified: boolean;
-	};
+	user: IUserSerialized;
 	expires: Date;
 };
 
@@ -71,7 +62,7 @@ export class AuthService extends ApiService {
 	 * Signs out the current user (requires JwtGuard)
 	 * @returns User data
 	 */
-	sign_out = async (): Promise<IUser> => {
+	sign_out = async (): Promise<IUserSerialized> => {
 		return (await this.post("auth/signout", {})).data;
 	};
 
@@ -79,7 +70,7 @@ export class AuthService extends ApiService {
 	 * Gets current user information (requires JwtGuard)
 	 * @returns User data
 	 */
-	whoami = async (): Promise<IUser> => {
+	whoami = async (): Promise<IUserSerialized> => {
 		return (await this.get("auth/whoami")).data;
 	};
 
@@ -126,7 +117,7 @@ export class AuthService extends ApiService {
 	 * @param data - Email, OTP, and new password
 	 * @returns Updated user data
 	 */
-	recover = async (data: RecoverDto): Promise<IUser> => {
+	recover = async (data: RecoverDto): Promise<IUserSerialized> => {
 		return (await this.post("auth/recover/password", data)).data;
 	};
 }

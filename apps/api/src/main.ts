@@ -1,7 +1,7 @@
-import { HttpAdapterHost, NestFactory } from '@nestjs/core';
+import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { LogsService } from '@app/logger';
-import { ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import * as compression from 'compression';
 import * as cookie from 'cookie-parser';
 import helmet from 'helmet';
@@ -23,6 +23,7 @@ async function bootstrap() {
   });
   app.use(cookie());
   app.useGlobalFilters(new ExceptionFilter(winston, httpAdapter));
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   app.use(compression());
   app.use(helmet());
   app.useGlobalPipes(

@@ -16,7 +16,11 @@ export type IUser = ICommon & {
 	display_name: string;
 	type: AccountType;
 	is_email_verified: boolean;
+	has_password: boolean;
 };
+
+/** API response shape: IUser with @Exclude() fields (id, deleted_at, password) omitted */
+export type IUserSerialized = Omit<IUser, "deleted_at" | "password">;
 
 export type IUserSettings = ICommon & {
 	user_id: string;
@@ -25,3 +29,9 @@ export type IUserSettings = ICommon & {
 	dark_mode: boolean;
 	is_onboarded: boolean;
 };
+
+/** API response shape: IUserSettings with @Exclude() fields (id, deleted_at, user_id, refresh_token) omitted */
+export type IUserSettingsSerialized = Omit<
+	IUserSettings,
+	"deleted_at" | "refresh_token"
+>;

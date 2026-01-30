@@ -2,22 +2,24 @@ import { ApiService } from "@/utils";
 import { AxiosInstance } from "axios";
 import {
 	type IConversation,
+	type IConversationSerialized,
 	type IDatePaginated,
 	type IMessage,
+	type IMessageSerialized,
 	type IPagePaginated,
-	type IUser,
+	type IUserSerialized,
 	BaseOmit,
 } from "@repo/types";
 
-export type IConversationPopulated = IConversation & {
-	Participants: IUser[];
-	LastMsg?: IMessage & {
-		CreatedBy: IUser;
+export type IConversationPopulated = IConversationSerialized & {
+	Participants: IUserSerialized[];
+	LastMsg?: IMessageSerialized & {
+		CreatedBy: IUserSerialized;
 	};
 };
 
-export type IMessagePopulated = IMessage & {
-	CreatedBy: IUser;
+export type IMessagePopulated = IMessageSerialized & {
+	CreatedBy: IUserSerialized;
 };
 
 export enum SORT_TYPE {
@@ -77,7 +79,7 @@ export class ConversationsService extends ApiService {
 	 */
 	insert_conversation = async (
 		data: InsertConversationDto
-	): Promise<IConversation> => {
+	): Promise<IConversationSerialized> => {
 		return (await this.post("conversations", data)).data;
 	};
 
@@ -88,7 +90,7 @@ export class ConversationsService extends ApiService {
 	 */
 	exit_conversation = async (
 		data: ExitConversationDto
-	): Promise<IConversation> => {
+	): Promise<IConversationSerialized> => {
 		return (await this.post("conversations/exit", data)).data;
 	};
 
@@ -99,7 +101,7 @@ export class ConversationsService extends ApiService {
 	 */
 	join_conversation = async (
 		data: JoinConversationDto
-	): Promise<IConversation> => {
+	): Promise<IConversationSerialized> => {
 		return (await this.post("conversations/join", data)).data;
 	};
 
@@ -144,7 +146,9 @@ export class ConversationsService extends ApiService {
 	 * @param ref - Conversation ref_id (UUID)
 	 * @returns The removed conversation entity
 	 */
-	delete_conversation = async (ref: string): Promise<IConversation> => {
+	delete_conversation = async (
+		ref: string
+	): Promise<IConversationSerialized> => {
 		return (await this.delete(`conversations/${ref}`)).data;
 	};
 }

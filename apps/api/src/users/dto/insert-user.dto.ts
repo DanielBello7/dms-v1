@@ -7,4 +7,5 @@ export class InsertUserDto extends OmitType(CreateUserDto, [
   'index',
   'display_name',
   'is_email_verified',
+  'has_password',
 ]) {}

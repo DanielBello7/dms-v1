@@ -49,4 +49,7 @@ export class CreateUserDto implements BaseOmit<UserEntity> {
   @IsNotEmpty()
   @IsBoolean()
   is_email_verified: boolean;
+  @IsNotEmpty()
+  @IsBoolean()
+  has_password: boolean;
 }

@@ -15,6 +15,7 @@ export const useLogic = (body: IConversationPopulated) => {
 	const messages = useMessages((state) => state);
 	const user = useUser((state) => state);
 	const form = useForm<MSG_SCHEMA>({ defaultValues: { message: "" } });
+	const is_active = body.ongoing_participants.includes(user.data.user.id);
 
 	const submit: SubmitHandler<MSG_SCHEMA> = async (data) => {
 		return handler.run(async () => {
@@ -31,7 +32,6 @@ export const useLogic = (body: IConversationPopulated) => {
 				read_by: [],
 				created_at: new Date(),
 				updated_at: new Date(),
-				deleted_at: undefined,
 				CreatedBy: user.data.user,
 			};
 			messages.insert_messages_tail([new_message]);
@@ -45,5 +45,6 @@ export const useLogic = (body: IConversationPopulated) => {
 		user,
 		form,
 		handler,
+		is_active,
 	};
 };

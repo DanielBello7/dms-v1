@@ -8,6 +8,7 @@ export * from "./empty";
 export * from "./field";
 export * from "./input-otp";
 export * from "./input";
+export * from "./input-group";
 export * from "./item";
 export * from "./label";
 export * from "./pagination";

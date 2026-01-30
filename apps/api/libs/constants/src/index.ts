@@ -8,6 +8,7 @@ dotenv.config({
 export type CONSTANTS_TYPE = {
   NODE_ENV: 'development' | 'production';
   PORT: number;
+  HASH: number;
   API_ADDRESS: string;
   SQL_DATABASE_URI: string;
   SQL_DATABASE_TYPE: string;
@@ -35,6 +36,7 @@ export type CONSTANTS_TYPE = {
 export const CONSTANTS: CONSTANTS_TYPE = {
   NODE_ENV: process.env.NODE_ENV as CONSTANTS_TYPE['NODE_ENV'],
   PORT: parseInt(process.env.PORT ?? "3000", 10),
+  HASH: parseInt(process.env.HASH ?? "10", 10),
   API_ADDRESS: process.env.API_ADDRESS as CONSTANTS_TYPE['API_ADDRESS'],
   SQL_DATABASE_URI: process.env.SQL_DATABASE_URI as CONSTANTS_TYPE['SQL_DATABASE_URI'],
   SQL_DATABASE_TYPE: process.env.SQL_DATABASE_TYPE as CONSTANTS_TYPE['SQL_DATABASE_TYPE'],

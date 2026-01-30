@@ -7,6 +7,9 @@ export type ICommon = {
 	deleted_at: Date | undefined;
 };
 
+/** API response shape: ICommon with @Exclude() fields (id, deleted_at) omitted */
+export type ICommonSerialized = Omit<ICommon, "deleted_at">;
+
 export type IPagePaginated<T> = {
 	docs: T[];
 	total_docs: number;

@@ -17,10 +17,13 @@ export const Chatbox = (props: Props) => {
 					id="feedback"
 					placeholder="Type in something..."
 					className="size-full resize-none border-0 shadow-none"
-					disabled={logic.handler.isLoading}
+					disabled={logic.handler.isLoading || !logic.is_active}
 					{...logic.form.register("message")}
 				/>
-				<Button className="cursor-pointer" variant={"ghost"}>
+				<Button
+					className="cursor-pointer"
+					variant={"ghost"}
+					disabled={logic.handler.isLoading || !logic.is_active}>
 					<Send />
 				</Button>
 			</form>

@@ -1,24 +1,5 @@
-import { Button, ItemGroup, Separator } from "@/components/ui";
-import { Member } from "./member";
+import { Button, Separator } from "@/components/ui";
 import { EmptyMembers } from "./empty";
-
-const people = [
-	{
-		username: "shadcn",
-		avatar: "https://github.com/shadcn.png",
-		email: "shadcn@vercel.com",
-	},
-	{
-		username: "maxleiter",
-		avatar: "https://github.com/maxleiter.png",
-		email: "maxleiter@vercel.com",
-	},
-	{
-		username: "evilrabbit",
-		avatar: "https://github.com/evilrabbit.png",
-		email: "evilrabbit@vercel.com",
-	},
-];
 
 export const Members = () => {
 	return (

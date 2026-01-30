@@ -24,6 +24,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InsertAdminDto } from './dto/insert-admin.dto';
 import { AccountType } from '@repo/types';
 import { UpdateUserSettingsDto } from './dto/user-settings/update-user-settings.dto';
+import * as bcrypt from 'bcryptjs';
+import { SetPasswordDto } from './dto/set-password.dto';
+import { CONSTANTS } from '@app/constants';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class UsersService {
@@ -140,6 +144,7 @@ export class UsersService {
           index: 0,
           display_name: body.firstname + body.surname,
           is_email_verified: false,
+          has_password: false,
         },
         s,
       );
@@ -273,5 +278,43 @@ export class UsersService {
       body,
       session,
     );
+  };
+
+  set_password = async (body: SetPasswordDto) => {
+    return this.mutation.execute(async (session) => {
+      const user = await this.find_by_ref_id_lock(body.user_ref, session);
+      if (user.password || user.has_password) {
+        throw new BadRequestException('user already has its password set');
+      }
+      const hashed = bcrypt.hashSync(body.new_password, CONSTANTS.HASH);
+      return this.update_user(
+        user.id,
+        {
+          password: hashed,
+          has_password: true,
+        },
+        session,
+      );
+    });
+  };
+
+  update_password = async (ref: string, body: UpdatePasswordDto) => {
+    return this.mutation.execute(async (session) => {
+      const user = await this.find_by_ref_id_lock(ref, session);
+      if (user.has_password === false || !user.password) {
+        throw new BadRequestException("user doesn't have a password set");
+      }
+      const compare = bcrypt.compareSync(body.old_password, user.password);
+      if (!compare) throw new BadRequestException('invalid credentials');
+
+      const hash = bcrypt.hashSync(body.new_password, CONSTANTS.HASH);
+      return this.update_user(
+        user.id,
+        {
+          password: hash,
+        },
+        session,
+      );
+    });
   };
 }

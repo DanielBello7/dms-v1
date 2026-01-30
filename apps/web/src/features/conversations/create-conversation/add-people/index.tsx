@@ -1,8 +1,9 @@
 import { Button, Input, Separator } from "@/components/ui";
-import { Search, X } from "lucide-react";
-import { Person } from "./person";
+import { Search } from "lucide-react";
+// import { Person } from "./person";
 import { useLogic } from "./use-logic";
-import { EmptyResults } from "./empty";
+// import { X } from "lucide-react";
+// import { EmptyResults } from "./empty";
 
 export const AddPeople = () => {
 	const logic = useLogic();
