@@ -2,7 +2,7 @@ import { type ComponentProps, useState } from "react";
 import { EyeOffIcon, EyeIcon } from "lucide-react";
 import { InputGroup, InputGroupInput, InputGroupAddon, Button } from "../ui";
 
-type Props = ComponentProps<"input">;
+type Props = Omit<ComponentProps<"input">, "type">;
 export const PasswordInput = (props: Props) => {
 	const [show, setShow] = useState(false);
 	return (

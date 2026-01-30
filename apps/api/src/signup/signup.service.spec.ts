@@ -4,6 +4,7 @@ import { UsersService } from '@/users/users.service';
 import { MutationsService } from '@app/mutations';
 import { InsertUserDto } from '@/users/dto/insert-user.dto';
 import { BadRequestException } from '@nestjs/common';
+import { AccountType } from '@repo/types';
 
 describe('SignupService', () => {
   let service: SignupService;
@@ -16,6 +17,8 @@ describe('SignupService', () => {
     surname: 'Smith',
     timezone: 'America/Los_Angeles',
     password: undefined,
+    type: AccountType.Client,
+    username: 'jane',
   };
 
   const mockCreatedUser = {

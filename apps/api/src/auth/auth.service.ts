@@ -159,6 +159,10 @@ export class AuthService {
         throw new BadRequestException('invalid credentials');
       }
 
+      if (otp.purpose !== OTP_PURPOSE_ENUM.LOGIN) {
+        throw new BadRequestException('invalid credentials');
+      }
+
       await this.delete_otp_by_id(otp.id, session);
       return this.sign_in_validated_account(
         {

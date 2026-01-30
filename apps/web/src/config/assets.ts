@@ -10,6 +10,8 @@ import avatar_06 from "@/assets/imgs/avatars/Sample-6.svg";
 import avatar_07 from "@/assets/imgs/avatars/Sample-7.svg";
 import avatar_08 from "@/assets/imgs/avatars/Sample-8.svg";
 import avatar_09 from "@/assets/imgs/avatars/Sample-9.svg";
+import avatar_10 from "@/assets/imgs/avatars/Sample-10.svg";
+import avatar_11 from "@/assets/imgs/avatars/Sample-11.svg";
 
 import placeholder from "@/assets/imgs/temp-02.png";
 
@@ -26,4 +28,6 @@ export const assets = {
 	avatar_07,
 	avatar_08,
 	avatar_09,
+	avatar_10,
+	avatar_11,
 };

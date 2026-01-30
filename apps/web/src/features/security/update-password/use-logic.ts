@@ -28,7 +28,7 @@ export const useLogic = () => {
 	const submit: SubmitHandler<FORM_SCHEMA> = async (data) =>
 		handler.run(async () => {
 			const parsed = schema.parse(data);
-			if (parsed.new_password === parsed.confirm_password) {
+			if (parsed.old_password === parsed.confirm_password) {
 				throw new Error("new password cannot be the same as old password");
 			}
 			if (parsed.new_password !== parsed.confirm_password) {

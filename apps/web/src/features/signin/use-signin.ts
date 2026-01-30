@@ -4,6 +4,7 @@ export enum SIGN_IN_SCREEN {
 	EMAIL = "EMAIL",
 	PASSWORD = "PASSWORD",
 	OTP = "OTP",
+	VERIFY = "VERIFY",
 }
 
 type SigninData = {

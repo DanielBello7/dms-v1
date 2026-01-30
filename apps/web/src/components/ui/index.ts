@@ -12,6 +12,7 @@ export * from "./input-group";
 export * from "./item";
 export * from "./label";
 export * from "./pagination";
+export * from "./select";
 export * from "./separator";
 export * from "./sheet";
 export * from "./sidebar";

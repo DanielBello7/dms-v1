@@ -16,4 +16,6 @@ export const avatars: AvatarType[] = [
 	{ key: "avatar-07", val: assets.avatar_07 },
 	{ key: "avatar-08", val: assets.avatar_08 },
 	{ key: "avatar-09", val: assets.avatar_09 },
+	{ key: "avatar-10", val: assets.avatar_10 },
+	{ key: "avatar-11", val: assets.avatar_11 },
 ];
