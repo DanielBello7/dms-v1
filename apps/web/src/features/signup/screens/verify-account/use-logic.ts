@@ -2,7 +2,7 @@ import { useAsyncHandler } from "@/hooks";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 import { api, toaster } from "@/lib";
-import { useSignup } from "@/features/signup/use-signup";
+import { SIGN_UP_SCREEN, useSignup } from "@/features/signup/use-signup";
 
 const schema = z.object({
 	value: z.string().max(6).nonempty().trim(),
@@ -18,9 +18,13 @@ export const useLogic = () => {
 	const submit: SubmitHandler<FORM_SCHEMA> = async (data) => {
 		return handler.run(async () => {
 			const parsed = schema.parse(data);
-			await api.signup.verify_user_email({
+			const response = await api.signup.verify_user_email({
 				email: signup.data.email,
 				otp: parsed.value,
+			});
+			signup.set_data({
+				auth: response,
+				screen: SIGN_UP_SCREEN.SETUP_PASSWORD,
 			});
 			signup.reset();
 			toaster.success("Email Verified Successfully");

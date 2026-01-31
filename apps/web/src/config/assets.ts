@@ -1,4 +1,5 @@
-import logo from "@/assets/react.svg";
+import logo from "@/assets/logo.svg";
+import logo_01 from "@/assets/logo-1.png";
 
 import avatar_00 from "@/assets/imgs/avatars/Sample-0.svg";
 import avatar_01 from "@/assets/imgs/avatars/Sample-1.svg";
@@ -17,6 +18,7 @@ import placeholder from "@/assets/imgs/temp-02.png";
 
 export const assets = {
 	logo,
+	logo_01,
 	placeholder,
 	avatar_00,
 	avatar_01,

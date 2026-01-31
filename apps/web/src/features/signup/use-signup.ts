@@ -1,3 +1,4 @@
+import type { SigninResponse } from "@repo/services";
 import type { IUserSerialized } from "@repo/types";
 import { create } from "zustand";
 
@@ -14,6 +15,7 @@ type SignupData = {
 	email: string;
 	display_name: string;
 	user: IUserSerialized;
+	auth: SigninResponse | null;
 };
 
 type State = {
@@ -23,10 +25,11 @@ type State = {
 };
 
 const initial: SignupData = {
-	screen: SIGN_UP_SCREEN.ONBOARDING_TOP,
+	screen: SIGN_UP_SCREEN.CREATE_ACCOUNT,
 	email: "",
 	display_name: "",
 	user: {} as IUserSerialized,
+	auth: null,
 };
 
 export const useSignup = create<State>()((set, get) => ({

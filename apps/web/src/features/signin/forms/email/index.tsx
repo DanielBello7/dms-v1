@@ -1,6 +1,8 @@
-import { GalleryVerticalEnd } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useLogic } from "./use-logic";
+import { Link } from "react-router";
+import { Logo } from "@/components/logo";
 import {
 	Field,
 	FieldDescription,
@@ -8,26 +10,18 @@ import {
 	FieldLabel,
 	Spinner,
 } from "@/components/ui";
-import { useLogic } from "./use-logic";
 
 export const EmailForm = () => {
 	const logic = useLogic();
 	return (
-		<div className="flex flex-col gap-6">
+		<div className="flex flex-col gap-6 px-5">
 			<form onSubmit={logic.form.handleSubmit(logic.submit)}>
 				<FieldGroup>
 					<div className="flex flex-col items-center gap-2 text-center">
-						<a
-							href="#"
-							className="flex flex-col items-center gap-2 font-medium">
-							<div className="flex size-8 items-center justify-center rounded-md">
-								<GalleryVerticalEnd className="size-6" />
-							</div>
-							<span className="sr-only">Acme Inc.</span>
-						</a>
-						<h1 className="text-xl font-bold">Welcome to Acme Inc.</h1>
+						<Logo />
+						<h1 className="text-xl font-bold">Welcome to DMs</h1>
 						<FieldDescription>
-							Don&apos;t have an account? <a href="#">Sign up</a>
+							Don&apos;t have an account? <Link to="/signup">Sign up</Link>
 						</FieldDescription>
 					</div>
 					<Field>
@@ -45,7 +39,7 @@ export const EmailForm = () => {
 							type="submit"
 							className="cursor-pointer"
 							disabled={logic.handler.isLoading}>
-							{logic.handler.isLoading ? <Spinner /> : "Login"}
+							{logic.handler.isLoading ? <Spinner /> : "Continue"}
 						</Button>
 					</Field>
 				</FieldGroup>

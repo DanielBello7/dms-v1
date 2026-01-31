@@ -1,6 +1,7 @@
 import { ApiService } from "@/utils";
 import { AxiosInstance } from "axios";
 import { IUser, IUserSerialized, BaseOmit } from "@repo/types";
+import type { SigninResponse } from "../auth/auth.service";
 
 export type InsertUserDto = Omit<
 	BaseOmit<IUser>,
@@ -19,6 +20,11 @@ export type SendVerifyOtpDto = {
 export type VerifyUserEmailDto = {
 	email: string;
 	otp: string;
+};
+
+export type SetAvatarDto = {
+	user_id: string;
+	value: string;
 };
 
 export class SignupService extends ApiService {
@@ -46,13 +52,22 @@ export class SignupService extends ApiService {
 	};
 
 	/**
-	 * Verifies the user's email with the OTP they received
+	 * Verifies the user's email with the OTP they received and signs the user in
 	 * @param data - Email and OTP code
-	 * @returns Updated user with is_email_verified set to true
+	 * @returns Signin response (token, refresh, user, expires)
 	 */
 	verify_user_email = async (
 		data: VerifyUserEmailDto
-	): Promise<IUserSerialized> => {
+	): Promise<SigninResponse> => {
 		return (await this.post("signup/verify", data)).data;
+	};
+
+	/**
+	 * Sets the user's avatar (e.g. avatar key from config)
+	 * @param data - user_id and avatar value
+	 * @returns Updated user
+	 */
+	set_user_avatar = async (data: SetAvatarDto): Promise<IUserSerialized> => {
+		return (await this.post("signup/set-avatar", data)).data;
 	};
 }

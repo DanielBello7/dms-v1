@@ -1,13 +1,23 @@
 import { ApiService } from "@/utils";
 import { AxiosInstance } from "axios";
 import {
-	IUser,
 	IUserSerialized,
 	IUserSettingsSerialized,
 	BaseOmit,
 } from "@repo/types";
 
-export type UpdateUserDto = Partial<BaseOmit<IUser>>;
+export type UpdateUserDto = Partial<
+	Omit<
+		BaseOmit<IUserSerialized>,
+		| "ref_id"
+		| "timezone"
+		| "has_password"
+		| "is_email_verified"
+		| "type"
+		| "index"
+		| "display_name"
+	>
+>;
 
 export type SetPasswordDto = {
 	user_ref: string;
@@ -18,6 +28,10 @@ export type UpdatePasswordDto = {
 	old_password: string;
 	new_password: string;
 };
+
+export type UpdateUserSettingsDto = Partial<
+	Pick<IUserSettingsSerialized, "dark_mode" | "is_onboarded">
+>;
 
 export class UsersService extends ApiService {
 	constructor(baseURL?: string | AxiosInstance) {
@@ -84,5 +98,18 @@ export class UsersService extends ApiService {
 		data: UpdatePasswordDto
 	): Promise<IUserSerialized> => {
 		return (await this.patch(`users/${ref}/password`, data)).data;
+	};
+
+	/**
+	 * Updates user settings by user reference ID (e.g. dark_mode, is_onboarded)
+	 * @param ref - User reference ID (UUID)
+	 * @param data - Settings fields to update
+	 * @returns Updated user settings
+	 */
+	update_user_settings = async (
+		ref: string,
+		data: UpdateUserSettingsDto
+	): Promise<IUserSettingsSerialized> => {
+		return (await this.patch(`users/${ref}/settings`, data)).data;
 	};
 }

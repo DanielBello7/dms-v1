@@ -9,6 +9,7 @@ import { OTP_PURPOSE_ENUM } from '@repo/types';
 import { OtpSchema } from '@/auth/schemas/otp.schema';
 import { isPast } from 'date-fns';
 import { VerifyUserEmailDto } from './dto/verify-user-email.dto';
+import { SetAvatarDto } from './dto/set-avatar.dto';
 
 @Injectable()
 export class SignupService {
@@ -93,13 +94,29 @@ export class SignupService {
       }
 
       await this.auth.delete_otp_by_id(otp.id, session);
-      return this.users.update_user(
+      await this.users.update_user(
         user.id,
         {
           is_email_verified: true,
         },
         session,
       );
+      return this.auth.sign_in_validated_account(
+        {
+          email: user.email,
+          id: user.id,
+          name: user.display_name,
+          ref: user.ref_id,
+          type: user.type,
+        },
+        session,
+      );
     });
+  };
+
+  set_avatar = async (body: SetAvatarDto) => {
+    const errors = isValidDto(body, SetAvatarDto);
+    if (errors.length > 0) throw new BadRequestException(errors);
+    return this.users.update_user(body.user_id, { avatar: body.value });
   };
 }

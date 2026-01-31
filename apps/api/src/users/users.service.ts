@@ -62,7 +62,17 @@ export class UsersService {
   modify_user_by_ref = async (ref: string, body: UpdateUserDto) => {
     return this.mutation.execute(async (session) => {
       const user = await this.find_by_ref_id_lock(ref, session);
-      const { password, email, timezone, ref_id, ...rest } = body;
+      const {
+        password,
+        email,
+        timezone,
+        ref_id,
+        has_password,
+        index,
+        type,
+        is_email_verified,
+        ...rest
+      } = body;
       if (rest.firstname || rest.surname) {
         rest.display_name = `${rest.firstname ?? user.firstname} ${rest.surname ?? user.surname}`;
       }
@@ -257,6 +267,16 @@ export class UsersService {
       await remove_helper(this.user_settings, response.id, session);
       return remove_helper(this.users, id, session);
     });
+  };
+
+  modify_user_settings_by_ref_id = async (
+    ref: string,
+    body: UpdateUserSettingsDto,
+  ) => {
+    const { index, last_login_date, ref_id, refresh_token, user_id, ...rest } =
+      body;
+    const user = await this.find_by_ref(ref);
+    return this.update_user_settings_by_user_id(user.id, rest);
   };
 
   update_user_settings_by_user_id = async (

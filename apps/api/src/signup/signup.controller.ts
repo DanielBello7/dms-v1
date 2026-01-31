@@ -3,6 +3,7 @@ import { SignupService } from './signup.service';
 import { Body, Controller, Post } from '@nestjs/common';
 import { SendVerifyOtpDto } from './dto/send-verify-otp.dto';
 import { VerifyUserEmailDto } from './dto/verify-user-email.dto';
+import { SetAvatarDto } from './dto/set-avatar.dto';
 
 @Controller('signup')
 export class SignupController {
@@ -21,5 +22,10 @@ export class SignupController {
   @Post('verify/otp')
   send_verify_otp(@Body() body: SendVerifyOtpDto) {
     return this.signup.send_verify_otp(body);
+  }
+
+  @Post('set-avatar')
+  set_user_avatar(@Body() body: SetAvatarDto) {
+    return this.signup.set_avatar(body);
   }
 }

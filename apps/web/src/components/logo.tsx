@@ -12,14 +12,7 @@ type Props = {
 };
 
 export const Logo = (props: Props) => {
-	const {
-		size = "w-8",
-		type = "1",
-		textsize = "text-3xl",
-		linkActive = false,
-		showText = true,
-		className,
-	} = props;
+	const { size = "w-8", linkActive = false, className } = props;
 	const container = classnames(
 		"w-fit flex items-center gap-2",
 		{
@@ -28,15 +21,10 @@ export const Logo = (props: Props) => {
 		className
 	);
 	const sizing = classnames(size);
-	const text = classnames("text-3xl font-bold", textsize, {
-		"text-black": type === "1",
-		"text-white": type === "2",
-	});
 
 	return (
 		<Link className={container} to="/">
-			<img src={assets.logo} alt="app-logo" className={sizing} />
-			{showText && <h1 className={text}>BUS-T</h1>}
+			<img src={assets.logo_01} alt="app-logo" className={sizing} />
 		</Link>
 	);
 };

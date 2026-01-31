@@ -19,12 +19,12 @@ import { UpdatePasswordDto } from './dto/update-password.dto';
 export class UsersController {
   constructor(private readonly users: UsersService) {}
 
-  @Patch(':id')
+  @Patch(':ref')
   update_user(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('ref', ParseUUIDPipe) ref: string,
     @Body() body: UpdateUserDto,
   ) {
-    return this.users.modify_user_by_ref(id, body);
+    return this.users.modify_user_by_ref(ref, body);
   }
 
   @Get('email/:email')
@@ -53,5 +53,14 @@ export class UsersController {
     @Param('ref', ParseUUIDPipe) ref: string,
   ) {
     return this.users.update_password(ref, body);
+  }
+
+  // user ref id
+  @Patch(':ref/settings')
+  update_user_settings(
+    @Param('ref', ParseUUIDPipe) ref: string,
+    @Body() body: UpdateUserDto,
+  ) {
+    return this.users.modify_user_settings_by_ref_id(ref, body);
   }
 }
