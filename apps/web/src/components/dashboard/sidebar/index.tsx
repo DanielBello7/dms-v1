@@ -39,7 +39,7 @@ export const AppSidebar = () => {
 							<Logo showText={false} size="size-8" />
 							{sidebar.open && (
 								<div className="w-fit flex flex-col">
-									<span className="text-sm font-bold leading-none">Maybe</span>
+									<span className="text-sm font-bold leading-none">DMs</span>
 									<span className="text-xs text-gray-500 leading-none">
 										Dashboard
 									</span>

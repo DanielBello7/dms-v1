@@ -70,7 +70,7 @@ export class SignupService extends ApiService {
 	verify_user_email_safe = async (
 		data: VerifyUserEmailDto
 	): Promise<IUserSerialized> => {
-		return (await this.post("signup/verify-safe", data)).data;
+		return (await this.post("signup/verify/safe", data)).data;
 	};
 
 	/**

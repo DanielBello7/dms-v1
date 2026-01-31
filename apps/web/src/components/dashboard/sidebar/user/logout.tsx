@@ -23,8 +23,7 @@ export const Logout = () => {
 	const logout = async () =>
 		handler.run(async () => {
 			await wait(3000);
-			// await api.auth.logout_user();
-			navigate("/");
+			navigate("/signin");
 			await wait(1000);
 			signout();
 		});

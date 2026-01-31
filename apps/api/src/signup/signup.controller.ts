@@ -19,7 +19,7 @@ export class SignupController {
     return this.signup.verify_user_email(body);
   }
 
-  @Post('verify-safe')
+  @Post('verify/safe')
   verify_user_email_safe(@Body() body: VerifyUserEmailDto) {
     return this.signup.verify_user_email_no_signin(body);
   }

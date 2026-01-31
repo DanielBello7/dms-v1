@@ -41,13 +41,14 @@ export const useLogic = () => {
 				surname: parsed.surname,
 				username: gen_username(parsed.firstname, parsed.surname),
 			});
+			await api.signup.send_verify_otp({ email: response.email });
 			signup.set_data({
 				email: response.email,
 				display_name: response.display_name,
 				user: response,
 				screen: SIGN_UP_SCREEN.VERIFY_ACCOUNT,
 			});
-			toaster.success("Account Created Successfully");
+			toaster.success("An OTP has been sent to your email");
 		});
 	};
 

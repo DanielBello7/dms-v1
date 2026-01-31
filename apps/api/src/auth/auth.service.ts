@@ -164,6 +164,15 @@ export class AuthService {
       }
 
       await this.delete_otp_by_id(otp.id, session);
+      if (!user.is_email_verified) {
+        await this.users.update_user(
+          user.id,
+          {
+            is_email_verified: true,
+          },
+          session,
+        );
+      }
       return this.sign_in_validated_account(
         {
           email: user.email,
@@ -245,7 +254,7 @@ export class AuthService {
           email: user.email,
           type: user.type,
           is_email_verified: user.is_email_verified,
-          ref: user.ref_id,
+          ref_id: user.ref_id,
         },
         expires: exp,
       } satisfies SigninResponse;

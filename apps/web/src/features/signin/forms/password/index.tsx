@@ -26,11 +26,9 @@ export const PasswordForm = () => {
 					</div>
 					<Field>
 						<FieldLabel htmlFor="password">Password</FieldLabel>
-						<FieldDescription>
-							Must be at least 8 characters long.
-						</FieldDescription>
 						<PasswordInput
 							id="password"
+							autoComplete="off"
 							placeholder="••••••••"
 							disabled={logic.handler.isLoading}
 							{...logic.form.register("password")}

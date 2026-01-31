@@ -1,3 +1,4 @@
+import type { SigninResponse } from "@repo/services";
 import { create } from "zustand";
 
 export enum SIGN_IN_SCREEN {
@@ -11,6 +12,7 @@ type SigninData = {
 	screen: SIGN_IN_SCREEN;
 	email: string;
 	display_name: string;
+	auth: SigninResponse | null;
 };
 
 type State = {
@@ -20,9 +22,10 @@ type State = {
 };
 
 const initial: SigninData = {
-	screen: SIGN_IN_SCREEN.VERIFY,
+	screen: SIGN_IN_SCREEN.EMAIL,
 	email: "",
 	display_name: "",
+	auth: null,
 };
 
 export const useSignin = create<State>()((set, get) => ({

@@ -18,11 +18,13 @@ import { LocalStrategy } from './auth/strategies/local.strategy';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { BrevoModule } from '@app/brevo';
 import { OtpSchema } from './auth/schemas/otp.schema';
+import { SignupModule } from './signup/signup.module';
 
 @Module({
   imports: [
     UsersModule,
     ConversationsModule,
+    SignupModule,
     JwtModule.register({
       global: true,
       secret: CONSTANTS.JWT_SECRET,

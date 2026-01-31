@@ -19,7 +19,7 @@ export type ValidUser = {
  */
 export type SigninResponseUser = {
   id: string;
-  ref: string;
+  ref_id: string;
   display_name: string;
   avatar: string | undefined;
   email: string;

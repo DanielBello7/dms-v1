@@ -152,7 +152,7 @@ export class UsersService {
           avatar: undefined,
           ref_id: user_ref_id,
           index: 0,
-          display_name: body.firstname + body.surname,
+          display_name: body.firstname + ' ' + body.surname,
           is_email_verified: false,
           has_password: false,
         },

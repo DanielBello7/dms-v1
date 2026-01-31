@@ -13,15 +13,16 @@ export const Resend = () => {
 
 	const [timeLeft, setTimeLeft] = useState(COOLDOWN_SECONDS);
 
-	const resend = async () =>
-		handler.run(async () => {
-			await api.auth.signin_verify({
+	const resend = async () => {
+		return handler.run(async () => {
+			await api.signup.send_verify_otp({
 				email: signin.data.email,
 			});
 
 			toaster.alert("An OTP has been sent to your email");
 			setTimeLeft(COOLDOWN_SECONDS);
 		});
+	};
 
 	useEffect(() => {
 		if (timeLeft <= 0) return;

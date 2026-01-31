@@ -11,7 +11,7 @@ export const Resend = () => {
 	const signin = useSignin((state) => state);
 	const handler = useAsyncHandler();
 
-	const [timeLeft, setTimeLeft] = useState(0);
+	const [timeLeft, setTimeLeft] = useState(COOLDOWN_SECONDS);
 
 	const resend = async () =>
 		handler.run(async () => {

@@ -26,7 +26,7 @@ export const VerifyAccount = () => {
 						<Logo />
 						<h1 className="text-xl font-bold">Hi {logic.data.display_name}</h1>
 						<p className="text-sm">
-							We sent a 6-digit code to your email{" "}
+							Verify your email with the 6-digit code to your email{" "}
 							<span className="text-blue-400">({logic.data.email})</span>
 						</p>
 					</div>
@@ -61,12 +61,9 @@ export const VerifyAccount = () => {
 					</Field>
 					<Field>
 						<Button type="submit" disabled={logic.handler.isLoading}>
-							{logic.handler.isLoading ? <Spinner /> : "Login"}
+							{logic.handler.isLoading ? <Spinner /> : "Continue"}
 						</Button>
 					</Field>
-					<FieldDescription className="text-center">
-						<a href="#">I no longer have access to this email address.</a>
-					</FieldDescription>
 				</FieldGroup>
 			</form>
 			<FieldDescription className="px-6 text-center">

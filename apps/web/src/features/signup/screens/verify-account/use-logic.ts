@@ -26,7 +26,6 @@ export const useLogic = () => {
 				auth: response,
 				screen: SIGN_UP_SCREEN.SETUP_PASSWORD,
 			});
-			signup.reset();
 			toaster.success("Email Verified Successfully");
 		});
 	};

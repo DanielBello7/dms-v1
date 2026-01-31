@@ -16,10 +16,23 @@ import avatar_11 from "@/assets/imgs/avatars/Sample-11.svg";
 
 import placeholder from "@/assets/imgs/temp-02.png";
 
+import illu_hero from "@/assets/imgs/illustrations/hero-message.svg";
+import illu_private from "@/assets/imgs/illustrations/private.svg";
+import illu_secure from "@/assets/imgs/illustrations/secure.svg";
+import illu_direct from "@/assets/imgs/illustrations/direct.svg";
+import illu_float_chat from "@/assets/imgs/illustrations/float-chat.svg";
+import illu_float_lock from "@/assets/imgs/illustrations/float-lock.svg";
+
 export const assets = {
 	logo,
 	logo_01,
 	placeholder,
+	illu_hero,
+	illu_private,
+	illu_secure,
+	illu_direct,
+	illu_float_chat,
+	illu_float_lock,
 	avatar_00,
 	avatar_01,
 	avatar_02,

@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateUserSettingsDto } from './dto/user-settings/update-user-settings.dto';
 import { SetPasswordDto } from './dto/set-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 
@@ -55,11 +56,10 @@ export class UsersController {
     return this.users.update_password(ref, body);
   }
 
-  // user ref id
   @Patch(':ref/settings')
   update_user_settings(
     @Param('ref', ParseUUIDPipe) ref: string,
-    @Body() body: UpdateUserDto,
+    @Body() body: UpdateUserSettingsDto,
   ) {
     return this.users.modify_user_settings_by_ref_id(ref, body);
   }

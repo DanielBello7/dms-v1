@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none" aria-hidden="true">
+  <!-- Simple messaging illustration: two chat bubbles and a device -->
+  <rect x="80" y="40" width="240" height="180" rx="20" fill="#E8D5F2" opacity="0.9"/>
+  <rect x="100" y="60" width="120" height="24" rx="12" fill="#1e3a5f"/>
+  <rect x="100" y="96" width="180" height="16" rx="8" fill="#1e3a5f" opacity="0.4"/>
+  <rect x="100" y="120" width="160" height="16" rx="8" fill="#1e3a5f" opacity="0.4"/>
+  <rect x="260" y="140" width="60" height="48" rx="8" fill="#1e3a5f"/>
+  <circle cx="280" cy="158" r="6" fill="white"/>
+  <path d="M100 200 L140 230 L100 210 Z" fill="#B8E0D2"/>
+  <path d="M220 170 L260 200 L220 185 Z" fill="#ffd6a5"/>
+</svg>

@@ -86,7 +86,7 @@ export class BrevoService extends IMailModuleType {
 
   sendotp = async (otp: string, email: string, name: string) => {
     return this.send_email({
-      subject: 'Bus-T One-Time-Password',
+      subject: 'DMs OTP',
       sender: { email: this.email, name: this.ename },
       to: [{ email, name }],
       htmlContent: otpmail(name, otp),
