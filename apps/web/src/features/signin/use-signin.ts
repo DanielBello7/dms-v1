@@ -20,7 +20,7 @@ type State = {
 };
 
 const initial: SigninData = {
-	screen: SIGN_IN_SCREEN.EMAIL,
+	screen: SIGN_IN_SCREEN.VERIFY,
 	email: "",
 	display_name: "",
 };

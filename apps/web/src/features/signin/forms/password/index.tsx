@@ -1,6 +1,4 @@
-import { GalleryVerticalEnd } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
 	Field,
 	FieldDescription,
@@ -9,6 +7,9 @@ import {
 	Spinner,
 } from "@/components/ui";
 import { useLogic } from "./use-logic";
+import { Logo } from "@/components/logo";
+import { PasswordInput } from "@/components/app";
+import { Link } from "react-router";
 
 export const PasswordForm = () => {
 	const logic = useLogic();
@@ -17,17 +18,10 @@ export const PasswordForm = () => {
 			<form onSubmit={logic.form.handleSubmit(logic.submit)}>
 				<FieldGroup>
 					<div className="flex flex-col items-center gap-2 text-center">
-						<a
-							href="#"
-							className="flex flex-col items-center gap-2 font-medium">
-							<div className="flex size-8 items-center justify-center rounded-md">
-								<GalleryVerticalEnd className="size-6" />
-							</div>
-							<span className="sr-only">Acme Inc.</span>
-						</a>
-						<h1 className="text-xl font-bold">Welcome to Acme Inc.</h1>
+						<Logo />
+						<h1 className="text-xl font-bold">Welcome to DMs</h1>
 						<FieldDescription>
-							Don&apos;t have an account? <a href="#">Sign up</a>
+							Don&apos;t have an account? <Link to="/signup">Sign up</Link>
 						</FieldDescription>
 					</div>
 					<Field>
@@ -35,16 +29,16 @@ export const PasswordForm = () => {
 						<FieldDescription>
 							Must be at least 8 characters long.
 						</FieldDescription>
-						<Input
+						<PasswordInput
 							id="password"
-							type="password"
 							placeholder="••••••••"
+							disabled={logic.handler.isLoading}
 							{...logic.form.register("password")}
 						/>
 					</Field>
 					<Field>
 						<Button type="submit" disabled={logic.handler.isLoading}>
-							{logic.handler.isLoading ? <Spinner /> : "Login"}
+							{logic.handler.isLoading ? <Spinner /> : "Continue"}
 						</Button>
 					</Field>
 				</FieldGroup>

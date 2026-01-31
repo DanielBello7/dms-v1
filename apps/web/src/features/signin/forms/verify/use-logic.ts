@@ -19,18 +19,12 @@ export const useLogic = () => {
 	const navigate = useNavigate();
 	const form = useForm<FORM_SCHEMA>();
 
-	const resend = async () =>
-		handler.run(async () => {
-			await api.auth.signin_verify({
-				email: signin.data.email,
-			});
-			toaster.alert("An OTP has been sent to your email");
-		});
+	const skip = () => {};
 
-	const submit: SubmitHandler<FORM_SCHEMA> = async (data) =>
-		handler.run(async () => {
+	const submit: SubmitHandler<FORM_SCHEMA> = async (data) => {
+		return handler.run(async () => {
 			const parsed = schema.parse(data);
-			const response = await api.auth.signin_otp({
+			const response = await api.signup.verify_user_email({
 				email: signin.data.email,
 				otp: parsed.value,
 			});
@@ -44,12 +38,13 @@ export const useLogic = () => {
 			toaster.success("Login Successful");
 			navigate("/dashboard");
 		});
+	};
 
 	return {
 		handler,
-		resend,
 		form,
 		submit,
 		data: signin.data,
+		skip,
 	};
 };

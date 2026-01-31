@@ -1,20 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { GalleryVerticalEnd } from "lucide-react";
-import {
-	Field,
-	FieldDescription,
-	FieldLabel,
-	FieldGroup,
-	Spinner,
-} from "@/components/ui";
+import { Field, FieldLabel, FieldGroup, Spinner } from "@/components/ui";
+import { useLogic } from "./use-logic";
+import { Resend } from "./resend";
+import { Logo } from "@/components/logo";
 import {
 	InputOTP,
 	InputOTPGroup,
 	InputOTPSeparator,
 	InputOTPSlot,
 } from "@/components/ui";
-import { useLogic } from "./use-logic";
-import { Resend } from "./resend";
 
 export const Verify = () => {
 	const logic = useLogic();
@@ -23,22 +17,14 @@ export const Verify = () => {
 			<form onSubmit={logic.form.handleSubmit(logic.submit)}>
 				<FieldGroup>
 					<div className="flex flex-col items-center gap-2 text-center">
-						<a
-							href="#"
-							className="flex flex-col items-center gap-2 font-medium">
-							<div className="flex size-8 items-center justify-center rounded-md">
-								<GalleryVerticalEnd className="size-6" />
-							</div>
-							<span className="sr-only">Acme Inc.</span>
-						</a>
-						<h1 className="text-xl font-bold">Hi {logic.data.display_name}</h1>
+						<Logo />
+						<h1 className="text-xl font-bold">
+							Hi {logic.data.display_name.trim() ?? "there"}
+						</h1>
 						<p className="text-sm">
 							We sent a 6-digit code to your email{" "}
 							<span className="text-blue-400">({logic.data.email})</span>
 						</p>
-						<FieldDescription>
-							Don&apos;t have an account? <a href="#">Sign up</a>
-						</FieldDescription>
 					</div>
 					<Field>
 						<div className="flex items-center justify-between">
@@ -71,18 +57,18 @@ export const Verify = () => {
 					</Field>
 					<Field>
 						<Button type="submit" disabled={logic.handler.isLoading}>
-							{logic.handler.isLoading ? <Spinner /> : "Login"}
+							{logic.handler.isLoading ? <Spinner /> : "Verify"}
+						</Button>
+						<Button
+							type="button"
+							variant={"link"}
+							disabled={logic.handler.isLoading}
+							onClick={logic.skip}>
+							Skip
 						</Button>
 					</Field>
-					<FieldDescription className="text-center">
-						<a href="#">I no longer have access to this email address.</a>
-					</FieldDescription>
 				</FieldGroup>
 			</form>
-			<FieldDescription className="px-6 text-center">
-				By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-				and <a href="#">Privacy Policy</a>.
-			</FieldDescription>
 		</div>
 	);
 };

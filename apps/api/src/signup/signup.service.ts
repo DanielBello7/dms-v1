@@ -114,6 +114,35 @@ export class SignupService {
     });
   };
 
+  verify_user_email_no_signin = async (body: VerifyUserEmailDto) => {
+    return this.mutations.execute(async (session) => {
+      const user = await this.users.find_user_by_email(body.email, session);
+      const otp = await this.auth.find_otp_by_otp(body.otp, session);
+
+      if (isPast(otp.expires_at)) {
+        await this.auth.delete_otp_by_id(otp.id, session);
+        throw new BadRequestException('otp expired');
+      }
+
+      if (otp.value !== body.otp) {
+        throw new BadRequestException('invalid credentials');
+      }
+
+      if (otp.purpose !== OTP_PURPOSE_ENUM.VERIFY) {
+        throw new BadRequestException('invalid credentials');
+      }
+
+      await this.auth.delete_otp_by_id(otp.id, session);
+      return this.users.update_user(
+        user.id,
+        {
+          is_email_verified: true,
+        },
+        session,
+      );
+    });
+  };
+
   set_avatar = async (body: SetAvatarDto) => {
     const errors = isValidDto(body, SetAvatarDto);
     if (errors.length > 0) throw new BadRequestException(errors);

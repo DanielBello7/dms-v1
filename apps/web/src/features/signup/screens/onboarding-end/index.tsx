@@ -2,12 +2,14 @@ import { Avatar, AvatarFallback, AvatarImage, Button } from "@/components/ui";
 import { avatars } from "@/config";
 import { cn } from "@/lib/utils";
 import { useLogic } from "./use-logic";
+import { Logo } from "@/components/logo";
 
 export const OnboardingEnd = () => {
 	const logic = useLogic();
 	return (
 		<div className="flex flex-col gap-8 py-4">
 			<div className="flex flex-col items-center gap-2 text-center">
+				<Logo />
 				<h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
 					Choose an avatar
 				</h1>

@@ -63,6 +63,17 @@ export class SignupService extends ApiService {
 	};
 
 	/**
+	 * Verifies the user's email with the OTP without signing in (e.g. safe/headless flow)
+	 * @param data - Email and OTP code
+	 * @returns Updated user with is_email_verified set to true
+	 */
+	verify_user_email_safe = async (
+		data: VerifyUserEmailDto
+	): Promise<IUserSerialized> => {
+		return (await this.post("signup/verify-safe", data)).data;
+	};
+
+	/**
 	 * Sets the user's avatar (e.g. avatar key from config)
 	 * @param data - user_id and avatar value
 	 * @returns Updated user

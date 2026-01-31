@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { GalleryVerticalEnd } from "lucide-react";
 import {
 	Field,
 	FieldDescription,
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui";
 import { useLogic } from "./use-logic";
 import { Resend } from "./resend";
+import { Logo } from "@/components/logo";
 
 export const VerifyAccount = () => {
 	const logic = useLogic();
@@ -23,14 +23,7 @@ export const VerifyAccount = () => {
 			<form onSubmit={logic.form.handleSubmit(logic.submit)}>
 				<FieldGroup>
 					<div className="flex flex-col items-center gap-2 text-center">
-						<a
-							href="#"
-							className="flex flex-col items-center gap-2 font-medium">
-							<div className="flex size-8 items-center justify-center rounded-md">
-								<GalleryVerticalEnd className="size-6" />
-							</div>
-							<span className="sr-only">Acme Inc.</span>
-						</a>
+						<Logo />
 						<h1 className="text-xl font-bold">Hi {logic.data.display_name}</h1>
 						<p className="text-sm">
 							We sent a 6-digit code to your email{" "}

@@ -8,6 +8,7 @@ import {
 	FieldGroup,
 	FieldLabel,
 } from "@/components/ui";
+import { Logo } from "@/components/logo";
 
 export const CreateAccount = () => {
 	const logic = useLogic();
@@ -17,6 +18,7 @@ export const CreateAccount = () => {
 			onSubmit={logic.form.handleSubmit(logic.submit)}>
 			<FieldGroup>
 				<div className="flex flex-col items-center gap-1 text-center">
+					<Logo />
 					<h1 className="text-2xl font-bold">Sign Up</h1>
 					<p className="text-muted-foreground text-sm text-balance">
 						Fill in the form below to create your account

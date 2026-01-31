@@ -7,6 +7,7 @@ import {
 	FieldLabel,
 } from "@/components/ui/field";
 import { useLogic } from "./use-logic";
+import { Logo } from "@/components/logo";
 
 export const SetupPassword = () => {
 	const logic = useLogic();
@@ -16,6 +17,7 @@ export const SetupPassword = () => {
 			onSubmit={logic.form.handleSubmit(logic.submit)}>
 			<FieldGroup>
 				<div className="flex flex-col items-center gap-1 text-center">
+					<Logo />
 					<h1 className="text-2xl font-bold">Set Password</h1>
 					<p className="text-muted-foreground text-sm text-balance">
 						Add a password for your account

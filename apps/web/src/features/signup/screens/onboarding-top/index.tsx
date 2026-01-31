@@ -8,6 +8,7 @@ import {
 import { COMMUNITY_AVATARS } from "./community-avatars";
 import { Send } from "lucide-react";
 import { useLogic } from "./use-logic";
+import { Logo } from "@/components/logo";
 
 export const OnboardingTop = () => {
 	const logic = useLogic();
@@ -15,6 +16,7 @@ export const OnboardingTop = () => {
 	return (
 		<div className="flex flex-col gap-8 py-4">
 			<div className="flex flex-col items-center gap-2 text-center">
+				<Logo />
 				<h1 className="text-2xl font-semibold tracking-tight sm:text-3xl">
 					Welcome, {logic.data.display_name.trim() ?? "there"}
 				</h1>
