@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserSchema } from './schemas/user.schema';
 import { UserSettingsSchema } from './schemas/user-settings.schema';
-import { EntityManager, In, Repository } from 'typeorm';
+import { EntityManager, ILike, In, Repository } from 'typeorm';
 import { MutationsService } from '@app/mutations';
 import { CreateUserDto } from './dto/create-user.dto';
 import {
@@ -28,6 +28,8 @@ import * as bcrypt from 'bcryptjs';
 import { SetPasswordDto } from './dto/set-password.dto';
 import { CONSTANTS } from '@app/constants';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { SearchDto } from './dto/search.dto';
+import { SORT_TYPE } from '@/conversations/dto/conversation-query.dto';
 
 @Injectable()
 export class UsersService {
@@ -336,5 +338,42 @@ export class UsersService {
         session,
       );
     });
+  };
+
+  search_by_email = async (body: SearchDto) => {
+    const errors = isValidDto(body, SearchDto);
+    if (errors.length > 0) throw new BadRequestException(errors);
+
+    const page = Math.max(body.page ?? 1, 1);
+    const pick = Math.min(body.pick ?? 9, 100);
+    const sort = body.sort ?? SORT_TYPE.DESC;
+    const skip = (page - 1) * pick;
+
+    if (skip > 100_000)
+      throw new BadRequestException('pagination limit exceeded');
+
+    const [response, count] = await this.users.findAndCount({
+      where: {
+        email: ILike(`%${body.value}%`),
+      },
+      skip,
+      take: pick,
+      order: { email: sort },
+    });
+
+    const total_pages = Math.ceil(count / pick);
+
+    return {
+      docs: response,
+      has_next_page: total_pages > page,
+      has_prev_page: page > 1,
+      pick: pick,
+      next_page: total_pages > page ? page + 1 : null,
+      page: page,
+      paging_counter: skip + 1,
+      prev_page: page > 1 ? page - 1 : null,
+      total_docs: count,
+      total_pages: total_pages,
+    };
   };
 }

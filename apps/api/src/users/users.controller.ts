@@ -8,12 +8,14 @@ import {
   Post,
   UseInterceptors,
   ClassSerializerInterceptor,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UpdateUserSettingsDto } from './dto/user-settings/update-user-settings.dto';
 import { SetPasswordDto } from './dto/set-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
+import { SearchDto } from './dto/search.dto';
 
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
@@ -26,6 +28,11 @@ export class UsersController {
     @Body() body: UpdateUserDto,
   ) {
     return this.users.modify_user_by_ref(ref, body);
+  }
+
+  @Get('search')
+  search_users(@Query() query: SearchDto) {
+    return this.users.search_by_email(query);
   }
 
   @Get('email/:email')

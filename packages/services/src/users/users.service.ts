@@ -3,6 +3,7 @@ import { AxiosInstance } from "axios";
 import {
 	IUserSerialized,
 	IUserSettingsSerialized,
+	IPagePaginated,
 	BaseOmit,
 } from "@repo/types";
 
@@ -33,6 +34,13 @@ export type UpdateUserSettingsDto = Partial<
 	Pick<IUserSettingsSerialized, "dark_mode" | "is_onboarded">
 >;
 
+export type SearchUsersDto = {
+	value: string;
+	page?: number;
+	pick?: number;
+	sort?: "ASC" | "DESC";
+};
+
 export class UsersService extends ApiService {
 	constructor(baseURL?: string | AxiosInstance) {
 		super(baseURL ? baseURL : "");
@@ -58,6 +66,17 @@ export class UsersService extends ApiService {
 	 */
 	get_user_settings = async (ref: string): Promise<IUserSettingsSerialized> => {
 		return (await this.get(`users/${ref}/settings`)).data;
+	};
+
+	/**
+	 * Search users by email (paginated)
+	 * @param query - value (search string), optional page, pick, sort
+	 * @returns Paginated list of users
+	 */
+	search_users = async (
+		query: SearchUsersDto
+	): Promise<IPagePaginated<IUserSerialized>> => {
+		return (await this.get("users/search", { params: query })).data;
 	};
 
 	/**

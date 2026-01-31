@@ -3,25 +3,25 @@ import { Header } from "./header";
 import { AppSidebar } from "./sidebar";
 
 type Props = {
-	children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 export const Dashboard = (props: Props) => {
-	const { children } = props;
+  const { children } = props;
 
-	return (
-		<div className="w-full h-svh overflow-hidden flex">
-			<div className="flex grow font-grotesque overflow-hidden rounded-sm items-center justify-center bg-black/5">
-				<div className="relative flex border border-gray-400/60 w-300 h-200 overflow-hidden">
-					<SidebarProvider className="flex grow overflow-hidden bg-white">
-						<AppSidebar />
-						<main className="size-full overflow-hidden flex flex-col">
-							<Header />
-							<div className="w-full grow-1 overflow-hidden">{children}</div>
-						</main>
-					</SidebarProvider>
-				</div>
-			</div>
-		</div>
-	);
+  return (
+    <div className="w-full h-svh overflow-hidden flex bg-[#fef9f0]">
+      <div className="flex grow font-grotesque overflow-hidden rounded-sm items-center justify-center">
+        <div className="relative flex border border-gray-400/30 w-300 h-200 overflow-hidden rounded-sm">
+          <SidebarProvider className="flex grow overflow-hidden bg-white">
+            <AppSidebar />
+            <main className="size-full overflow-hidden flex flex-col">
+              <Header />
+              <div className="w-full grow-1 overflow-hidden">{children}</div>
+            </main>
+          </SidebarProvider>
+        </div>
+      </div>
+    </div>
+  );
 };

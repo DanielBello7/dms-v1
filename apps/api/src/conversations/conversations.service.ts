@@ -173,7 +173,7 @@ export class ConversationsService {
         session,
       );
 
-      const ids = members.map((m) => m.id);
+      const ids = [...members.map((m) => m.id), user.id];
       const ref = uuid();
 
       return this.create_conversation(
@@ -306,6 +306,10 @@ export class ConversationsService {
         sort: body.sort,
       },
       this.messages,
+      (qb) => {
+        qb.leftJoinAndSelect('entity.CreatedBy', 'created_by');
+        return qb;
+      },
     );
   };
 

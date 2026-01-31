@@ -22,6 +22,7 @@ import illu_secure from "@/assets/imgs/illustrations/secure.svg";
 import illu_direct from "@/assets/imgs/illustrations/direct.svg";
 import illu_float_chat from "@/assets/imgs/illustrations/float-chat.svg";
 import illu_float_lock from "@/assets/imgs/illustrations/float-lock.svg";
+import illu_add_people from "@/assets/imgs/illustrations/3538371.jpg";
 
 export const assets = {
 	logo,
@@ -33,6 +34,7 @@ export const assets = {
 	illu_direct,
 	illu_float_chat,
 	illu_float_lock,
+	illu_add_people,
 	avatar_00,
 	avatar_01,
 	avatar_02,
