@@ -93,6 +93,10 @@ export class SignupService {
         throw new BadRequestException('invalid credentials');
       }
 
+      if (otp.email !== body.email) {
+        throw new BadRequestException('invalid credentials');
+      }
+
       await this.auth.delete_otp_by_id(otp.id, session);
       await this.users.update_user(
         user.id,
@@ -127,8 +131,10 @@ export class SignupService {
       if (otp.value !== body.otp) {
         throw new BadRequestException('invalid credentials');
       }
-
       if (otp.purpose !== OTP_PURPOSE_ENUM.VERIFY) {
+        throw new BadRequestException('invalid credentials');
+      }
+      if (otp.email !== body.email) {
         throw new BadRequestException('invalid credentials');
       }
 

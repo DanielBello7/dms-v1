@@ -30,6 +30,7 @@ import { SigninEmailDto } from './dto/signin-email.dto';
 import { SigninOtpDto } from './dto/signin-otp.dto';
 import { EmailDto } from './dto/email.dto';
 import { RecoverDto } from './dto/recover.dto';
+import { ValidateVerifyOtpDto } from './dto/validate-verify-otp.dto';
 
 @Injectable()
 export class AuthService {
@@ -41,6 +42,29 @@ export class AuthService {
     private readonly mutation: MutationsService,
     private readonly mail: IMailModuleType,
   ) {}
+
+  validate_verify_otp = async (body: ValidateVerifyOtpDto) => {
+    const errors = isValidDto(body, ValidateVerifyOtpDto);
+    if (errors.length > 0) throw new BadRequestException(errors);
+
+    return this.mutation.execute(async (session) => {
+      const user = await this.users.find_user_by_email(body.email, session);
+      if (!user.has_password) {
+        throw new BadRequestException('invalid credentials');
+      }
+      const token = await this.find_otp_by_otp(body.otp, session);
+      if (datefns.isPast(token.expires_at)) {
+        throw new BadRequestException('invalid otp');
+      }
+      if (token.purpose !== OTP_PURPOSE_ENUM.RECOVERY) {
+        throw new BadRequestException('invalid otp');
+      }
+      if (token.email !== body.email) {
+        throw new BadRequestException('invalid otp');
+      }
+      return true;
+    });
+  };
 
   insert_otp = async (body: InsertOtp, session?: EntityManager) => {
     const otp = OTPs.generate(6, {
@@ -160,6 +184,9 @@ export class AuthService {
       }
 
       if (otp.purpose !== OTP_PURPOSE_ENUM.LOGIN) {
+        throw new BadRequestException('invalid credentials');
+      }
+      if (otp.email !== body.email) {
         throw new BadRequestException('invalid credentials');
       }
 
@@ -359,6 +386,9 @@ export class AuthService {
         throw new BadRequestException('otp expired');
       }
       if (token.purpose !== OTP_PURPOSE_ENUM.RECOVERY) {
+        throw new BadRequestException('invalid otp');
+      }
+      if (token.email !== body.email) {
         throw new BadRequestException('invalid otp');
       }
 

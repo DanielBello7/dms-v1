@@ -14,6 +14,7 @@ import { SigninEmailDto } from './dto/signin-email.dto';
 import { SigninOtpDto } from './dto/signin-otp.dto';
 import { EmailDto } from './dto/email.dto';
 import { RecoverDto } from './dto/recover.dto';
+import { ValidateVerifyOtpDto } from './dto/validate-verify-otp.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -55,6 +56,11 @@ export class AuthController {
   @Post('recover/verify')
   verify_recovery_account(@Body() body: EmailDto) {
     return this.auth.recovery_verify(body);
+  }
+
+  @Post('recover/validate')
+  validate_recovery_account(@Body() body: ValidateVerifyOtpDto) {
+    return this.auth.validate_verify_otp(body);
   }
 
   @Post('recover/password')

@@ -32,6 +32,11 @@ export type EmailDto = {
 	email: string;
 };
 
+export type ValidateVerifyOtpDto = {
+	email: string;
+	otp: string;
+};
+
 export type RecoverDto = {
 	email: string;
 	otp: string;
@@ -110,6 +115,17 @@ export class AuthService extends ApiService {
 	 */
 	recovery_verify = async (data: EmailDto): Promise<boolean> => {
 		return (await this.post("auth/recover/verify", data)).data;
+	};
+
+	/**
+	 * Validates recovery OTP (email + OTP code)
+	 * @param data - Email and OTP code
+	 * @returns true if OTP is valid for recovery
+	 */
+	recovery_validate_otp = async (
+		data: ValidateVerifyOtpDto
+	): Promise<boolean> => {
+		return (await this.post("auth/recover/validate", data)).data;
 	};
 
 	/**

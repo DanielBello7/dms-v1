@@ -49,6 +49,11 @@ export const EmailForm = () => {
               {logic.handler.isLoading ? <Spinner /> : "Continue"}
             </Button>
           </Field>
+          <FieldDescription className="text-center text-[#5c6b73]">
+            <Link to="/recovery" className="text-[#1e3a5f] hover:underline">
+              I no longer have access to this email address.
+            </Link>
+          </FieldDescription>
         </FieldGroup>
       </form>
       <FieldDescription className="px-6 text-center text-[#5c6b73]">
