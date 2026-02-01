@@ -6,8 +6,8 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsString,
   IsUUID,
-  MaxLength,
 } from 'class-validator';
 
 export class CreateConversationDto implements BaseOmit<ConversationEntity> {
@@ -32,4 +32,7 @@ export class CreateConversationDto implements BaseOmit<ConversationEntity> {
   @IsOptional()
   @IsUUID()
   last_message_id: string | undefined;
+  @IsOptional()
+  @IsString()
+  name: string | undefined;
 }

@@ -184,6 +184,11 @@ export class ConversationsService {
           ref_id: ref,
           index: 0,
           last_message_id: undefined,
+          name: body.name
+            ? body.name
+            : ids.length > 2
+              ? 'Unamed Group'
+              : undefined,
         },
         session,
       );

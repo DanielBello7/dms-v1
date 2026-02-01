@@ -7,6 +7,7 @@ export enum MESSAGE_TYPE_ENUM {
 }
 
 export type IConversation = ICommon & {
+	name: string | undefined;
 	ongoing_participants: string[];
 	members: string[];
 	created_by: string;

@@ -11,4 +11,5 @@ export class ConversationEntity implements IConversation {
   created_by: string;
   index: number;
   last_message_id: string | undefined;
+  name: string | undefined;
 }

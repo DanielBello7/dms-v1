@@ -35,9 +35,11 @@ export const Convo = ({ data }: Props) => {
       <div className="border-b flex items-start justify-between p-4.5">
         <div className="w-9/12">
           <div className="line-clamp-1 truncate font-bold text-sm">
-            {data.Participants.filter((i) => i.ref_id !== user.ref_id)
-              .map((i) => i.display_name)
-              .join(", ")}
+            {data.ongoing_participants.length > 2
+              ? (data.name ?? "Group")
+              : data.Participants.filter((i) => i.ref_id !== user.ref_id)
+                  .map((i) => i.display_name)
+                  .join(", ")}
           </div>
           <div className="line-clamp-1 text-muted-foreground text-sm">
             {data.LastMsg

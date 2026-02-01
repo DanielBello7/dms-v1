@@ -12,6 +12,7 @@ export class ConversationSchema
   @Column({ type: 'varchar', array: true }) members: string[];
   @Column({ type: 'uuid' }) created_by: string;
   @Column({ type: 'uuid', nullable: true }) last_message_id: string | undefined;
+  @Column({ type: 'varchar', nullable: true }) name: string | undefined;
 
   @OneToOne(() => MessageSchema, { nullable: true })
   @JoinColumn({ name: 'last_message_id' })

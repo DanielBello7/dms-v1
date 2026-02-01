@@ -16,6 +16,7 @@ export const conversation1: IConversation = {
   members: [users[0].id, users[1].id], // Goke and Alice
   ongoing_participants: [users[0].id, users[1].id], // Both active
   last_message_id: undefined, // Will be populated after messages are created
+  name: undefined,
 };
 
 // Conversation 2: Between Alice and Bob
@@ -30,6 +31,7 @@ export const conversation2: IConversation = {
   members: [users[1].id, users[2].id], // Alice and Bob
   ongoing_participants: [users[1].id, users[2].id], // Both active
   last_message_id: undefined, // Will be populated after messages are created
+  name: undefined,
 };
 
 export const data: IConversation[] = [conversation1, conversation2];
