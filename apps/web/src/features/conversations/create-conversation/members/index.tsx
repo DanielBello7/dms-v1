@@ -1,4 +1,13 @@
-import { Button, ItemGroup, Separator, Spinner } from "@/components/ui";
+import {
+  Button,
+  Field,
+  FieldDescription,
+  FieldLabel,
+  Input,
+  ItemGroup,
+  Separator,
+  Spinner,
+} from "@/components/ui";
 import { EmptyMembers } from "./empty";
 import { Render } from "@/components/render";
 import { Member } from "./member";
@@ -14,6 +23,26 @@ export const Members = () => {
           Get notified when ChatGPT responds to requests that take time, like
           research or image generation.
         </p>
+
+        {logic.members.length > 1 && (
+          <Field>
+            <FieldLabel htmlFor="input-demo-api-key">Group Name</FieldLabel>
+            <Input
+              id="input-demo-api-key"
+              type="text"
+              placeholder="Unnamed Group"
+              disabled={logic.handler.isLoading}
+              onChange={(e) => {
+                const text = e.currentTarget.value;
+                logic.form.setValue("name", text);
+              }}
+            />
+            <FieldDescription className="text-xs">
+              Add a name for your group
+            </FieldDescription>
+          </Field>
+        )}
+
         <Button
           size={"sm"}
           onClick={logic.submit}

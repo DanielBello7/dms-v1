@@ -21,8 +21,8 @@ export const useLogic = (body: IConversationPopulated) => {
     return handler.run(async () => {
       const parsed = schema.parse(data);
       const new_message: AppMessage = {
-        id: "123",
-        ref_id: "ABC",
+        id: `${Math.random() * 10000}-id`,
+        ref_id: `${Math.random() * 10000}-ref`,
         conversation_id: body.id,
         created_by: user.data.user.id,
         index: 0,

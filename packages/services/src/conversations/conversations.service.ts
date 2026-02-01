@@ -106,6 +106,15 @@ export class ConversationsService extends ApiService {
 	};
 
 	/**
+	 * Finds a message by id
+	 * @param id - Message id (UUID)
+	 * @returns Message with populated CreatedBy
+	 */
+	find_message_by_id = async (id: string): Promise<IMessagePopulated> => {
+		return (await this.get(`conversations/message/${id}`)).data;
+	};
+
+	/**
 	 * Gets paginated conversations for a user by their ref_id
 	 * @param query - Query params: ref (user ref_id), page?, pick?, sort?
 	 * @returns Paginated list of conversations with populated Participants
@@ -114,6 +123,17 @@ export class ConversationsService extends ApiService {
 		query: ConversationQueryDto
 	): Promise<IPagePaginated<IConversationPopulated>> => {
 		return (await this.get("conversations/users", { params: query })).data;
+	};
+
+	/**
+	 * Finds a conversation by id (primary key)
+	 * @param id - Conversation id (UUID)
+	 * @returns Single conversation with populated Participants
+	 */
+	find_conversation_by_id = async (
+		id: string
+	): Promise<IConversationPopulated> => {
+		return (await this.get(`conversations/id/${id}`)).data;
 	};
 
 	/**

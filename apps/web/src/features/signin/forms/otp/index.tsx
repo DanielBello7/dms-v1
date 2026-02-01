@@ -79,9 +79,14 @@ export const OtpForm = () => {
             </Button>
           </Field>
           <FieldDescription className="text-center text-[#5c6b73]">
-            <a href="#" className="text-[#1e3a5f] hover:underline">
-              I no longer have access to this email address.
-            </a>
+            <Button
+              type="button"
+              className="text-[#1e3a5f] hover:underline underline cursor-pointer"
+              onClick={logic.signin.reset}
+              variant={"link"}
+            >
+              Wrong Email?
+            </Button>
           </FieldDescription>
         </FieldGroup>
       </form>

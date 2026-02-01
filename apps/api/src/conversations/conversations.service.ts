@@ -50,6 +50,26 @@ export class ConversationsService {
     private readonly messages: Repository<MessageSchema>,
   ) {}
 
+  find_conversation_by_id = async (id: string) => {
+    const response = await this.conversations.findOne({
+      where: { id },
+      relations: conv_relations,
+    });
+    if (response) return response;
+    throw new NotFoundException('Conversation not found');
+  };
+
+  find_message_by_id = async (id: string) => {
+    const response = await this.messages.findOne({
+      where: {
+        id,
+      },
+      relations: msgs_relations,
+    });
+    if (response) return response;
+    throw new NotFoundException('Message not found');
+  };
+
   get_user_conversations = async (body: ConversationQueryDto) => {
     const errors = isValidDto(body, ConversationQueryDto);
     if (errors.length > 0) throw new BadRequestException(errors);

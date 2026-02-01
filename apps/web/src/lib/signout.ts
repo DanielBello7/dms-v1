@@ -10,10 +10,11 @@ const signup = useSignup.getState();
 const signin = useSignin.getState();
 
 export const signout = () => {
-	conversations.reset();
-	messages.reset();
-	user.reset();
-	auth.reset();
-	signup.reset();
-	signin.reset();
+  conversations.reset();
+  messages.reset();
+  user.reset();
+  auth.reset();
+  signup.reset();
+  signin.reset();
+  console.log("done");
 };

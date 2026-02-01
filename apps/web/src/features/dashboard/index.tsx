@@ -1,6 +1,9 @@
 import { SidebarProvider } from "@/components/ui";
 import { Header } from "./header";
 import { AppSidebar } from "./sidebar";
+import { Socket } from "../socket";
+import { ConnectionContextProvider } from "../socket/context/connection";
+import { Listeners } from "../socket/listeners";
 
 type Props = {
   children: React.ReactNode;
@@ -17,7 +20,15 @@ export const Dashboard = (props: Props) => {
             <AppSidebar />
             <main className="size-full overflow-hidden flex flex-col">
               <Header />
-              <div className="w-full grow-1 overflow-hidden">{children}</div>
+              <div className="w-full grow-1 overflow-hidden">
+                <Socket>
+                  <Listeners>
+                    <ConnectionContextProvider>
+                      {children}
+                    </ConnectionContextProvider>
+                  </Listeners>
+                </Socket>
+              </div>
             </main>
           </SidebarProvider>
         </div>

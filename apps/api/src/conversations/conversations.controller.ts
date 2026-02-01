@@ -46,6 +46,16 @@ export class ConversationsController {
     return this.conversations.get_user_conversations(query);
   }
 
+  @Get('message/:id')
+  find_message(@Param('id', ParseUUIDPipe) id: string) {
+    return this.conversations.find_message_by_id(id);
+  }
+
+  @Get('id/:id')
+  find_conversation_by_id(@Param('id', ParseUUIDPipe) id: string) {
+    return this.conversations.find_conversation_by_id(id);
+  }
+
   @Get(':ref')
   find_conversation_by_ref(@Param('ref', ParseUUIDPipe) ref: string) {
     return this.conversations.find_by_ref_id(ref);

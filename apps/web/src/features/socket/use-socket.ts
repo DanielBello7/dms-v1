@@ -1,12 +1,17 @@
+import { type Socket } from "socket.io-client";
 import { create } from "zustand";
 
 export enum SOCKET_STATUS {
   CONNECTED = "CONNECTED",
   DISCONNECTED = "DISCONNECTED",
+  PENDING = "PENDING",
 }
+
+type Active = Socket;
 
 type SocketData = {
   status: SOCKET_STATUS;
+  active: Active;
 };
 
 type State = {
@@ -17,6 +22,7 @@ type State = {
 
 const initial: SocketData = {
   status: SOCKET_STATUS.DISCONNECTED,
+  active: {} as Active,
 };
 
 export const useSocket = create<State>()((set, get) => ({

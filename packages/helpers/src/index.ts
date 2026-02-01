@@ -5,4 +5,5 @@ export * from "./combine";
 export * from "./deduct";
 export * from "./modify-members";
 export * from "./modify";
+export * from "./truncate";
 export * from "./wait";

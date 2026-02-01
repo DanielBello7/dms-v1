@@ -51,8 +51,19 @@ export const PasswordForm = () => {
           </Field>
           <FieldDescription className="text-center text-[#5c6b73]">
             <Link to="/recovery" className="text-[#1e3a5f] hover:underline">
-              I no longer have access to this email address.
+              Forgot Password
             </Link>
+          </FieldDescription>
+
+          <FieldDescription className="text-center text-[#5c6b73]">
+            <Button
+              type="button"
+              className="text-[#1e3a5f] hover:underline underline cursor-pointer"
+              onClick={logic.signup.reset}
+              variant={"link"}
+            >
+              Wrong Email?
+            </Button>
           </FieldDescription>
         </FieldGroup>
       </form>
