@@ -1,0 +1,7 @@
+# docker-compose.ci.yml
+
+services:
+  web:
+    env_file: []
+  api:
+    volumes: []

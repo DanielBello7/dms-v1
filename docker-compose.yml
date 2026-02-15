@@ -1,0 +1,89 @@
+# docker-compose.yml
+
+services:
+  # nginx --------------------------------------------------------------------------------------------
+  nginx-https:
+    image: nginx:1.29-alpine
+    container_name: dms-nginx-https
+    restart: on-failure:2
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/nginx/nginx.https.conf:/etc/nginx/conf.d/default.conf
+      - ./infra/certs:/etc/letsencrypt/
+      - ./infra/certs-data:/var/www/certbot
+
+  nginx-certbot:
+    image: nginx:1.29-alpine
+    container_name: dms-nginx-certbot
+    restart: on-failure:2
+    ports:
+      - "80:80"
+    volumes:
+      - ./infra/nginx/nginx.certbot.conf:/etc/nginx/conf.d/default.conf
+      - ./infra/certs:/etc/letsencrypt/
+      - ./infra/certs-data:/var/www/certbot
+
+  nginx-http:
+    image: nginx:1.29-alpine
+    container_name: dms-nginx-http
+    restart: on-failure:2
+    ports:
+      - "80:80"
+    volumes:
+      - ./infra/nginx/nginx.http.conf:/etc/nginx/conf.d/default.conf
+
+  nginx-local:
+    image: nginx:1.29-alpine
+    container_name: dms-nginx-local
+    restart: on-failure:2
+    ports:
+      - "80:80"
+      - "81:81"
+      - "82:82"
+    volumes:
+      - ./infra/nginx/nginx.local.conf:/etc/nginx/conf.d/default.conf
+
+  # certbot ------------------------------------------------------------------------------------------
+  certbot:
+    image: certbot/certbot
+    container_name: dms-certbot
+    volumes:
+      - ./infra/certs:/etc/letsencrypt/
+      - ./infra/certs-data:/var/www/certbot
+    entrypoint: >
+      sh -c "certbot certonly --webroot
+      --webroot-path=/var/www/certbot \
+      --cert-name dms-subdomains \
+      --email gokebello@gmail.com \
+      --agree-tos \
+      --no-eff-email \
+      -d api.dmsgs.site \
+      -d dmsgs.site"
+
+  # frontend -----------------------------------------------------------------------------------------
+  web:
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile.pro
+      target: run
+    image: pascallian/dms-web:latest
+    container_name: dms-web
+    restart: on-failure:2
+    command: ["pnpm", "run", "start"]
+    volumes:
+      - ./apps/web/.env.production:/app/apps/web/.env.production
+
+  # backend -----------------------------------------------------------------------------------------
+  api:
+    build:
+      context: .
+      dockerfile: ./apps/api/Dockerfile.pro
+      target: run
+    image: pascallian/dms-api:latest
+    container_name: dms-api
+    restart: on-failure:2
+    command: ["pnpm", "run", "start"]
+    volumes:
+      - ./apps/api/.env:/app/apps/api/.env

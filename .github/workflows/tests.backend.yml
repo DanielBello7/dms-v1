@@ -1,0 +1,31 @@
+# name: CI / CD TESTS BACKEND
+
+# on:
+#   push:
+#     branches:
+#       - dev
+#     paths:
+#       - "apps/api/**"
+#       - ".github/workflows/tests.backend.yml"
+
+# defaults:
+#   run:
+#     shell: bash
+#     working-directory: ./
+
+# jobs:
+#   tests:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: CHECKOUT REPOSITORY
+#         uses: actions/checkout@v3
+#       - name: SETUP NODE FOR WORKER CONTAINER
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: 20.13.1
+#       - name: INSTALL PNPM
+#         run: npm install -g pnpm
+#       - name: INSTALL DEPENDENCIES
+#         run: pnpm install
+#       - name: TEST BUILD PROCESS FOR BACKEND API
+#         run: pnpm run build --filter='./apps/api'

@@ -1,6 +1,6 @@
 import { HttpAdapterHost, NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { LogsService } from '@app/logger';
+import { LogsService } from '@app/logs';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import * as compression from 'compression';
 import * as cookie from 'cookie-parser';

@@ -1,0 +1,56 @@
+# name: CI / CD BUILD, PUSH & DEPLOY FRONTEND
+
+# on:
+#   push:
+#     tags:
+#       - "v*.*.*"
+#     paths:
+#       - "apps/web/**"
+#       - ".github/workflows/build.frontend.yml"
+
+# defaults:
+#   run:
+#     shell: bash
+#     working-directory: ./
+
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: CHECKOUT REPOSITORY
+#         uses: actions/checkout@v3
+#       - name: CREATE EMPTY ENV FILES
+#         run: |
+#           touch ./apps/web/.env.production
+#       - name: LOGIN TO DOCKERHUB
+#         uses: docker/login-action@v3
+#         with:
+#           username: ${{ secrets.DOCKERHUB_USERNAME }}
+#           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+#       - name: BUILD AND PUSH FRONTEND IMAGE VIA DOCKER-COMPOSE
+#         run: |
+#           docker compose -f docker-compose.yml -f docker-compose.ci.yml build web
+#           docker compose -f docker-compose.yml -f docker-compose.ci.yml push web
+
+#   deploy:
+#     needs: build
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: CHECKOUT REPOSITORY
+#         uses: actions/checkout@v3
+#       - name: DEPLOY TO PRODUCTION
+#         uses: appleboy/ssh-action@v1.0.0
+#         with:
+#           host: ${{ secrets.PRODUCTION_HOST }}
+#           username: ${{ secrets.PRODUCTION_USERNAME }}
+#           key: ${{ secrets.PRODUCTION_KEY }}
+#           script: |
+#             # cd /root/v1
+#             # git pull
+#             # # Deploy web
+#             # docker-compose --file ./docker-compose.yml --file ./docker-compose.ci.yml pull web
+#             # docker image prune -f --filter "dangling=true"
+#             # docker images pascallian/dms-web --format "{{.ID}} {{.Tag}}" | awk '$2 != "latest" {print $1}' | xargs -r docker rmi -f || true
+#             # docker stop dms-web || true
+#             # docker rm dms-web || true
+#             # docker-compose --file ./docker-compose.yml --project-name dms-pro up web -d

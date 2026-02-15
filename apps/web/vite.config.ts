@@ -5,20 +5,20 @@ import tailwindcss from "@tailwindcss/vite";
 
 // https://vite.dev/config/
 export default defineConfig({
-	plugins: [react(), tailwindcss()],
-	resolve: {
-		alias: {
-			"@": path.resolve(__dirname, "./src"),
-		},
-	},
-	server: {
-		host: "0.0.0.0",
-		port: 3001,
-		watch: {
-			usePolling: true,
-		},
-		hmr: {
-			clientPort: 3001,
-		},
-	},
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  server: {
+    host: "0.0.0.0",
+    port: 3000,
+    watch: {
+      usePolling: true,
+    },
+    hmr: {
+      clientPort: 3000,
+    },
+  },
 });

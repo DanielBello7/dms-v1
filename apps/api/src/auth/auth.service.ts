@@ -344,7 +344,7 @@ export class AuthService {
       return this.sign_in_validated_account(
         {
           email: account.email,
-          id: useremail,
+          id: account.id,
           name: account.display_name,
           type: account.type,
           ref: account.ref_id,
@@ -355,7 +355,7 @@ export class AuthService {
   };
 
   recovery_verify = async (body: EmailDto) => {
-    const errors = isValidDto(body, RecoverDto);
+    const errors = isValidDto(body, EmailDto);
     if (errors.length > 0) throw new BadRequestException(errors);
     return this.mutation.execute(async (session) => {
       const user = await this.users.find_user_by_email(body.email, session);
@@ -382,7 +382,7 @@ export class AuthService {
         );
       }
       const token = await this.find_otp_by_otp(body.otp, session);
-      if (datefns.isPast(token.value)) {
+      if (datefns.isPast(token.expires_at)) {
         throw new BadRequestException('otp expired');
       }
       if (token.purpose !== OTP_PURPOSE_ENUM.RECOVERY) {
