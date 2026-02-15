@@ -1,0 +1,17 @@
+FROM node:20.13.1-alpine AS run
+
+RUN npm install -g pnpm
+
+WORKDIR /app
+
+COPY ./turbo.json ./
+COPY ./pnpm-workspace.yaml ./
+COPY ./package.json ./
+COPY ./packages/ ./packages/
+COPY ./apps/web/ ./apps/web/
+
+WORKDIR /app/apps/web
+
+RUN pnpm install
+
+EXPOSE 3000

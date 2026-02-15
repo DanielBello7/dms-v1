@@ -1,36 +1,36 @@
-# name: CI / CD BUILD, PUSH & DEPLOY BACKEND
+name: CI / CD BUILD, PUSH & DEPLOY BACKEND
 
-# on:
-#   push:
-#     tags:
-#       - "v*.*.*"
-#     paths:
-#       - "apps/api/**"
-#       - ".github/workflows/build.backend.yml"
+on:
+  push:
+    tags:
+      - "v*.*.*"
+    paths:
+      - "apps/api/**"
+      - ".github/workflows/build.backend.yml"
 
-# defaults:
-#   run:
-#     shell: bash
-#     working-directory: ./
+defaults:
+  run:
+    shell: bash
+    working-directory: ./
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: CHECKOUT REPOSITORY
-#         uses: actions/checkout@v3
-#       - name: CREATE EMPTY ENV FILES
-#         run: |
-#           touch ./apps/api/.env
-#       - name: LOGIN TO DOCKER-HUB
-#         uses: docker/login-action@v3
-#         with:
-#           username: ${{ secrets.DOCKERHUB_USERNAME }}
-#           password: ${{ secrets.DOCKERHUB_PASSWORD }}
-#       - name: BUILD AND PUSH BACKEND API IMAGE VIA DOCKER-COMPOSE
-#         run: |
-#           docker compose -f docker-compose.yml -f docker-compose.ci.yml build api
-#           docker compose -f docker-compose.yml -f docker-compose.ci.yml push api
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: CHECKOUT REPOSITORY
+        uses: actions/checkout@v3
+      - name: CREATE EMPTY ENV FILES
+        run: |
+          touch ./apps/api/.env
+      - name: LOGIN TO DOCKER-HUB
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - name: BUILD AND PUSH BACKEND API IMAGE VIA DOCKER-COMPOSE
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml build api
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml push api
 
 #   deploy:
 #     needs: build

@@ -107,7 +107,7 @@
     "moduleNameMapper": {
       "^@app/brevo(|/.*)$": "<rootDir>/libs/brevo/src/$1",
       "^@app/constants(|/.*)$": "<rootDir>/libs/constants/src/$1",
-      "^@app/logger(|/.*)$": "<rootDir>/libs/logger/src/$1",
+      "^@app/logs(|/.*)$": "<rootDir>/libs/logs/src/$1",
       "^@app/mutations(|/.*)$": "<rootDir>/libs/mutations/src/$1",
       "^@app/security(|/.*)$": "<rootDir>/libs/security/src/$1",
       "^@app/util(|/.*)$": "<rootDir>/libs/util/src/$1",
