@@ -9,8 +9,8 @@
 		"check-types": "turbo run check-types",
 		"build:packages": "turbo run build --filter='./packages/*'",
 		"docker:pull": "docker compose --file ./docker-compose.yml --file ./docker-compose.ci.yml pull",
-		"docker:up": "docker-compose --file ./docker-compose.yml --project-name dms-pro up",
-		"docker:build": "docker-compose --file ./docker-compose.yml build"
+		"docker:up": "docker compose --file ./docker-compose.yml --project-name dms-pro up",
+		"docker:build": "docker compose --file ./docker-compose.yml build"
 	},
 	"devDependencies": {
 		"prettier": "^3.7.4",

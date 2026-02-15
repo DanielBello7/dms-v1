@@ -84,6 +84,6 @@ services:
     image: pascallian/dms-api:latest
     container_name: dms-api
     restart: on-failure:2
-    command: ["pnpm", "run", "start"]
+    command: ["pnpm", "run", "start:prod"]
     volumes:
       - ./apps/api/.env:/app/apps/api/.env
