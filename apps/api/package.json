@@ -54,7 +54,7 @@
     "socket.io": "^4.8.3",
     "typeorm": "^0.3.28",
     "typeorm-extension": "^3.7.3",
-    "uuid": "^13.0.0",
+    "uuid": "^9.0.1",
     "winston": "^3.19.0"
   },
   "devDependencies": {
