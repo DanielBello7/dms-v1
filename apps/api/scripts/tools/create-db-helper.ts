@@ -16,7 +16,7 @@ async function main() {
   try {
     await createDatabase({
       options: datasource.options,
-      initialDatabase: 'postgres',
+      initialDatabase: process.env.INITIAL_DATABASE ?? 'postgres',
       synchronize: false,
     });
     console.log('Database created successfully');
