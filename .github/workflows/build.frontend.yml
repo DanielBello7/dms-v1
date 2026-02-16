@@ -60,4 +60,4 @@ jobs:
             docker images pascallian/dms-web --format "{{.ID}} {{.Tag}}" | awk '$2 != "latest" {print $1}' | xargs -r docker rmi -f || true
             docker stop dms-web || true
             docker rm dms-web || true
-            docker compose --f ./docker-compose.yml --project-name dms-pro up web -d
+            docker compose --file ./docker-compose.yml --project-name dms-pro up web -d
