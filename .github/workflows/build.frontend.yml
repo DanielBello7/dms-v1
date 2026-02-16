@@ -36,8 +36,8 @@ jobs:
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: BUILD AND PUSH FRONTEND IMAGE VIA DOCKER-COMPOSE
         run: |
-          docker-compose -f docker-compose.yml -f docker-compose.ci.yml build web
-          docker-compose -f docker-compose.yml -f docker-compose.ci.yml push web
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml build web
+          docker compose -f docker-compose.yml -f docker-compose.ci.yml push web
 
   deploy:
     needs: build
