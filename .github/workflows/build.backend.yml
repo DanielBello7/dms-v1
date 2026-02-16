@@ -32,24 +32,24 @@ jobs:
           docker compose -f docker-compose.yml -f docker-compose.ci.yml build api
           docker compose -f docker-compose.yml -f docker-compose.ci.yml push api
 
-#   deploy:
-#     needs: build
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: CHECKOUT REPOSITORY
-#         uses: actions/checkout@v3
-#       - name: DEPLOY TO PRODUCTION
-#         uses: appleboy/ssh-action@v1.0.0
-#         with:
-#           host: ${{ secrets.PRODUCTION_HOST }}
-#           username: ${{ secrets.PRODUCTION_USERNAME }}
-#           key: ${{ secrets.PRODUCTION_KEY }}
-#           script: |
-#             # cd /root/v1
-#             # git pull
-#             # docker-compose --file ./docker-compose.yml --file ./docker-compose.ci.yml api
-#             # docker image prune -f --filter "dangling=true"
-#             # docker images pascallian/dms-api --format "{{.ID}} {{.Tag}}" | awk '$2 != "latest" {print $1}' | xargs -r docker rmi -f || true
-#             # docker stop dms-api || true
-#             # docker rm dms-api || true
-#             # docker-compose --file ./docker-compose.yml --project-name dms-pro up api -d
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: CHECKOUT REPOSITORY
+        uses: actions/checkout@v3
+      - name: DEPLOY TO PRODUCTION
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: ${{ secrets.PRODUCTION_USERNAME }}
+          key: ${{ secrets.PRODUCTION_KEY }}
+          script: |
+            # cd /root/v1
+            # git pull
+            # docker compose --file ./docker-compose.yml --file ./docker-compose.ci.yml pull api
+            # docker image prune -f --filter "dangling=true"
+            # docker images pascallian/dms-api --format "{{.ID}} {{.Tag}}" | awk '$2 != "latest" {print $1}' | xargs -r docker rmi -f || true
+            # docker stop dms-api || true
+            # docker rm dms-api || true
+            # docker compose --file ./docker-compose.yml --project-name dms-pro up api -d
