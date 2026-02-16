@@ -48,9 +48,9 @@ jobs:
             cd /root/v1
             git pull
             # Deploy api
-            docker compose --file ./docker-compose.yml --file ./docker-compose.ci.yml pull api
+            docker compose --f ./docker-compose.yml --f ./docker-compose.ci.yml pull api
             docker image prune -f --filter "dangling=true"
             docker images pascallian/dms-api --format "{{.ID}} {{.Tag}}" | awk '$2 != "latest" {print $1}' | xargs -r docker rmi -f || true
             docker stop dms-api || true
             docker rm dms-api || true
-            docker compose --file ./docker-compose.yml --project-name dms-pro up api -d
+            docker compose --f ./docker-compose.yml --project-name dms-pro up api -d

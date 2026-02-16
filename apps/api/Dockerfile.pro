@@ -49,7 +49,7 @@ COPY --from=build /app/apps/api/src ./apps/api/src
 COPY --from=build /app/apps/api/scripts ./apps/api/scripts
 COPY --from=build /app/apps/api/log ./apps/api/log
 COPY --from=build /app/apps/api/libs ./apps/api/libs
-COPY --from=build /app/apps/api/dist/ ./apps/api/dist/
+COPY --from=build /app/apps/api/dist ./apps/api/dist
 
 # install only production packages for the project
 RUN pnpm install --production
