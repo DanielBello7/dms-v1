@@ -52,12 +52,12 @@ jobs:
           username: ${{ secrets.PRODUCTION_USERNAME }}
           key: ${{ secrets.PRODUCTION_KEY }}
           script: |
-            # cd /root/v1
-            # git pull
-            # # Deploy web
-            # docker compose --file ./docker-compose.yml --file ./docker-compose.ci.yml pull web
-            # docker image prune -f --filter "dangling=true"
-            # docker images pascallian/dms-web --format "{{.ID}} {{.Tag}}" | awk '$2 != "latest" {print $1}' | xargs -r docker rmi -f || true
-            # docker stop dms-web || true
-            # docker rm dms-web || true
-            # docker compose --file ./docker-compose.yml --project-name dms-pro up web -d
+            cd /root/v1
+            git pull
+            # Deploy web
+            docker compose --file ./docker-compose.yml --file ./docker-compose.ci.yml pull web
+            docker image prune -f --filter "dangling=true"
+            docker images pascallian/dms-web --format "{{.ID}} {{.Tag}}" | awk '$2 != "latest" {print $1}' | xargs -r docker rmi -f || true
+            docker stop dms-web || true
+            docker rm dms-web || true
+            docker compose --file ./docker-compose.yml --project-name dms-pro up web -d
