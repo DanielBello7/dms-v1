@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui";
-import { assets, envs } from "@/config";
+import { assets } from "@/config";
 import { motion, useScroll, useTransform } from "motion/react";
 import { type RefObject } from "react";
 import { Link } from "react-router";
@@ -86,7 +86,6 @@ export const Hero = ({ containerRef }: Props) => {
       </motion.div>
 
       <div className="z-10 flex max-w-4xl flex-col items-center text-center md:flex-row md:gap-12 md:text-left">
-        <p>{JSON.stringify(envs)}</p>
         <div className="flex-1">
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
@@ -94,7 +93,7 @@ export const Hero = ({ containerRef }: Props) => {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-4xl font-bold tracking-tight text-[#1e3a5f] sm:text-5xl md:text-6xl"
           >
-            Private. Secures. <span className="text-[#e07a5f]">Direct.</span>
+            Private. Secure. <span className="text-[#e07a5f]">Direct.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
