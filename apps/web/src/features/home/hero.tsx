@@ -93,7 +93,7 @@ export const Hero = ({ containerRef }: Props) => {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-4xl font-bold tracking-tight text-[#1e3a5f] sm:text-5xl md:text-6xl"
           >
-            Private. Secure. <span className="text-[#e07a5f]">Direct.</span>
+            Private. Secures. <span className="text-[#e07a5f]">Direct.</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
