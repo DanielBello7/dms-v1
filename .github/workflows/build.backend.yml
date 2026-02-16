@@ -3,10 +3,7 @@ name: CI / CD BUILD, PUSH & DEPLOY BACKEND
 on:
   push:
     tags:
-      - "v*.*.*"
-    paths:
-      - "apps/api/**"
-      - ".github/workflows/build.backend.yml"
+      - "api-v*.*.*"
 
 defaults:
   run:
