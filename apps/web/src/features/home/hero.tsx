@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui";
-import { assets } from "@/config";
+import { assets, envs } from "@/config";
 import { motion, useScroll, useTransform } from "motion/react";
 import { type RefObject } from "react";
 import { Link } from "react-router";
@@ -86,6 +86,7 @@ export const Hero = ({ containerRef }: Props) => {
       </motion.div>
 
       <div className="z-10 flex max-w-4xl flex-col items-center text-center md:flex-row md:gap-12 md:text-left">
+        <p>{JSON.stringify(envs)}</p>
         <div className="flex-1">
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
