@@ -10,6 +10,7 @@ const tokens = args.split(' ');
 const createdb = tokens.includes('createdb');
 const dropdb = tokens.includes('dropdb');
 const migration = tokens.includes('migrations');
+const migrate = tokens.includes('migrate');
 const seed = tokens.includes('seed');
 
 /**
@@ -55,6 +56,12 @@ const get_options = (): Array<() => Promise<void>> => {
   operations.push(async () => {
     if (migration) {
       await create_migration(datasource, migrations, envs);
+      await run_migration(datasource, envs);
+    }
+  });
+
+  operations.push(async () => {
+    if (migrate) {
       await run_migration(datasource, envs);
     }
   });

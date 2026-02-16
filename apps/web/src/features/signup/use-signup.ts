@@ -3,49 +3,49 @@ import type { IUserSerialized } from "@repo/types";
 import { create } from "zustand";
 
 export enum SIGN_UP_SCREEN {
-	CREATE_ACCOUNT = "CREATE-ACCOUNT",
-	VERIFY_ACCOUNT = "VERIFY-ACCOUNT",
-	SETUP_PASSWORD = "SETUP-PASSWORD",
-	ONBOARDING_TOP = "ONBOARDING-TOP",
-	ONBOARDING_END = "ONBOARDING-END",
+  CREATE_ACCOUNT = "CREATE-ACCOUNT",
+  VERIFY_ACCOUNT = "VERIFY-ACCOUNT",
+  SETUP_PASSWORD = "SETUP-PASSWORD",
+  ONBOARDING_TOP = "ONBOARDING-TOP",
+  ONBOARDING_END = "ONBOARDING-END",
 }
 
 type SignupData = {
-	screen: SIGN_UP_SCREEN;
-	email: string;
-	display_name: string;
-	user: IUserSerialized;
-	auth: SigninResponse | null;
+  screen: SIGN_UP_SCREEN;
+  email: string;
+  display_name: string;
+  user: IUserSerialized;
+  auth: SigninResponse | null;
 };
 
 type State = {
-	data: SignupData;
-	set_data: (params: Partial<SignupData>) => void;
-	reset: () => void;
+  data: SignupData;
+  set_data: (params: Partial<SignupData>) => void;
+  reset: () => void;
 };
 
 const initial: SignupData = {
-	screen: SIGN_UP_SCREEN.CREATE_ACCOUNT,
-	email: "",
-	display_name: "",
-	user: {} as IUserSerialized,
-	auth: null,
+  screen: SIGN_UP_SCREEN.CREATE_ACCOUNT,
+  email: "",
+  display_name: "",
+  user: {} as IUserSerialized,
+  auth: null,
 };
 
 export const useSignup = create<State>()((set, get) => ({
-	data: initial,
-	reset() {
-		set({
-			data: initial,
-		});
-	},
-	set_data(param) {
-		const current = get().data;
-		set({
-			data: {
-				...current,
-				...param,
-			},
-		});
-	},
+  data: initial,
+  reset() {
+    set({
+      data: initial,
+    });
+  },
+  set_data(param) {
+    const current = get().data;
+    set({
+      data: {
+        ...current,
+        ...param,
+      },
+    });
+  },
 }));
