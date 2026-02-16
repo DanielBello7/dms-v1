@@ -39,11 +39,14 @@ export class AppService {
 
     const allHealthy = db_status && email_status; // && apiStatus if used
 
+    const now = new Date();
+
     return {
       status: allHealthy ? HttpStatus.OK : HttpStatus.SERVICE_UNAVAILABLE,
       is_active: true, // service itself is running
-      timestamp: new Date().toISOString(),
-      easy_time: new Date().toLocaleString('en-us', { dateStyle: 'full' }),
+      timestamp: now.toISOString(),
+      easy_date: now.toLocaleDateString('en-us', { dateStyle: 'full' }),
+      easy_time: now.toLocaleTimeString('en-us', { timeStyle: 'medium' }),
       services: {
         allHealthy,
         email: email_status,

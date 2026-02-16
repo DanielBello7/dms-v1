@@ -3,10 +3,7 @@ name: CI / CD BUILD, PUSH & DEPLOY FRONTEND
 on:
   push:
     tags:
-      - "v*.*.*"
-    paths:
-      - "apps/web/**"
-      - ".github/workflows/build.frontend.yml"
+      - "web-v*.*.*"
 
 defaults:
   run:
