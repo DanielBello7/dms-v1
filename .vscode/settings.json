@@ -12,5 +12,11 @@
 		"source.sortImports": "never",
 		"source.sortMembers": "never",
 		"source.organizeImports": "never"
+	},
+	"files.associations": {
+		"**/.github/workflows/*.yml": "yaml",
+		"**/.github/workflows/*.yaml": "yaml",
+		".github/workflows/*.yml": "yaml",
+		".github/workflows/*.yaml": "yaml"
 	}
 }
