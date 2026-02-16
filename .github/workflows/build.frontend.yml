@@ -16,6 +16,13 @@ defaults:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      VITE_NODE_ENV: ${{ secrets.VITE_NODE_ENV }}
+      VITE_APP_ADDRESS: ${{ secrets.VITE_APP_ADDRESS }}
+      VITE_API_ADDRESS: ${{ secrets.VITE_API_ADDRESS }}
+      VITE_SECRET: ${{ secrets.VITE_SECRET }}
+
     steps:
       - name: CHECKOUT REPOSITORY
         uses: actions/checkout@v3
