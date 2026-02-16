@@ -43,6 +43,7 @@ export class AppService {
       status: allHealthy ? HttpStatus.OK : HttpStatus.SERVICE_UNAVAILABLE,
       is_active: true, // service itself is running
       timestamp: new Date().toISOString(),
+      easy_time: new Date().toLocaleString('en-us', { dateStyle: 'full' }),
       services: {
         allHealthy,
         email: email_status,
