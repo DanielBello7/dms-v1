@@ -56,7 +56,7 @@ export const useLogic = () => {
       });
       signin.reset();
       toaster.success("Login Successful");
-      navigate("/dashboard");
+      return navigate("/dashboard");
     });
   };
 

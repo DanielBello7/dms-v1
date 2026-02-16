@@ -51,7 +51,7 @@ export const EmailForm = () => {
           </Field>
           <FieldDescription className="text-center text-[#5c6b73]">
             <Link to="/recovery" className="text-[#1e3a5f] hover:underline">
-              I no longer have access to this email address.
+              Forgot Password
             </Link>
           </FieldDescription>
         </FieldGroup>

@@ -8,5 +8,3 @@ export const SignIn = () => {
     </div>
   );
 };
-
-//border-4 border-black

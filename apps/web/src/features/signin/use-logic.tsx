@@ -2,11 +2,9 @@ import { useMultiscreen } from "@/hooks";
 import { SIGN_IN_SCREEN, useSignin } from "./use-signin";
 import { EmailForm, OtpForm, PasswordForm } from "./forms";
 import { Verify } from "./forms/verify";
-import { useEffect } from "react";
 
 export const useLogic = () => {
-  const signin = useSignin((state) => state);
-  const resets = signin.reset;
+  const screen = useSignin((state) => state.data.screen);
 
   const response = useMultiscreen(
     [
@@ -31,14 +29,9 @@ export const useLogic = () => {
         component: <Verify />,
       },
     ],
-    signin.data.screen,
+    screen,
   );
 
-  useEffect(() => {
-    return () => {
-      resets();
-    };
-  }, [resets]);
   return {
     ...response,
   };

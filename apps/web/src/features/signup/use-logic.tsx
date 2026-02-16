@@ -8,11 +8,9 @@ import {
   SetupPassword,
   VerifyAccount,
 } from "./screens";
-import { useEffect } from "react";
 
 export const useLogic = () => {
-  const signup = useSignup((state) => state);
-  const resets = signup.reset;
+  const screen = useSignup((state) => state.data.screen);
 
   const response = useMultiscreen(
     [
@@ -42,12 +40,8 @@ export const useLogic = () => {
         component: <OnboardingEnd />,
       },
     ],
-    signup.data.screen,
+    screen,
   );
-
-  useEffect(() => {
-    resets();
-  }, [resets]);
 
   return {
     ...response,
