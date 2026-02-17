@@ -54,7 +54,7 @@ export const ConversationList = () => {
           />
         )}
       </div>
-      <div className="w-full">
+      <div className="w-full h-[52px]">
         <Footer
           data={logic.query.data}
           change={(v: number) => {

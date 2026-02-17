@@ -38,13 +38,13 @@ export const AppSidebar = () => {
     <Sidebar variant="sidebar" collapsible="icon" className="h-full!">
       <SidebarContent>
         <Fragment>
-          <SidebarHeader className="h-12 border-b border-gray-200 flex flex-col justify-center p-3">
+          <SidebarHeader className="h-12 border-b border-gray-200 dark:border-border flex flex-col justify-center p-3">
             <div className="flex items-center gap-2">
               <Logo showText={false} size="size-8" />
               {sidebar.open && (
                 <div className="w-fit flex flex-col">
                   <span className="text-sm font-bold leading-none">DMs</span>
-                  <span className="text-xs text-gray-500 leading-none">
+                  <span className="text-xs text-gray-500 dark:text-muted-foreground leading-none">
                     Dashboard
                   </span>
                 </div>
@@ -56,7 +56,7 @@ export const AppSidebar = () => {
             <SidebarGroup
               key={index}
               className={classnames({
-                "border-t border-gray-200": index > 0,
+                "border-t border-gray-200 dark:border-border": index > 0,
               })}
             >
               {i.title.trim() && (
@@ -85,7 +85,7 @@ export const AppSidebar = () => {
             </SidebarGroup>
           ))}
 
-          <SidebarFooter className="mt-auto border-t border-gray-200">
+          <SidebarFooter className="mt-auto border-t border-gray-200 dark:border-border">
             <NavUser />
           </SidebarFooter>
         </Fragment>
