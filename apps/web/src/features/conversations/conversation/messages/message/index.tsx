@@ -25,10 +25,14 @@ export const Message = (props: Props) => {
         })}
       >
         <div
-          className={cn("flex items-center gap-2 p-2 rounded-md w-fit", {
-            "bg-blue-100/90 text-black": logic.isMe,
-            border: !logic.isMe,
-          })}
+          className={cn(
+            "flex items-center gap-2 p-2 rounded-2xl w-fit text-sm px-3",
+            {
+              "bg-blue-100/90 dark:bg-blue-600 text-black dark:text-white":
+                logic.isMe,
+              border: !logic.isMe,
+            },
+          )}
         >
           {props.data.text}
         </div>

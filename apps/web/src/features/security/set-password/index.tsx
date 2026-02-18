@@ -14,7 +14,7 @@ export const SetPassword = () => {
   const logic = useLogic();
   return (
     <form
-      className="w-1/2 m-auto"
+      className="w-full lg:w-1/2 m-auto"
       onSubmit={logic.form.handleSubmit(logic.submit)}
     >
       <div>
@@ -51,7 +51,7 @@ export const SetPassword = () => {
             <Button
               disabled={logic.handler.isLoading}
               type="submit"
-              className="cursor-pointer bg-blue-400"
+              className="cursor-pointer bg-blue-600 dark:text-white"
             >
               {logic.handler.isLoading ? <Spinner /> : "Submit"}
             </Button>

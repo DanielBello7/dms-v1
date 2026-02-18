@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -16,8 +17,10 @@ import { UpdateUserSettingsDto } from './dto/user-settings/update-user-settings.
 import { SetPasswordDto } from './dto/set-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { SearchDto } from './dto/search.dto';
+import { JwtGuard } from '@/auth/guards';
 
-@UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(JwtGuard)
+@UseInterceptors(ClassSerializerInterceptor) // optionally, you can add it here or at the bootstrap
 @Controller('users')
 export class UsersController {
   constructor(private readonly users: UsersService) {}

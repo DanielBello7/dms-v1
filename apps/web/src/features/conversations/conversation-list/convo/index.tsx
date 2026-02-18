@@ -25,9 +25,10 @@ export const Convo = ({ data }: Props) => {
   return (
     <div
       className={cn(
-        "w-full border-b cursor-pointer hover:bg-gray-200/50 transition-all duration-300",
+        "w-full border-b border-gray-50/0 cursor-pointer hover:bg-gray-200/50 dark:hover:bg-gray-200/10 transition-all duration-300",
         {
-          "bg-gray-200/50": params && params.id === data.ref_id,
+          "bg-gray-200/50 dark:bg-gray-200/10":
+            params && params.id === data.ref_id,
         },
       )}
       onClick={click}

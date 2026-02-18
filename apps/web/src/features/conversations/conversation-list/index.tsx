@@ -4,8 +4,8 @@ import { EmptyConversations } from "./empty";
 import { Fragment } from "react/jsx-runtime";
 import { Convo } from "./convo";
 import { Search } from "./search";
-import { Footer } from "./footer";
 import { Results } from "./results";
+import { Footer } from "./footer";
 
 export const ConversationList = () => {
   const logic = useLogic();

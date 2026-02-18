@@ -1,6 +1,8 @@
+import { envs } from "@/config";
 import { useAsyncHandler } from "@/hooks";
 import { api, get_user, get_user_settings, toaster } from "@/lib";
 import { useUser } from "@/stores";
+import { wait } from "@repo/helpers";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { z } from "zod";
 
@@ -24,6 +26,7 @@ export const useLogic = () => {
   const submit: SubmitHandler<SCHEMA_FORM> = (data) => {
     return handler.run(async () => {
       const parsed = schema.parse(data);
+      await wait(2000, envs.NODE_ENV);
       const response = await api.users.update_user_settings(user.ref_id, {
         ...parsed,
       });

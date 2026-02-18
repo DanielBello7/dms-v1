@@ -9,12 +9,13 @@ import { Placeholder } from "./placeholder";
 export const AddPeople = () => {
   const logic = useLogic();
   return (
-    <div className="w-full h-full p-10 px-5 pb-0 flex flex-col">
-      <div className="w-10/12 m-auto space-y-5 px-5">
+    <div className="w-full h-full px-5 pb-0 flex flex-col">
+      <div className="w-full lg:w-10/12 m-auto space-y-5 py-5 lg:py-0 lg:px-5">
         <div className="space-y-3">
           <p className="text-xl font-bold">People</p>
           <p className="text-muted-foreground text-sm">
-            Get notified when ChatGPT responds to requests that take time, like
+            Search by email to find and add people to your new conversation.
+            Results appear below—add one or more people.
           </p>
         </div>
 
@@ -41,7 +42,7 @@ export const AddPeople = () => {
         </form>
         <Separator />
       </div>
-      <div className="grid w-full grow grid-cols-3 gap-4 overflow-y-auto py-5 content-start items-start">
+      <div className="grid w-full grow grid-cols-2 xl:grid-cols-3 gap-4 overflow-y-auto py-5 content-start items-start">
         {logic.showResults ? (
           <>
             <div className="col-span-3 flex items-center justify-between px-10">

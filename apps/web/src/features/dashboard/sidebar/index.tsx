@@ -69,7 +69,7 @@ export const AppSidebar = () => {
                       <SidebarMenuButton
                         asChild
                         className={classnames({
-                          "text-green-800 font-bold hover:text-green-800 bg-green-800/10":
+                          "text-green-800 dark:text-green-300 font-bold hover:text-green-800 bg-green-800/10":
                             item.active.includes(active),
                         })}
                       >
