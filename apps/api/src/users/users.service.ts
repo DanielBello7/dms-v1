@@ -41,6 +41,11 @@ export class UsersService {
     private readonly user_settings: Repository<UserSettingsSchema>,
   ) {}
 
+  get_status_by_ref = async (ref: string) => {
+    const settings = await this.get_user_settings_by_user_ref(ref);
+    return { is_onboarded: settings.is_onboarded };
+  };
+
   get_user_settings_by_user_ref = async (
     ref: string,
     session?: EntityManager,

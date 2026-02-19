@@ -7,16 +7,18 @@ import {
   Param,
   ParseUUIDPipe,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ConversationsService } from './conversations.service';
-import { CreateMessageDto } from './dto/messages/create-message.dto';
 import { InsertConversationDto } from './dto/insert-conversation.dto';
 import { ExitConversationDto } from './dto/leave-conversation.dto';
 import { JoinConversationDto } from './dto/join-conversation.dto';
 import { ConversationQueryDto } from './dto/conversation-query.dto';
 import { MessagesQueryDto } from './dto/messages/messages-query.dto';
 import { InsertMessageDto } from './dto/messages/insert-message.dto';
+import { JwtGuard } from '@/auth/guards';
 
+@UseGuards(JwtGuard)
 @Controller('conversations')
 export class ConversationsController {
   constructor(private readonly conversations: ConversationsService) {}

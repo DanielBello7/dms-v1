@@ -3,8 +3,8 @@ import { Search } from "lucide-react";
 
 export const Placeholder = () => {
   return (
-    <div className="col-span-3 flex min-h-[280px] flex-col items-center justify-center rounded-2xl border border-dashed border-muted-foreground/20 bg-muted/20 px-6 py-10">
-      <div className="relative flex max-w-[200px] flex-shrink-0">
+    <div className="col-span-3 flex lg:min-h-[280px] flex-col items-center justify-center rounded-2xl border border-dashed border-muted-foreground/20 bg-muted/20 px-6 py-10">
+      <div className="hidden relative lg:flex max-w-[200px] flex-shrink-0">
         <img
           src={assets.illu_add_people}
           alt=""

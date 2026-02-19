@@ -16,12 +16,12 @@ import { useLogic } from "./use-logic";
 export const Members = () => {
   const logic = useLogic();
   return (
-    <div className="w-full h-full p-10 overflow-hidden flex flex-col pb-0">
-      <div className="w-9/12 m-auto space-y-4">
+    <div className="w-full h-full overflow-hidden flex flex-col pb-0">
+      <div className="w-full lg:w-9/12 m-auto space-y-4 p-5 lg:p-5">
         <p className="text-sm font-bold">New Chat</p>
         <p className="text-sm text-muted-foreground">
-          Get notified when ChatGPT responds to requests that take time, like
-          research or image generation.
+          Start a new conversation by adding people below. You can name the
+          group once more than one person is added.
         </p>
 
         {logic.members.length > 1 && (
@@ -46,14 +46,14 @@ export const Members = () => {
         <Button
           size={"sm"}
           onClick={logic.submit}
-          disabled={logic.handler.isLoading}
+          disabled={logic.handler.isLoading || logic.members.length < 1}
           className="bg-[#ffd6a5]/80 text-black hover:bg-[#ffd6a5]/30 cursor-pointer"
         >
           {logic.handler.isLoading ? <Spinner /> : "Save"}
         </Button>
         <Separator />
       </div>
-      <div className="grow w-9/12 m-auto space-y-4 overflow-y-scroll py-5">
+      <div className="grow w-full lg:w-9/12 m-auto space-y-4 overflow-y-scroll p-5 lg:p-0 lg:py-5">
         <Render
           data={logic.members}
           error={null}

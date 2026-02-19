@@ -3,6 +3,7 @@ import { useOutlet } from "react-router";
 import { EmptyConversation } from "./empty-selected";
 import { ConversationList } from "../conversation-list";
 import { useHeader } from "@/features/dashboard/header/use-header-store";
+import { cn } from "@/lib";
 
 type Props = {
   children?: ReactNode;
@@ -18,12 +19,25 @@ export const ConversationLayout = (props: Props) => {
   }, [set_title]);
   return (
     <div className="flex size-full overflow-hidden">
-      <div className="w-5/12 border-r-1">
+      <div
+        className={cn("", {
+          "hidden border-0": hasOutlet === true ? true : false,
+          "w-full lg:w-5/12 lg:border-r-1 lg:block": true,
+        })}
+      >
         <ConversationList />
       </div>
-      <div className="w-7/12">
+      <div
+        className={cn("", {
+          "hidden border-0": hasOutlet === true ? false : true,
+          "w-full lg:w-7/12": true,
+        })}
+      >
         {!hasOutlet ? <EmptyConversation /> : props.children}
       </div>
     </div>
   );
 };
+
+// w-5/12 border-r-1
+// w-7/12

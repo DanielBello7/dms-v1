@@ -6,6 +6,8 @@ import {
 } from '@nestjs/common';
 import { ReqExpress, ReqValidUser } from '@/auth/types/auth.types';
 import { JwtService } from '@nestjs/jwt';
+import { IS_PUBLIC_KEY } from '../decorators/public.decorator';
+import { Reflector } from '@nestjs/core';
 
 /**
  * this is what runs whenever you place it infront of a particular controller
@@ -13,10 +15,21 @@ import { JwtService } from '@nestjs/jwt';
  */
 @Injectable()
 export class JwtGuard implements CanActivate {
-  constructor(private readonly jwt: JwtService) {}
+  constructor(
+    private readonly jwt: JwtService,
+    private readonly reflector: Reflector,
+  ) {}
 
   canActivate(context: ExecutionContext) {
     const request: ReqExpress = context.switchToHttp().getRequest();
+
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+
+    if (isPublic) return true;
+
     const authorization = request.headers.authorization;
     if (!authorization) {
       throw new UnauthorizedException();

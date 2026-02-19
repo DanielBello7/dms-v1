@@ -6,3 +6,5 @@ export * from "./set-account";
 export * from "./signout";
 export * from "./get-dp";
 export * from "./gen-username";
+export * from "./get-settings";
+export * from "./get-user";

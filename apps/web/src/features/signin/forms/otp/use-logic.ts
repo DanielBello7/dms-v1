@@ -28,6 +28,7 @@ export const useLogic = () => {
         email: signin.data.email,
         otp: parsed.value,
       });
+
       if (!response.user.is_email_verified) {
         await api.signup.send_verify_otp({ email: signin.data.email });
         return signin.set_data({
@@ -36,7 +37,7 @@ export const useLogic = () => {
         });
       }
 
-      const settings = await api.users.get_user_settings(response.user.ref_id);
+      const settings = await api.users.get_user_status(response.user.ref_id);
       if (!settings.is_onboarded) {
         signup.set_data({
           auth: response,

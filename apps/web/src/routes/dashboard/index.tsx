@@ -1,14 +1,15 @@
 import { Protect } from "@/components/security";
 import { Route } from "react-router";
 import {
-	ConversationsPage,
-	ProfilePage,
-	DashboardLayoutPage,
-	UserDetailsPage,
-	ConversationDetailsPage,
-	CreateConversationPage,
-	SecurityPage,
+  ConversationsPage,
+  ProfilePage,
+  DashboardLayoutPage,
+  UserDetailsPage,
+  ConversationDetailsPage,
+  CreateConversationPage,
+  SecurityPage,
 } from "@/pages";
+import { SettingsPage } from "@/pages/dashboard/settings/settings";
 
 // prettier-ignore
 export const DashboardRoutes = () => {
@@ -24,6 +25,7 @@ export const DashboardRoutes = () => {
 					<Route path="user/:id" element={<UserDetailsPage />} />
 					<Route path="profile" element={<ProfilePage />} />
 					<Route path="security" element={<SecurityPage />} />
+					<Route path="settings" element={<SettingsPage />} />
 				</Route>
 			</Route>
 		</Route>

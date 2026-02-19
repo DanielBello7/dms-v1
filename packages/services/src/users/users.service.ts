@@ -98,6 +98,17 @@ export class UsersService extends ApiService {
 	};
 
 	/**
+	 * Gets user status by reference ID (e.g. is_onboarded)
+	 * @param ref - User reference ID (UUID)
+	 * @returns User status
+	 */
+	get_user_status = async (
+		ref: string
+	): Promise<Pick<IUserSettingsSerialized, "is_onboarded">> => {
+		return (await this.get(`users/${ref}/status`)).data;
+	};
+
+	/**
 	 * Sets password for a user who does not have one (e.g. after OTP signin)
 	 * @param data - user_ref (UUID) and new_password
 	 * @returns Updated user data

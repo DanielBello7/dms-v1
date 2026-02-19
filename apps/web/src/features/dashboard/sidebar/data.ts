@@ -1,4 +1,4 @@
-import { Home, User, Lock, Plus } from "lucide-react";
+import { Home, User, Lock, Plus, Settings } from "lucide-react";
 
 export const dashbaord_items = [
   {
@@ -18,6 +18,12 @@ export const dashbaord_items = [
     url: "/dashboard/security",
     icon: Lock,
     active: ["security"],
+  },
+  {
+    title: "Settings",
+    url: "/dashboard/settings",
+    icon: Settings,
+    active: ["settings"],
   },
 ];
 

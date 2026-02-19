@@ -24,7 +24,7 @@ export const Profile = () => {
   return (
     <div className="h-full p-10 overflow-scroll">
       <form
-        className="w-1/2 m-auto"
+        className="w-full lg:w-1/2 m-auto"
         onSubmit={logic.form.handleSubmit(logic.submit)}
       >
         <FieldSet className="w-full">
@@ -73,10 +73,10 @@ export const Profile = () => {
                 setCurrent={(e) => logic.form.setValue("avatar", e)}
               />
             </div>
-            <Field className="border flex items-end justify-end">
+            <Field className="flex items-end justify-end">
               <Button
                 type="submit"
-                className="w-fit bg-blue-600"
+                className="w-fit bg-blue-600 dark:text-white"
                 disabled={logic.handler.isLoading}
               >
                 {logic.handler.isLoading ? <Spinner /> : "Save"}

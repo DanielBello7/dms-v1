@@ -9,6 +9,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -16,8 +17,11 @@ import { UpdateUserSettingsDto } from './dto/user-settings/update-user-settings.
 import { SetPasswordDto } from './dto/set-password.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { SearchDto } from './dto/search.dto';
+import { JwtGuard } from '@/auth/guards';
+import { Public } from '@/auth/decorators/public.decorator';
 
-@UseInterceptors(ClassSerializerInterceptor)
+@UseGuards(JwtGuard)
+@UseInterceptors(ClassSerializerInterceptor) // optionally, you can add it here or at the bootstrap
 @Controller('users')
 export class UsersController {
   constructor(private readonly users: UsersService) {}
@@ -48,6 +52,12 @@ export class UsersController {
   @Get(':ref/settings')
   get_user_settings(@Param('ref', ParseUUIDPipe) ref: string) {
     return this.users.get_user_settings_by_user_ref(ref);
+  }
+
+  @Public()
+  @Get(':ref/status')
+  get_user_status(@Param('ref', ParseUUIDPipe) ref: string) {
+    return this.users.get_status_by_ref(ref);
   }
 
   @Post('password')
